@@ -13,10 +13,15 @@ class CreateExtraServiceProviderPivotTable extends Migration
     public function up()
     {
         Schema::create('extra_service_provider', function (Blueprint $table) {
-            $table->integer('extra_id')->unsigned()->index();
+            $table->integer('extra_id')->unsigned()->unsigned()->index();
+            $table->integer('service_provider_id')->unsigned()->index();
+
             $table->foreign('extra_id')->references('id')->on('extras')->onDelete('cascade');
-            $table->integer('service_provider_id',10)->unsigned()->index();
             $table->foreign('service_provider_id')->references('id')->on('service_providers')->onDelete('cascade');
+
+
+            $table->primary(['extra_id', 'service_provider_id']);
+
         });
     }
 

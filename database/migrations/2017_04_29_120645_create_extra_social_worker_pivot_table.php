@@ -15,8 +15,10 @@ class CreateExtraSocialWorkerPivotTable extends Migration
         Schema::create('extra_social_worker', function (Blueprint $table) {
             $table->integer('extra_id')->unsigned()->index();
             $table->foreign('extra_id')->references('id')->on('extras')->onDelete('cascade');
-            $table->integer('social_worker_id',10)->unsigned()->index();
+            $table->integer('social_worker_id')->unsigned()->index();
             $table->foreign('social_worker_id')->references('id')->on('social_workers')->onDelete('cascade');
+            $table->primary(['social_worker_id', 'extra_id']);
+
         });
     }
 

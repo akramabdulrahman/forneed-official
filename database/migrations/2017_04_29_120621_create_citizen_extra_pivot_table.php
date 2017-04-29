@@ -13,10 +13,12 @@ class CreateCitizenExtraPivotTable extends Migration
     public function up()
     {
         Schema::create('citizen_extra', function (Blueprint $table) {
-            $table->integer('citizen_id',10)->unsigned()->index();
+            $table->integer('citizen_id')->unsigned()->index();
             $table->foreign('citizen_id')->references('id')->on('citizens')->onDelete('cascade');
             $table->integer('extra_id')->unsigned()->index();
             $table->foreign('extra_id')->references('id')->on('extras')->onDelete('cascade');
+            $table->primary(['citizen_id', 'extra_id']);
+
         });
     }
 

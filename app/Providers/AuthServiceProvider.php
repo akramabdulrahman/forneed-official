@@ -2,8 +2,23 @@
 
 namespace App\Providers;
 
+use App\Models\Extra;
+use App\Models\ExtraType;
+use App\Models\Payments\Payment;
+use App\Models\Project;
+use App\Models\Surveys\Survey;
+use App\Models\Users\Permission;
+use App\Models\Users\SocialWorker;
+use App\Policies\CitizenPolicy;
+use App\Policies\ExtraPolicy;
+use App\Policies\PaymentPolicy;
+use App\Policies\ProjectPolicy;
+use App\Policies\ServiceProviderPolicy;
+use App\Policies\SocialWorkerPolicy;
+use App\Policies\SurveyPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +28,16 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+
+        Citizen::class => CitizenPolicy::class,// citizen can view a citizen dashboard, make a service request,submit a survey,change profile settings/password
+        ServiceProvider::class => ServiceProviderPolicy::class,// sp can view serviceProvider dashboard, make a project,survey,make payment,change profile settings/password
+        SocialWorker::class => SocialWorkerPolicy::class,// sw can view sw dashboard, submit a survey,make payment request,change profile settings/password
+        Project::class => ProjectPolicy::class,//only admin can accept a project // project cant be created until sp is accepted
+        Payment::class => PaymentPolicy::class,
+        Extra::class => ExtraPolicy::class,
+        ExtraType::class=>ExtraType::class,
+        Survey::class=>SurveyPolicy::class
+        /*todo add readonly field to user*/
     ];
 
     /**
@@ -21,10 +45,25 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(GateContract $gate)
     {
         $this->registerPolicies();
 
-        //
+        // Dynamically register permissions with Laravel's Gate.
+        foreach ($this->getPermissions() as $permission) {
+            $gate->define($permission->name, function ($user) use ($permission) {
+                return $user->hasPermission($permission);
+            });
+        }
+    }
+
+    /**
+     * Fetch the collection of site permissions.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    protected function getPermissions()
+    {
+        return Permission::with('roles')->get();
     }
 }

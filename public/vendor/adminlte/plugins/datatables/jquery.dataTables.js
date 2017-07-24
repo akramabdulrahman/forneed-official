@@ -3487,12 +3487,12 @@
 	
 	
 	/**
-	 * Alter the display settings to change the page
+	 * Alter the display settings to change the pages
 	 *  @param {object} settings DataTables settings object
 	 *  @param {string|int} action Paging action to take: "first", "previous",
-	 *    "next" or "last" or page number to jump to (integer)
+	 *    "next" or "last" or pages number to jump to (integer)
 	 *  @param [bool] redraw Automatically draw the update or not
-	 *  @returns {bool} true page has changed, false - no change
+	 *  @returns {bool} true pages has changed, false - no change
 	 *  @memberof DataTable#oApi
 	 */
 	function _fnPageChange ( settings, action, redraw )
@@ -5326,7 +5326,7 @@
 		 *  @param {string} [oOpts.order=current] Order of the TR elements in the processed array.
 		 *    Can be either 'current', whereby the current sorting of the table is used, or
 		 *    'original' whereby the original order the data was read into the table is used.
-		 *  @param {string} [oOpts.page=all] Limit the selection to the currently displayed page
+		 *  @param {string} [oOpts.pages=all] Limit the selection to the currently displayed pages
 		 *    ("current") or not ("all"). If 'current' is given, then order is assumed to be
 		 *    'current' and filter is 'applied', regardless of what they might be given as.
 		 *  @returns {object} jQuery object, filtered by the given selector.
@@ -5374,7 +5374,7 @@
 		 *  @param {string} [oOpts.order=current] Order of the data in the processed array.
 		 *    Can be either 'current', whereby the current sorting of the table is used, or
 		 *    'original' whereby the original order the data was read into the table is used.
-		 *  @param {string} [oOpts.page=all] Limit the selection to the currently displayed page
+		 *  @param {string} [oOpts.pages=all] Limit the selection to the currently displayed pages
 		 *    ("current") or not ("all"). If 'current' is given, then order is assumed to be
 		 *    'current' and filter is 'applied', regardless of what they might be given as.
 		 *  @returns {array} Data for the matched elements. If any elements, as a result of the
@@ -5896,7 +5896,7 @@
 		 * function. With this function you can have a DataTables table go to the next,
 		 * previous, first or last pages.
 		 *  @param {string|int} mAction Paging action to take: "first", "previous", "next" or "last"
-		 *    or page number to jump to (integer), note that page 0 is the first page.
+		 *    or pages number to jump to (integer), note that pages 0 is the first pages.
 		 *  @param {bool} [bRedraw=true] Redraw the table or not
 		 *  @dtopt API
 		 *  @deprecated Since v1.10
@@ -7289,22 +7289,22 @@
 	
 	
 	/**
-	 * Get the current page index.
+	 * Get the current pages index.
 	 *
-	 * @return {integer} Current page index (zero based)
+	 * @return {integer} Current pages index (zero based)
 	 *//**
-	 * Set the current page.
+	 * Set the current pages.
 	 *
-	 * Note that if you attempt to show a page which does not exist, DataTables will
+	 * Note that if you attempt to show a pages which does not exist, DataTables will
 	 * not throw an error, but rather reset the paging.
 	 *
 	 * @param {integer|string} action The paging action to take. This can be one of:
-	 *  * `integer` - The page index to jump to
+	 *  * `integer` - The pages index to jump to
 	 *  * `string` - An action to take:
-	 *    * `first` - Jump to first page.
-	 *    * `next` - Jump to the next page
-	 *    * `previous` - Jump to previous page
-	 *    * `last` - Jump to the last page.
+	 *    * `first` - Jump to first pages.
+	 *    * `next` - Jump to the next pages
+	 *    * `previous` - Jump to previous pages
+	 *    * `last` - Jump to the last pages.
 	 * @returns {DataTables.Api} this
 	 */
 	_api_register( 'page()', function ( action ) {
@@ -7326,13 +7326,13 @@
 	 * with a suitable selector.
 	 *
 	 * @return {object} Object with the following properties set:
-	 *  * `page` - Current page index (zero based - i.e. the first page is `0`)
+	 *  * `pages` - Current pages index (zero based - i.e. the first pages is `0`)
 	 *  * `pages` - Total number of pages
-	 *  * `start` - Display index for the first record shown on the current page
-	 *  * `end` - Display index for the last record shown on the current page
+	 *  * `start` - Display index for the first record shown on the current pages
+	 *  * `end` - Display index for the last record shown on the current pages
 	 *  * `length` - Display length (number of records). Note that generally `start
 	 *    + length = end`, but this is not always true, for example if there are
-	 *    only 2 records to show on the final page, with a length of 10.
+	 *    only 2 records to show on the final pages, with a length of 10.
 	 *  * `recordsTotal` - Full data set length
 	 *  * `recordsDisplay` - Data set length once the current filtering criterion
 	 *    are applied.
@@ -7362,9 +7362,9 @@
 	
 	
 	/**
-	 * Get the current page length.
+	 * Get the current pages length.
 	 *
-	 * @return {integer} Current page length. Note `-1` indicates that all records
+	 * @return {integer} Current pages length. Note `-1` indicates that all records
 	 *   are to be shown.
 	 *//**
 	 * Set the current page length.
@@ -10821,7 +10821,7 @@
 	
 		/**
 		 * When enabled DataTables will not make a request to the server for the first
-		 * page draw - rather it will use the data already on the page (no sorting etc
+		 * pages draw - rather it will use the data already on the pages (no sorting etc
 		 * will be applied to it), thus saving on an XHR at load time. `deferLoading`
 		 * is used to indicate that deferred loading is required, but it is also used
 		 * to tell DataTables how many records there are in the full table (allowing
@@ -10886,8 +10886,8 @@
 		/**
 		 * Define the starting point for data display when using DataTables with
 		 * pagination. Note that this parameter is the number of records, rather than
-		 * the page number, so if you have 10 records per page and want to start on
-		 * the third page, it should be "20".
+		 * the pages number, so if you have 10 records per pages and want to start on
+		 * the third pages, it should be "20".
 		 *  @type int
 		 *  @default 0
 		 *
@@ -11010,7 +11010,7 @@
 			"oPaginate": {
 				/**
 				 * Text to use when using the 'full_numbers' type of pagination for the
-				 * button to take the user to the first page.
+				 * button to take the user to the first pages.
 				 *  @type string
 				 *  @default First
 				 *
@@ -11022,7 +11022,7 @@
 				 *      $('#example').dataTable( {
 				 *        "language": {
 				 *          "paginate": {
-				 *            "first": "First page"
+				 *            "first": "First pages"
 				 *          }
 				 *        }
 				 *      } );
@@ -11033,7 +11033,7 @@
 	
 				/**
 				 * Text to use when using the 'full_numbers' type of pagination for the
-				 * button to take the user to the last page.
+				 * button to take the user to the last pages.
 				 *  @type string
 				 *  @default Last
 				 *
@@ -11045,7 +11045,7 @@
 				 *      $('#example').dataTable( {
 				 *        "language": {
 				 *          "paginate": {
-				 *            "last": "Last page"
+				 *            "last": "Last pages"
 				 *          }
 				 *        }
 				 *      } );
@@ -11056,7 +11056,7 @@
 	
 				/**
 				 * Text to use for the 'next' pagination button (to take the user to the
-				 * next page).
+				 * next pages).
 				 *  @type string
 				 *  @default Next
 				 *
@@ -11068,7 +11068,7 @@
 				 *      $('#example').dataTable( {
 				 *        "language": {
 				 *          "paginate": {
-				 *            "next": "Next page"
+				 *            "next": "Next pages"
 				 *          }
 				 *        }
 				 *      } );
@@ -11079,7 +11079,7 @@
 	
 				/**
 				 * Text to use for the 'previous' pagination button (to take the user to
-				 * the previous page).
+				 * the previous pages).
 				 *  @type string
 				 *  @default Previous
 				 *
@@ -11091,7 +11091,7 @@
 				 *      $('#example').dataTable( {
 				 *        "language": {
 				 *          "paginate": {
-				 *            "previous": "Previous page"
+				 *            "previous": "Previous pages"
 				 *          }
 				 *        }
 				 *      } );
@@ -11125,16 +11125,16 @@
 	
 			/**
 			 * This string gives information to the end user about the information
-			 * that is current on display on the page. The following tokens can be
+			 * that is current on display on the pages. The following tokens can be
 			 * used in the string and will be dynamically replaced as the table
 			 * display updates. This tokens can be placed anywhere in the string, or
 			 * removed as needed by the language requires:
 			 *
-			 * * `\_START\_` - Display index of the first record on the current page
-			 * * `\_END\_` - Display index of the last record on the current page
+			 * * `\_START\_` - Display index of the first record on the current pages
+			 * * `\_END\_` - Display index of the last record on the current pages
 			 * * `\_TOTAL\_` - Number of records in the table after filtering
 			 * * `\_MAX\_` - Number of records in the table without filtering
-			 * * `\_PAGE\_` - Current page number
+			 * * `\_PAGE\_` - Current pages number
 			 * * `\_PAGES\_` - Total number of pages of data in the table
 			 *
 			 *  @type string
@@ -11147,7 +11147,7 @@
 			 *    $(document).ready( function() {
 			 *      $('#example').dataTable( {
 			 *        "language": {
-			 *          "info": "Showing page _PAGE_ of _PAGES_"
+			 *          "info": "Showing pages _PAGE_ of _PAGES_"
 			 *        }
 			 *      } );
 			 *    } );
@@ -11598,10 +11598,10 @@
 		 * display for pagination control:
 		 *
 		 * * `simple` - 'Previous' and 'Next' buttons only
-		 * * 'simple_numbers` - 'Previous' and 'Next' buttons, plus page numbers
+		 * * 'simple_numbers` - 'Previous' and 'Next' buttons, plus pages numbers
 		 * * `full` - 'First', 'Previous', 'Next' and 'Last' buttons
 		 * * `full_numbers` - 'First', 'Previous', 'Next' and 'Last' buttons, plus
-		 *   page numbers
+		 *   pages numbers
 		 *  
 		 * Further methods can be added using {@link DataTable.ext.oPagination}.
 		 *  @type string
@@ -13718,17 +13718,17 @@
 		 *
 		 * The functions defined take two parameters:
 		 *
-		 * 1. `{int} page` The current page index
+		 * 1. `{int} pages` The current pages index
 		 * 2. `{int} pages` The number of pages in the table
 		 *
 		 * Each function is expected to return an array where each element of the
 		 * array can be one of:
 		 *
-		 * * `first` - Jump to first page when activated
-		 * * `last` - Jump to last page when activated
-		 * * `previous` - Show previous page when activated
-		 * * `next` - Show next page when activated
-		 * * `{int}` - Show page of the index given
+		 * * `first` - Jump to first pages when activated
+		 * * `last` - Jump to last pages when activated
+		 * * `previous` - Show previous pages when activated
+		 * * `next` - Show next pages when activated
+		 * * `{int}` - Show pages of the index given
 		 * * `{array}` - A nested array containing the above elements to add a
 		 *   containing 'DIV' element (might be useful for styling).
 		 *
@@ -13742,9 +13742,9 @@
 		 *  @default {}
 		 *
 		 *  @example
-		 *    // Show previous, next and current page buttons only
-		 *    $.fn.dataTableExt.oPagination.current = function ( page, pages ) {
-		 *      return [ 'previous', page, 'next' ];
+		 *    // Show previous, next and current pages buttons only
+		 *    $.fn.dataTableExt.oPagination.current = function ( pages, pages ) {
+		 *      return [ 'previous', pages, 'next' ];
 		 *    };
 		 */
 		pager: {},

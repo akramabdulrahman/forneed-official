@@ -1,6 +1,10 @@
 <?php
+
 namespace APP\Models\Traits;
+
 use App\Models\Users\Role;
+use App\User;
+use Illuminate\Support\Collection;
 
 trait HasRoles
 {
@@ -13,6 +17,18 @@ trait HasRoles
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * get users of a given role.
+     *
+     * @return Collection
+     */
+    public static function ofRole($role)
+    {
+        return User::whereHas('roles', function ($query) use ($role) {
+            $query->where('name', $role);
+        });
     }
 
     /**

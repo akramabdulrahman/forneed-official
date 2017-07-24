@@ -2,6 +2,9 @@
 
 namespace App\Models\Surveys;
 
+use App\Models\Chart;
+use App\Models\Extra;
+use App\Models\Project;
 use App\Models\Users\Citizen;
 use App\Models\Users\SocialWorker;
 use ConsoleTVs\Charts\Facades\Charts;
@@ -49,6 +52,7 @@ class Survey extends Model
     use SoftDeletes;
 
     public $table = 'Surveys';
+    protected $with = ['extras'];
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -67,6 +71,11 @@ class Survey extends Model
         'deleted_at',
         'questions_count'
     ];
+
+    public function extras()
+    {
+        return $this->belongsToMany(Extra::class);
+    }
 
     /**
      * The attributes that should be casted to native types.
@@ -98,7 +107,14 @@ class Survey extends Model
         return $this->morphMany(Chart::class, 'chartable');
 
     }
-    public function related_charts(){
+
+    public function getTargetCriteria()
+    {
+        return $this->extras->map->id;
+    }
+
+    public function related_charts()
+    {
         return $this->charts()->get()->map(function ($v) {
             return Charts::create($v->theme_chart, $v->theme_lib)
                 ->title($v->chart_title)
@@ -115,8 +131,8 @@ class Survey extends Model
     {
         $expire = $this->expires_at ? $this->expires_at->timestamp : Carbon::now()->addMonths(12)->timestamp;
         $starts = $this->starts_at ? $this->starts_at->timestamp : Carbon::now()->timestamp;
-
-        return ($expire - Carbon::now()->timestamp) / (($expire - $starts) + 1);
+        $result = ($expire - Carbon::now()->timestamp) / (($expire - $starts) + 1);
+        return ($result >= 0) ? $result : 0;
     }
 
     public function Config()

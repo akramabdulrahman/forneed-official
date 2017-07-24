@@ -53,7 +53,7 @@
 					var current_url = normalizeAmpersand('{{ Request::fullUrl() }}');
 					var new_url = addOrUpdateUriParameter(current_url, parameter, value);
 
-					// refresh the page to the new_url
+					// refresh the pages to the new_url
 					new_url = normalizeAmpersand(new_url.toString());
 			    	window.location.href = new_url;
 			    @else

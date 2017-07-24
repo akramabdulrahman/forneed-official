@@ -440,7 +440,7 @@ the specific language governing permissions and limitations under the Apache Lic
                     dataType: options.dataType,
                     data: data,
                     success: function (data) {
-                        // TODO - replace query.page with query so users have access to term, page, etc.
+                        // TODO - replace query.pages with query so users have access to term, pages, etc.
                         // added query as third paramter to keep backwards compatibility
                         var results = options.results(data, query.page, query);
                         query.callback(results);
@@ -2158,7 +2158,7 @@ the specific language governing permissions and limitations under the Apache Lic
                 if (229 == e.keyCode) return;
 
                 if (e.which === KEY.PAGE_UP || e.which === KEY.PAGE_DOWN) {
-                    // prevent the page from scrolling
+                    // prevent the pages from scrolling
                     killEvent(e);
                     return;
                 }
@@ -2826,7 +2826,7 @@ the specific language governing permissions and limitations under the Apache Lic
                 this.open();
 
                 if (e.which === KEY.PAGE_UP || e.which === KEY.PAGE_DOWN) {
-                    // prevent the page from scrolling
+                    // prevent the pages from scrolling
                     killEvent(e);
                 }
 

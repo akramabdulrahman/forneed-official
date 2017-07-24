@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Location\Area;
+use App\Models\Surveys\Survey;
 use App\Models\Users\ServiceProvider;
 use App\Models\Users\SocialWorker;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -59,6 +60,7 @@ class Project extends Model
     use SoftDeletes;
 
     public $table = 'projects';
+    protected $with = ['extras'];
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -113,6 +115,8 @@ class Project extends Model
         return $this->belongsTo(Sector::class);
     }
 
+
+
     public function area()
     {
         return $this->belongsTo(Area::class);
@@ -133,19 +137,6 @@ class Project extends Model
         return $this->hasMany(Survey::class);
     }
 
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope('withTargets', function (Builder $builder) {
-            $builder->with('targets');
-        });
-    }
 
     public function in_targets($val)
     {
@@ -161,8 +152,19 @@ class Project extends Model
 
     public function targets_string()
     {
-        return $this->targets->mapWithKeys(function ($v) {
-            return [ucfirst(str_replace('_', ' ', snake_case(class_basename($v->targetable_type)))) => $v->targetable->name];
+
+        return $this->extras->mapWithKeys(function ($v) {
+            return [ucfirst(str_replace('_', ' ', snake_case($v->name))) => $v->extra];
         });
+    }
+
+    public function extras()
+    {
+        return $this->belongsToMany(Extra::class);
+    }
+
+    public function extra_types()
+    {
+        return $this->belongsToMany(ExtraType::class);
     }
 }

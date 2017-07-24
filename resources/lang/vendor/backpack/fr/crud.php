@@ -67,7 +67,7 @@ return [
         'infoFiltered'   => '(filtré à partir de _MAX_ éléments au total)',
         'infoPostFix'    => '',
         'thousands'      => ',',
-        'lengthMenu'     => '_MENU_ enregistrement par page',
+        'lengthMenu'     => '_MENU_ enregistrement par pages',
         'loadingRecords' => 'Chargement...',
         'processing'     => 'Traitement...',
         'search'         => 'Recherche: ',
@@ -84,7 +84,7 @@ return [
         ],
 
     // global crud - errors
-    'unauthorized_access' => 'Accès non autorisé - vous n’avez pas les droits nécessaires à la consultation de cette page.',
+    'unauthorized_access' => 'Accès non autorisé - vous n’avez pas les droits nécessaires à la consultation de cette pages.',
     'please_fix' => 'Veuillez corriger les erreurs suivantes:',
 
     // global crud - success / error notification bubbles
@@ -106,10 +106,10 @@ return [
     // Fields
     'browse_uploads' => 'Parcourir les fichier chargés',
     'clear' => 'Effacer',
-    'page_link' => 'Lien de la page',
-    'page_link_placeholder' => 'http://example.com/votre-page',
+    'page_link' => 'Lien de la pages',
+    'page_link_placeholder' => 'http://example.com/votre-pages',
     'internal_link' => 'Lien interne',
-    'internal_link_placeholder' => 'Identifiant de lien interne. Ex: \'admin/page\' (sans guillemets) pour \':url\'',
+    'internal_link_placeholder' => 'Identifiant de lien interne. Ex: \'admin/pages\' (sans guillemets) pour \':url\'',
     'external_link' => 'Lien externe',
     'choose_file' => 'Choisissez un fichier',
 

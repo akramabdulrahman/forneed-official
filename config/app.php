@@ -34,7 +34,7 @@ return [
     |
     | When your application is in debug mode, detailed error messages with
     | stack traces will be shown on every error that occurs within your
-    | application. If disabled, a simple generic error page is shown.
+    | application. If disabled, a simple generic error pages is shown.
     |
     */
 
@@ -169,21 +169,33 @@ return [
         Backpack\BackupManager\BackupManagerServiceProvider::class,
         Backpack\LogManager\LogManagerServiceProvider::class,
         Backpack\Settings\SettingsServiceProvider::class,
-
+        Laracasts\Generators\GeneratorsServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
         /*
-         * Package Service Providers...
-         */
+        * Package Service Providers...
+        */
+        Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\Datatables\ButtonsServiceProvider::class,
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
+        Backpack\Base\BaseServiceProvider::class,
+        Backpack\CRUD\CrudServiceProvider::class,
 
-        //
+
 
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
+        App\Providers\DBEventsProvider::class
 
     ],
 
@@ -232,6 +244,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
 
     ],
 

@@ -250,7 +250,7 @@
         var op = this.options;
         var total_icons = this.totalIcons();
         var total_pages = this.totalPages();
-        op.table.find('.page-count').html(op.labelHeader.replace('{0}', (total_pages === 0 ) ? 0 : page).replace('{1}', total_pages));
+        op.table.find('.pages-count').html(op.labelHeader.replace('{0}', (total_pages === 0 ) ? 0 : page).replace('{1}', total_pages));
         var offset = (page - 1) * this.totalIconsPerPage();
         var total = page * this.totalIconsPerPage();
         op.table.find('.icons-count').html(op.labelFooter.replace('{0}', total_icons ? offset + 1 : 0).replace('{1}', (total < total_icons) ? total: total_icons).replace('{2}', total_icons));
@@ -272,8 +272,8 @@
                     td.append(arrow.join(''));
                     tr.append(td);
                 }
-                else if (tr.find('.page-count').length === 0) {
-                    td.attr('colspan', op.cols - 2).append('<span class="page-count"></span>');
+                else if (tr.find('.pages-count').length === 0) {
+                    td.attr('colspan', op.cols - 2).append('<span class="pages-count"></span>');
                     tr.append(td);
                 }
             }            

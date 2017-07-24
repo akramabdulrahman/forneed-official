@@ -107,9 +107,9 @@ return [
     'browse_uploads' => '檢視已上傳的檔案',
     'clear' => '清除',
     'page_link' => '頁面連結',
-    'page_link_placeholder' => 'http://example.com/your-desired-page',
+    'page_link_placeholder' => 'http://example.com/your-desired-pages',
     'internal_link' => '內部連結',
-    'internal_link_placeholder' => '內部連結短碼，例如: \'admin/page\' (no quotes) for \':url\'',
+    'internal_link_placeholder' => '內部連結短碼，例如: \'admin/pages\' (no quotes) for \':url\'',
     'external_link' => '外部連結',
     'choose_file' => '選擇檔案',
 

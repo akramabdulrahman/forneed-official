@@ -109,7 +109,7 @@ return [
     'page_link' => 'Enlace',
     'page_link_placeholder' => 'http://example.com/su-pagina',
     'internal_link' => 'Enlace interno',
-    'internal_link_placeholder' => 'Slug interno. Ejplo: \'admin/page\' (sin comillas) para \':url\'',
+    'internal_link_placeholder' => 'Slug interno. Ejplo: \'admin/pages\' (sin comillas) para \':url\'',
     'external_link' => 'Enlace externo',
 
 ];

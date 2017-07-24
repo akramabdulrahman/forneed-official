@@ -4,16 +4,20 @@ namespace App\Models\Users;
 
 use App\Models\AcademicLevel;
 use App\Models\Age;
-use App\Models\Answer;
 use App\Models\Disability;
+use App\Models\Extra;
+use App\Models\ExtraType;
 use App\Models\Gender;
 use App\Models\Location\Area;
 use App\Models\MaritalStatus;
 use App\Models\Project;
 use App\Models\RefugeeState;
 use App\Models\Sector;
-use App\Models\Survey;
+use App\Models\Surveys\Answer;
+use App\Models\Surveys\Survey;
 use App\Models\Target;
+use App\Models\Traits\HasExtra;
+use App\Models\Traits\HasSectors;
 use App\Models\WorkField;
 use App\Models\WorkingState;
 use Illuminate\Database\Eloquent\Model;
@@ -53,12 +57,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Citizen extends Model
 {
+    use HasExtra, HasSectors;
 
     public $fillable = [
         'user_id',
         'mobile_number',
         'contactable'
     ];
+
+    protected $appends = ['extrasPopulated', 'sectorsPopulated', 'areasPopulated'];
+
+
     private $fillableMap = [
         'gender_id' => Gender::class,
         'age_id' => Age::class,
@@ -98,7 +107,6 @@ class Citizen extends Model
     }
 
 
-
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -115,7 +123,6 @@ class Citizen extends Model
     }
 
 
-
     public function sectors()
     {
         return $this->belongsToMany(Sector::class);
@@ -128,7 +135,6 @@ class Citizen extends Model
     }
 
 
-
     public function Answers()
     {
         return $this->belongsToMany(Answer::class);
@@ -138,23 +144,14 @@ class Citizen extends Model
     {
         return $this->belongsToMany(Survey::class);
     }
-    /*
-     * @todo
-     * change this to search into extras table
-     * */
+
     public function applicable_surveys()
     {
-        $targets = new Target();
-        $fillable = $this->fillableMap;
-        $projects = $targets->where(function ($query) use ($fillable) {
-            foreach ($fillable as $key => $index) {
-                $query->orWhere(array('targetable_id' => $this->$key, 'targetable_type' => $index));
-            }
-        });
-        $surveys = $this->surveys()->pluck('id');
-        return Survey::whereIn('project_id', $projects->pluck('project_id'))->whereNotIn('id', $surveys);
-
+        $extra = $this->extras()->pluck('extras.id');
+        return Survey::whereHas("extras", function ($query) use ($extra) {
+            $query->WhereIn('id', $extra);
+        })
+            ->whereNotIn('id', $this->surveys()->pluck('id'))
+            ->whereHas('questions')->where('is_accepted', true);
     }
-
-
 }

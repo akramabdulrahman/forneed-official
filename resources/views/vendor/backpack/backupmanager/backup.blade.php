@@ -107,7 +107,7 @@
                     l.setProgress( 1 );
                     l.stop();
 
-                    // refresh the page to show the new file
+                    // refresh the pages to show the new file
                     setTimeout(function(){ location.reload(); }, 3000);
                 },
                 error: function(result) {

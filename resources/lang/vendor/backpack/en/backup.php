@@ -28,7 +28,7 @@ return [
     'delete_cancel_title'                => "It's ok",
     'delete_cancel_message'              => 'The backup file has NOT been deleted.',
     'create_confirmation_title'          => 'Backup completed',
-    'create_confirmation_message'        => 'Reloading the page in 3 seconds.',
+    'create_confirmation_message'        => 'Reloading the pages in 3 seconds.',
     'create_error_title'                 => 'Backup error',
     'create_error_message'               => 'The backup was file could NOT be created.',
     'create_warning_title'               => 'Unknown error',

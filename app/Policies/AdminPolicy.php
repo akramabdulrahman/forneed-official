@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\User;
-use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AdminPolicy
@@ -17,7 +16,7 @@ class AdminPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function view(User $user, User $user)
+    public function view(User $user)
     {
         //
     }
@@ -40,7 +39,7 @@ class AdminPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function update(User $user, User $user)
+    public function update(User $user)
     {
         //
     }
@@ -52,7 +51,7 @@ class AdminPolicy
      * @param  \App\User  $user
      * @return mixed
      */
-    public function delete(User $user, User $user)
+    public function delete(User $user)
     {
         //
     }

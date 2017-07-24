@@ -5,13 +5,15 @@ namespace App\Models\Users;
 use App\Models\Location\Area;
 use App\Models\Project;
 use App\Models\Sector;
-use App\Models\Survey;
+use App\Models\Surveys\Survey;
+use App\Models\Traits\HasExtra;
+use App\Models\Traits\HasSectors;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceProvider extends Model
 {
-
+    use HasExtra, HasSectors;
 
     protected $dates = ['deleted_at'];
 
@@ -36,7 +38,7 @@ class ServiceProvider extends Model
         'id' => 'integer',
         'mission_statement' => 'string',
     ];
-    protected $appends = array('name', 'sectorsString');
+    protected $appends = array('name', 'sectorsPopulated', 'areasPopulated', 'extrasPopulated');
 
     /**
      * Validation rules
@@ -68,15 +70,18 @@ class ServiceProvider extends Model
     }
 
 
-
     public function getSectorsStringAttribute()
     {
-        $sectors = $this->sectors()->get()->toArray();
-        if (emptyArray($sectors)) {
-            return "No Sectors";
-        } else {
-            return implode(',', $sectors);
-        }
+        return $this->sectors()->get()->map->name->pipe(function ($items) {
+            return empty($items) ? ['no Sectors'] : $items;
+        })->implode(',');
+    }
+
+    public function getAreasStringAttribute()
+    {
+        return $this->areas()->get()->map->name->pipe(function ($items) {
+            return empty($items) ? ['no Areas'] : $items;
+        })->implode(',');
     }
 
 

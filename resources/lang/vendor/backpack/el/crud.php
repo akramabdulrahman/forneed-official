@@ -113,9 +113,9 @@ return [
     'browse_uploads'                          => 'Αναζήτηση μεταφορτωμένων αρχείων',
     'clear'                                   => 'Εκκαθάριση',
     'page_link'                               => 'Σύνδεσμος Σελίδας',
-    'page_link_placeholder'                   => 'http://example.com/your-desired-page',
+    'page_link_placeholder'                   => 'http://example.com/your-desired-pages',
     'internal_link'                           => 'Εσωτερικός σύνδεσμος',
-    'internal_link_placeholder'               => 'Εσωτερικό slug. πχ: \'admin/page\' (χωρίς εισαγωγικά) για \':url\'',
+    'internal_link_placeholder'               => 'Εσωτερικό slug. πχ: \'admin/pages\' (χωρίς εισαγωγικά) για \':url\'',
     'external_link'                           => 'Εξωτερικός σύνδεσμος',
     'choose_file'                             => 'Επιλογή αρχείου',
 

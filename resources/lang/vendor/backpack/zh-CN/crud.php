@@ -107,9 +107,9 @@ return [
     'browse_uploads' => '查看已上传的文档',
     'clear' => '清除',
     'page_link' => '页面链接',
-    'page_link_placeholder' => 'http://example.com/your-desired-page',
+    'page_link_placeholder' => 'http://example.com/your-desired-pages',
     'internal_link' => '内部链接',
-    'internal_link_placeholder' => '内部链接，例如: \'admin/page\' (no quotes) for \':url\'',
+    'internal_link_placeholder' => '内部链接，例如: \'admin/pages\' (no quotes) for \':url\'',
     'external_link' => '外部链接',
     'choose_file' => '选择文件',
 

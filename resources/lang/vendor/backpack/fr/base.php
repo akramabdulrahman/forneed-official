@@ -7,7 +7,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'registration_closed'  => 'Inscription fermée.',
-    'first_page_you_see'   => 'La première page que vous voyez après connexion',
+    'first_page_you_see'   => 'La première pages que vous voyez après connexion',
     'login_status'         => 'Etat de connexion',
     'logged_in'            => 'Vous êtes connecté!',
     'toggle_navigation'    => 'Toggle navigation',

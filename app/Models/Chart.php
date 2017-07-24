@@ -15,6 +15,10 @@ class Chart extends Model
         'labels',
         'values',
         'datasets',
+        'multi',
+        'attr_list',
+        'user_id',
+        'model'
     ];
     protected $casts = [
         'labels' => 'array',

@@ -41,7 +41,7 @@
 						var new_url = URI(current_url).addQuery(parameter, true);
 					}
 
-					// refresh the page to the new_url
+					// refresh the pages to the new_url
 			    	new_url = normalizeAmpersand(new_url.toString());
 			    	window.location.href = new_url;
 			    @else

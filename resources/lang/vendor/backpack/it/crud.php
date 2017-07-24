@@ -109,7 +109,7 @@ return [
     'page_link' => 'Link Pagina',
     'page_link_placeholder' => 'http://esempio.com/pagina-desiderata',
     'internal_link' => 'Link Interno',
-    'internal_link_placeholder' => 'Slug interno. Es: \'admin/page\' (no quotes) for \':url\'',
+    'internal_link_placeholder' => 'Slug interno. Es: \'admin/pages\' (no quotes) for \':url\'',
     'external_link' => 'Link Esterno',
 
 ];

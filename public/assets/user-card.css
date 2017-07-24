@@ -1,0 +1,120 @@
+
+
+#card #card, .card .card {
+    width: 200px;
+    margin: 50px auto 0;
+}
+
+#card #main, .card .main{
+    width: 100%;
+    border: 1px solid #a9bccb;
+    border-bottom: none;
+    border-radius: 0.4em 0.4em 0 0;
+    background: linear-gradient(#ededed, #cccccc);
+    position: relative;
+    padding: 80px 10px 20px 10px;
+    transition: all 0.3s ease-out;
+    box-shadow: inset 0 1px 0 white, 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+#card #main:after,
+#card #main:before,
+.card .main:before,
+.card .main:after{
+    content: "";
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #333;
+    position: absolute;
+    bottom: -4px;
+    left: 1px;
+    transform: rotate(30deg);
+    z-index: -1;
+}
+
+#card #main:after,.card .main:after {
+    transform: rotate(-30deg);
+    left: auto;
+    right: 1px;
+}
+
+#card h1 ,.card h1{
+    font-weight: normal;
+    color: #312d2a;
+    font-size: 18px;
+    padding-bottom: 7px;
+    text-shadow: 0 1px 0 white;
+}
+
+#card h2 {
+    color: #746d67;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: normal;
+}
+
+#card #img-wrapper img {
+    display: block;
+    margin: 0 auto;
+    margin-top: 7px;
+    border-radius: 3px;
+}
+
+#card #img-wrapper {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    margin-left: -48px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    width: 96px;
+    height: 96px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#card #secondary {
+    position: relative;
+    background: url("http://codepen.io/images/classy_fabric.png") #655c53;
+    border-radius: 0 0 0.3em 0.3em;
+    width: 95%;
+    margin: 0 auto;
+    box-shadow: inset 0 3px 2px rgba(0, 0, 0, 0.3), 0 0 4px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease-out;
+    z-index: -1;
+}
+
+#card .clearfix:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+#card li {
+    float: left;
+    color: white;
+    font-size: 14px;
+    width: 50%;
+    padding: 10px 0;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+#card li:first-of-type {
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#card li:last-of-type {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#card .figure {
+    font-weight: bold;
+    font-size: 25px;
+    padding: 3px 0;
+    display: block;
+}

@@ -35,8 +35,8 @@ class AuthServiceProvider extends ServiceProvider
         Project::class => ProjectPolicy::class,//only admin can accept a project // project cant be created until sp is accepted
         Payment::class => PaymentPolicy::class,
         Extra::class => ExtraPolicy::class,
-        ExtraType::class=>ExtraType::class,
-        Survey::class=>SurveyPolicy::class
+        ExtraType::class => ExtraType::class,
+        Survey::class => SurveyPolicy::class
         /*todo add readonly field to user*/
     ];
 
@@ -49,12 +49,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Dynamically register permissions with Laravel's Gate.
-        foreach ($this->getPermissions() as $permission) {
-            $gate->define($permission->name, function ($user) use ($permission) {
-                return $user->hasPermission($permission);
-            });
-        }
+//        // Dynamically register permissions with Laravel's Gate.
+//        foreach ($this->getPermissions() as $permission) {
+//            $gate->define($permission->name, function ($user) use ($permission) {
+//                return $user->hasPermission($permission);
+//            });
+//        }
     }
 
     /**

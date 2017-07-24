@@ -67,7 +67,7 @@ return [
         'infoFiltered'   => '(filtered from _MAX_ total entries)',
         'infoPostFix'    => '',
         'thousands'      => ',',
-        'lengthMenu'     => '_MENU_ records per page',
+        'lengthMenu'     => '_MENU_ records per pages',
         'loadingRecords' => 'Loading...',
         'processing'     => 'Processing...',
         'search'         => 'Search: ',
@@ -84,7 +84,7 @@ return [
         ],
 
     // global crud - errors
-    'unauthorized_access' => 'Unauthorized access - you do not have the necessary permissions to see this page.',
+    'unauthorized_access' => 'Unauthorized access - you do not have the necessary permissions to see this pages.',
     'please_fix' => 'Please fix the following errors:',
 
     // global crud - success / error notification bubbles
@@ -107,9 +107,9 @@ return [
     'browse_uploads' => 'Browse uploads',
     'clear' => 'Clear',
     'page_link' => 'Page link',
-    'page_link_placeholder' => 'http://example.com/your-desired-page',
+    'page_link_placeholder' => 'http://example.com/your-desired-pages',
     'internal_link' => 'Internal link',
-    'internal_link_placeholder' => 'Internal slug. Ex: \'admin/page\' (no quotes) for \':url\'',
+    'internal_link_placeholder' => 'Internal slug. Ex: \'admin/pages\' (no quotes) for \':url\'',
     'external_link' => 'External link',
     'choose_file' => 'Choose file',
 

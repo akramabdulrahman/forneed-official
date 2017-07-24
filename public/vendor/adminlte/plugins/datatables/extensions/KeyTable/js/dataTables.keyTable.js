@@ -439,7 +439,7 @@ KeyTable = function ( oInit )
 		$(nTarget).addClass( _sFocusClass );
 		$(nTarget).parent().addClass( _sFocusClass );
 
-		/* If it's a DataTable then we need to jump the paging to the relevant page */
+		/* If it's a DataTable then we need to jump the paging to the relevant pages */
 		var oSettings;
 		if ( _oDatatable )
 		{
@@ -751,7 +751,7 @@ KeyTable = function ( oInit )
 				y = 0;
 				break;
 
-			case 33: /* page up */
+			case 33: /* pages up */
 				x = _iOldX;
 				y = _iOldY - 10;
 				if (y < 0) {
@@ -806,7 +806,7 @@ KeyTable = function ( oInit )
 				y = iTableHeight-1;
 				break;
 
-			case 34: /* page down */
+			case 34: /* pages down */
 				x = _iOldX;
 				y = _iOldY+10;
 				if (y > iTableHeight-1) {
@@ -939,7 +939,7 @@ KeyTable = function ( oInit )
 
 	/*
 	 * Function: _fnGetPos
-	 * Purpose:  Get the position of an object on the rendered page
+	 * Purpose:  Get the position of an object on the rendered pages
 	 * Returns:  array[2] int: [left, right]
 	 * Inputs:   node:obj - element of interest
 	 */

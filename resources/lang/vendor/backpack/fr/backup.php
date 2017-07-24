@@ -28,7 +28,7 @@ return [
     'delete_cancel_title'                => "C'est ok",
     'delete_cancel_message'              => 'Le fichier de sauvegarde n\'a PAS été supprimmé.',
     'create_confirmation_title'          => 'Sauvegarde terminée',
-    'create_confirmation_message'        => 'Rechargement de cette page dans 3 secondes.',
+    'create_confirmation_message'        => 'Rechargement de cette pages dans 3 secondes.',
     'create_error_title'                 => 'Erreur de sauvegarde',
     'create_error_message'               => 'Le fichier de sauvegarde n\'a PAS pu être créer.',
     'create_warning_title'               => 'Erreur inconnue',

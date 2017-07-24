@@ -1,0 +1,120 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    font-size:13pt;
+}
+
+#googlemaps {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    /* Set z-index to 0 as it will be on a layer below the contact form */
+}
+
+#contactform {
+    position: relative;
+    z-index: 1;
+    /* The z-index should be higher than Google Maps */
+    width: 300px;
+    margin: 60px auto 0;
+    padding: 10px;
+    background: black;
+    height: auto;
+    opacity: .45;
+    /* Set the opacity for a slightly transparent Google Form */
+    color: white;
+}
+
+.popup_result {
+    width: 400px;
+    height: 370px;
+    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 13%;
+    top: 20%;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+}
+
+.welcomemessage {
+    width: 400px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 18px;
+    margin-top: 50px;
+    color:#393939;
+    font-weight: bolder;
+    text-transform: capitalize;
+}
+
+.loginInput {
+    width: 204px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 18px;
+    margin-top: 150px;
+    transition: all
+;
+}
+
+.button-success,
+.button-error,
+.button-warning,
+.button-secondary {
+    padding: 1px;
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+.button-success:hover,
+.button-error:hover,
+.button-warning:hover,
+.button-secondary:hover {
+    font-size:13pt;
+
+
+}
+.button-success:active,
+.button-error:active,
+.button-warning:active,
+.button-secondary:active {
+    opacity:.9;
+}
+.button-success {
+    background: rgb(28, 184, 65);
+    /* this is a green */
+}
+
+.button-error {
+    background: rgb(202, 60, 60);
+    /* this is a maroon */
+}
+
+.button-warning {
+    background: rgb(223, 117, 20);
+    /* this is an orange */
+}
+
+.button-secondary {
+    background: rgb(66, 184, 221);
+    /* this is a light blue */
+}
+.spacer{
+    display:inline-block;
+    width:20px;
+}
+
+.login-wrapper{
+    float:right;
+}
+.register-wrapper{
+    float:left;
+}

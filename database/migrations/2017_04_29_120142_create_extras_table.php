@@ -16,7 +16,7 @@ class CreateExtrasTable extends Migration
         Schema::create('extras', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->longText('extra');
+            $table->longText('extra')->nullable();
 
             $table->integer('extra_type_id')->unsigned()->index();
 

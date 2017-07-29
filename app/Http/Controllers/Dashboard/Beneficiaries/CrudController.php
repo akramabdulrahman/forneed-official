@@ -89,7 +89,6 @@ class CrudController extends Controller
     public function store(BenRequest $request)
     {
         DB::transaction(function () use ($request) {
-
             $user = User::create($request->only('user')['user']);
             $citizen = new Citizen($request->only('contactable'));
             $citizen->user()->associate($user);
@@ -97,7 +96,6 @@ class CrudController extends Controller
             $citizen->extras()->attach(array_values($request->get('extra')));
             $citizen->sectors()->attach(array_keys(array_flip($request->get('sector_id'))));
             $citizen->areas()->attach(array_keys(array_flip($request->get('area_id'))));
-
         }, 5);
         Flash::success('User saved successfully.');
 

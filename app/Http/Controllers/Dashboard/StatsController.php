@@ -51,7 +51,8 @@ class StatsController extends Controller
 
     public function render(Request $request)
     {
-        $chart = $this->chartRepo->render($request, $this->model());
+
+        $chart = $this->chartRepo->render($request->all(), $this->model());
         if ($request->isXmlHttpRequest()) {
             return $chart->render();
         }
@@ -60,7 +61,7 @@ class StatsController extends Controller
 
     public function multiRender(Request $request)
     {
-        $chart = $this->chartRepo->multiRender($request, $this->model());
+        $chart = $this->chartRepo->multiRender($request->all(), $this->model());
         if ($request->isXmlHttpRequest()) {
             return $chart->render();
         }

@@ -8,8 +8,13 @@
 
 namespace app\Models\Traits;
 
+use App\Models\Chart;
 
 trait HasChart
 {
 
+    public function charts()
+    {
+        return $this->morphs(Chart::class, 'chartable');
+    }
 }

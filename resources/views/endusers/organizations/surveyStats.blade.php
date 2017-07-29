@@ -53,7 +53,7 @@
                             <a class="btn red hidden" data-toggle="modal" href="#basic" id="question_stats_toggle"><i
                                         class="fa fa-bar-chart"
                                         aria-hidden="true"></i>&nbsp;Statistics
-                                For Two Question</a>
+                                For  Question</a>
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -95,7 +95,8 @@
                     </div>
                     <div class="portlet-body">
                         <div id="MainMenu">
-                            <div class="scroller" style="height: 312px;" data-always-visible="1" data-rail-visible1="1">
+                        {{-- scroller   --}}
+                            <div class="" style="" data-always-visible="1" data-rail-visible1="1">
                                 <div class="list-group panel" id="questions">
 
                                 </div>
@@ -122,7 +123,7 @@
 
                             </div>
                             <div class="col-md-6">
-                                <div class="chart draw-canvas " style="height:230px;"></div>
+                                <div class="chart draw-canvas " ></div>
 
                             </div>
 

@@ -54,7 +54,7 @@
                         <div style="padding:5px"><i>Survay Name :</i> {{$survey->subject}} </div>
                         <div style="padding:5px"><i>Survay Objective :</i> {{$survey->description}}    </div>
                         <div style="padding:5px"><i>Survay Target Criteria :</i>
-                            @foreach($survey->project->targets_string() as $key=>$target)
+                            @foreach($survey->targets_string() as $key=>$target)
                                 ({{$key}} : {{$target}}) <br>
                             @endforeach </div>
                         <div style="padding:5px"><i>Survay Period :</i> From {{$survey->starts_at->format('m/d/Y')}}

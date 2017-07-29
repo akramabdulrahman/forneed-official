@@ -40,6 +40,10 @@ class DashboardController extends Controller
      * */
     public function index(CitizensDatatable $citizensDatatable)
     {
+        if (!Auth::user()->worker->first()->projects()->exists()) {
+            Flash::warning('You are not Hired in a project yet , 
+            stay tuned we will email you once your application gets checked');
+        }
         return $citizensDatatable->setColumns(collect(
             [
                 ['data' => 'id', 'name' => 'id',

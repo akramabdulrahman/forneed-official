@@ -92,7 +92,7 @@ class UserDataTable extends DataTable
             'avatar' => ['name' => 'avatar', 'data' => 'avatar', 'searchable' => false, 'orderable' => false, 'width' => '20px'],
             'name' => ['name' => 'name', 'data' => 'name'],
             'email' => ['name' => 'email', 'data' => 'email'],
-            'user_type' => ['name' => 'user_type', 'data' => 'user_type', 'searchable' => false, 'orderable' => true],
+            'user_type' => ['name' => 'user_type', 'data' => 'user_type', 'searchable' => true, 'orderable' => true],
 
         ];
     }

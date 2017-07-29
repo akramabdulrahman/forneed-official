@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Traits\HasChart;
 use App\Models\Traits\HasRoles;
 use App\Models\Traits\UserTypeChecks;
 use App\Models\Users\Citizen;
@@ -13,7 +14,7 @@ use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNo
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, UserTypeChecks;
+    use Notifiable, HasRoles, UserTypeChecks, HasChart;
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +47,6 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-
 
 
     public function setPasswordAttribute($password)

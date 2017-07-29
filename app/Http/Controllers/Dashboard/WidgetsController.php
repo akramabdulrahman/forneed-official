@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Chart;
+use App\Models\Surveys\Survey;
 use App\Models\Users\Citizen;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -29,21 +31,27 @@ class WidgetsController extends Controller
     {
         //
     }
-    public function storeVisualRelation(Request $request){
+
+    public function storeVisualRelation(Request $request)
+    {
         $theme = explode('_', $request->input('theme'));
         $model = $request->input('model');
-        return Chart::updateOrCreate([
+
+        Chart::updateOrCreate([
             'user_id' => Auth::user()->id,
             'multi' => 3,
             'theme_lib' => $theme[0],
             'theme_chart' => $theme[1],
             'model' => Citizen::class,
             'attr_list' => json_encode([
-                'first_ans'=>$request->input('first_ans'),
-                'second_ans'=>$request->input('second_ans')])
-        ])->exists() ? ['state' => true] : ['state' => false];
+                'first_ans' => $request->input('first_ans'),
+                'second_ans' => $request->input('second_ans')]),
+            'chartable_id' => $request->input('survey_id'),
+            'chartable_type' => Survey::class
+        ])->exists() ? ['state' => true] : ['state' => false];;
 
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -60,7 +68,9 @@ class WidgetsController extends Controller
             'theme_lib' => $theme[0],
             'theme_chart' => $theme[1],
             'model' => $model,
-            'attr_list' => json_encode($request->input('attr_list'))
+            'attr_list' => json_encode($request->input('attr_list')),
+            'chartable_id' => Auth::user()->id,
+            'chartable_type' => User::class
         ])->exists() ? ['state' => true] : ['state' => false];
 
     }

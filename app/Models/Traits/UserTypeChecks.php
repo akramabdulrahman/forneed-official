@@ -8,7 +8,6 @@
 
 namespace App\Models\Traits;
 
-
 use App\Models\Users\Citizen;
 use App\Models\Users\ServiceProvider;
 use App\Models\Users\SocialWorker;
@@ -35,7 +34,7 @@ trait UserTypeChecks
         return $this->citizen()->exists();
     }
 
-    Public function isWorker()
+    public function isWorker()
     {
         return $this->worker()->exists();
     }
@@ -58,26 +57,18 @@ trait UserTypeChecks
 
     public function getUserTypeAttribute()
     {
-        $type = [];
-        if ($this->isServiceProvider()) {
-            $type[] = trans('user.type_sp');
-        }
-        if ($this->isCitizen()) {
-            $type[] = trans('user.type_citizen');
-        }
-        if ($this->is_admin) {
-            $type[] = trans('user.type_admin');
-        }
-
-        if ($this->isWorker()) {
-            $type[] = trans('user.type_worker');
-        }
-
-        if (empty($type)) {
-            return trans('user.type_no_type');
-        }
-        $type = implode(' , ', $type);
-        $roles = $this->roles()->pluck('name')->implode(',');
-        return str_replace('_', ' ', empty($roles) ? $type : "[$roles][$type]");
+        return collect([
+            trans('user.type_service_provider')=>$this->isServiceProvider(),
+            trans('user.type_citizen')=> $this->isCitizen(),
+            trans('user.type_social_worker')=> $this->isWorker(),
+        ])->filter(function ($val) {
+            return $val;
+        })->pipe(function ($data) {
+            return $data->isEmpty()?
+                   $data->merge([trans('user.type_no_type')=>true]):
+                   $data ;
+        })->mapWithKeys(function ($row, $key) {
+            return [$key];
+        })->merge($this->roles()->pluck('name'))->implode(',');
     }
 }

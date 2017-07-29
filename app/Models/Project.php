@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Location\Area;
 use App\Models\Surveys\Survey;
+use App\Models\Traits\HasChart;
 use App\Models\Users\ServiceProvider;
 use App\Models\Users\SocialWorker;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -57,7 +58,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Project extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasChart;
 
     public $table = 'projects';
     protected $with = ['extras'];
@@ -116,7 +117,6 @@ class Project extends Model
     }
 
 
-
     public function area()
     {
         return $this->belongsTo(Area::class);
@@ -161,6 +161,18 @@ class Project extends Model
     public function extras()
     {
         return $this->belongsToMany(Extra::class);
+    }
+
+    public function getTargetCriteria()
+    {
+        return $this->surveys()->get()
+        ->map->extras
+        ->pipe(function ($result) {
+            if (!($result->isEmpty())) {
+                return $result->flatten(1)->map->id->unique();
+            }
+            return $this->extras->map->id;
+        });
     }
 
     public function extra_types()

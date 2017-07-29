@@ -1,6 +1,6 @@
 @foreach($extras as $cat=>$extra)
     <?php $name=ucfirst(implode(' ',explode('_',snake_case($cat))));?>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-6 ">
         <select class="selectpicker show-tick show-menu-arrow form-control"
                 data-style="btn-default" name="{{"extra[$cat]"}}"
                 placeholder="choose {{$name}}">

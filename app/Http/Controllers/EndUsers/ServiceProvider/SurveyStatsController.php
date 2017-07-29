@@ -10,15 +10,23 @@ use App\Models\Surveys\Question;
 use App\Models\Surveys\Survey;
 use App\Models\Target;
 use App\Models\Users\Citizen;
+use App\Repositories\ChartRepositoryRepositoryEloquent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Charts;
-
+use Auth;
 class SurveyStatsController extends Controller
 {
+    private $chartRepo;
+
+    function __construct(ChartRepositoryRepositoryEloquent $chartRepo)
+    {
+        $this->chartRepo = $chartRepo;
+    }
+
     public function index()
     {
-        $projects = Project::all()->pluck('name', 'id');
+        $projects = Auth::user()->serviceProvider()->first()->projects()->pluck('name', 'id');
 
         return view('endusers.organizations.surveyStats', [
             'projects' => $projects,
@@ -32,7 +40,7 @@ class SurveyStatsController extends Controller
             ->mapWithKeys(function ($v) {
                 return [$v->answer => $v->citizens_count()];
             })->toArray();
-        $chart = Charts::create('pie')
+        $chart = Charts::create('pie','c3')
             ->title('answers pick rate ')
             ->elementLabel("Citizens Count")
             ->labels(array_values(array_keys($chart_dataset)))
@@ -56,29 +64,7 @@ class SurveyStatsController extends Controller
     public function visualizeRelation(Request $request)
     {
 
-        $theme = explode('_', $request->input('theme'));
-        $survey = null;
-        $answers = [$request->input('first_ans'), $request->input('second_ans')];
-        $data = Answer::with('citizens')->whereIn('id', $answers)->get()->map(function ($v) {
-            return count($v->citizens);
-        })->toArray();
-        $labels = array_values(Answer::with('question')->whereIn('id', $answers)
-            ->get()->map(function ($v) use (&$survey) {
-                $survey = $v->question->survey()->first()->id;
-                return $v->question->body . ':' . $v->answer;
-            })->toArray());
-
-        $chart = Charts::create($theme[1], $theme[0])
-            ->title('Citizens that satisfy : ' . collect($labels)->map(function ($v) {
-                    return "({$v})";
-                })->implode(','))
-            ->elementLabel("Citizens")
-            ->responsive(false)
-            ->dimensions(0, 300)
-            ->labels($labels)
-            ->values(array_values($data))
-            ->responsive(false)->width(0)->height(300);
-
+        $chart = $this->chartRepo->visualize($request->all());
 
         return $chart->render();
 
@@ -103,4 +89,7 @@ class SurveyStatsController extends Controller
         return $chart->render();
 
     }
+
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
 use App\Models\Age;
+use App\Models\Chart;
 use App\Models\Disability;
 use App\Models\Extra;
 use App\Models\Gender;
@@ -15,6 +16,7 @@ use App\Models\Surveys\Survey;
 use App\Models\Users\ServiceProvider;
 use App\Models\WorkField;
 use App\Models\WorkingState;
+use App\Repositories\ChartRepositoryRepositoryEloquent;
 use App\Repositories\CitizenRepository;
 use App\Repositories\ServiceProviderRepository;
 use App\Repositories\SocialWorkerRepository;
@@ -26,13 +28,15 @@ class AjaxApiController extends Controller
     private $citizenRepo;
     private $service_providerRepo;
     private $social_workerRepo;
+    private $chartRepo;
 
-    public function __construct(CitizenRepository $citizenRepo, ServiceProviderRepository $service_providerRepo, SocialWorkerRepository $social_workerRepo)
+    public function __construct(CitizenRepository $citizenRepo, ChartRepositoryRepositoryEloquent $chartRepo, ServiceProviderRepository $service_providerRepo, SocialWorkerRepository $social_workerRepo)
     {
         $this->middleware('auth');
         $this->citizenRepo = $citizenRepo;
         $this->service_providerRepo = $service_providerRepo;
         $this->social_workerRepo = $social_workerRepo;
+        $this->chartRepo = $chartRepo;
     }
 
     public function populate($model)
@@ -98,6 +102,31 @@ class AjaxApiController extends Controller
     public function Listings($lookup)
     {
         return response()->json(Extra::where('extra_type_id', '=', $lookup)->pluck('extra', 'id'));
+    }
+
+    public function charts($chart_id)
+    {
+        $chart = Chart::findOrFail($chart_id)->toArray();
+        $func = '';
+
+        switch ($chart['multi']) {
+            case 1:
+                $func = 'render';
+                break;
+            case 0:
+                $func = 'render';
+
+                break;
+            default:
+                $func = 'visualize';
+                $attrs = json_decode($chart['attr_list']);
+                $chart['first_ans'] = $attrs->first_ans;
+                $chart['second_ans'] = $attrs->second_ans;
+        }
+        $chart['theme'] = implode('_', [$chart['theme_lib'], $chart['theme_chart']]);
+
+        return $this->chartRepo->$func($chart, $chart['model'])->render();
+
     }
 
     public function questionChart($question_id)

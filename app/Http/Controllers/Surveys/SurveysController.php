@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Surveys;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
-
+use App\Models\Users\SocialWorker;
 use App\Models\Surveys\Answer;
 use App\Models\Surveys\Question;
 use App\Models\Surveys\Survey;
@@ -63,11 +63,17 @@ class SurveysController extends Controller
     {
         $input = $request->all();
         $citizen = Auth::user()->citizen()->first();
+
         DB::transaction(function () use ($input, $citizen) {
             $citizen->surveys()->attach($input['survey_id'], array(
                 'step' => $input['step'],
                 'is_final_step' => isset($input['final_step'])
             ));
+            if(session()->has('impersonator')){
+
+                $worker = User::find(session('impersonator'))->worker()->first();
+                $worker->surveys()->increment('count'); 
+            }
             $citizen->answers()->attach(((array_values($input['answers']))));
         });
         return redirect()->route('endusers.ben.index');

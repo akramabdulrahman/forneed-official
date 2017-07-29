@@ -90,12 +90,12 @@
 
     <div class="page-content">
         <!-- BEGIN PAGE HEADER-->
-
-        <!-- BEGIN PAGE BAR -->
+    <?php $title = str_plural(trans('user.type_' . snake_case($model)));?>
+    <!-- BEGIN PAGE BAR -->
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a href={{route('Dashboard.landing')}}>Beneficiaries</a>
+                    <a href={{route('Dashboard.landing')}}>{{$title}}</a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
@@ -107,7 +107,7 @@
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"> Beneficiaries
+        <h3 class="page-title"> {{$title}}
             <small>Statistics</small>
         </h3>
         <!-- END PAGE TITLE-->
@@ -133,7 +133,8 @@
                 <div class="tab-content">
                     <div class="tab-pane fade active in" id="tab_1_1">
                         <div class="form-group">
-                            {!! Form::open(['route'=>'Dashboard.ben.stats.post','class'=>'charts-form','id'=>'per_charts'])!!}
+                            <?php $route_prefix = config('route-prefixes.' . $model);?>
+                            {!! Form::open(['route'=>"Dashboard.$route_prefix.stats.post",'class'=>'charts-form','id'=>'per_charts'])!!}
 
                             <div class="form-group col-sm-10">
                                 {!! Form::label('sector_id', 'Theme:') !!}
@@ -176,7 +177,7 @@
                     </div>
                     <div class="tab-pane fade" id="tab_1_2">
                         <div class="form-group">
-                            {!! Form::open(['route'=>'Dashboard.ben.stats.post','class'=>'charts-form','id'=>'multi_charts'])!!}
+                            {!! Form::open(['route'=>"Dashboard.$route_prefix.stats.post",'class'=>'charts-form','id'=>'multi_charts'])!!}
                             <div class="form-group col-sm-10">
                                 {!! Form::label('sector_id', 'Theme:') !!}
                                 {{Form::select('theme',$multi_libs,null,['class'=>'select2me show-tick show-menu-arrow form-control','data-style'=>"btn-default"]) }}
@@ -205,8 +206,6 @@
 
 
                             </form>
-
-
                         </div>
                     </div>
                     <div class="tab-pane fade" id="tab_1_3">
@@ -311,7 +310,12 @@
         $('#save_pivot').on('click', function (evt) {
 
             $.post('{{route('Dashboard.store.chart')}}',
-                {_token:"{{csrf_token()}}",attr_list: $('.pvtTable').first().html(), model: $(this).attr('data-model'),theme:'pivot_pivot'}, function (evt) {
+                {
+                    _token: "{{csrf_token()}}",
+                    attr_list: $('.pvtTable').first().html(),
+                    model: $(this).attr('data-model'),
+                    theme: 'pivot_pivot'
+                }, function (evt) {
 
                 })
 

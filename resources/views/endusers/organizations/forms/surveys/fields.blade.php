@@ -33,7 +33,7 @@
 @endif
 
 <div class="form-group">
-    <?php $criteria = $update ? $survey->getTargetCriteria() : []?>
+    <?php $criteria = $update ? $survey->getTargetCriteria() : $project->getTargetCriteria()?>
     <label class="control-label">Beneficiaries</label>
     {!! Form::select('targets[]',$extra_types ,$criteria, ['multiple','data-style'=>'btn-default','placeholder'=>'Please Select Criteria','class' => 'selectpicker show-tick show-menu-arrow form-control']) !!}
 </div>

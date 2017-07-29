@@ -25,7 +25,7 @@ class ServiceProviderDataTable extends BaseDatatable
      */
     public function query()
     {
-        $request = $this->request();
+;        $request = $this->request();
         $query = $this->repo->getPopulated();
 
         if ($request->has('name')) {
@@ -53,6 +53,7 @@ class ServiceProviderDataTable extends BaseDatatable
 
         if ($request->has('targets')) {
             $query->whereHas('projects', function ($p) use ($request) {
+                
                 if ($request->has('targets') && $targets = $request->input('targets')) {
                     $p->whereHas('extras', function ($t) use ($targets) {
                         $t->whereIn('extra_id', $targets);

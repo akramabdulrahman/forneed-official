@@ -18,14 +18,21 @@ class Chart extends Model
         'multi',
         'attr_list',
         'user_id',
-        'model'
+        'model',
+        'chartable_type',
+        'chartable_id'
     ];
+
     protected $casts = [
         'labels' => 'array',
         'values' => 'array',
         'datasets' => 'array',
     ];
 
+    function getAttrListAttribute()
+    {
+        return json_decode($this->attributes['attr_list'],true);
+    }
 
     public function user()
     {
@@ -39,8 +46,6 @@ class Chart extends Model
 
     public function question()
     {
-        return $this->morphTo(Question::class,'chartable');
+        return $this->morphTo(Question::class, 'chartable');
     }
-
-
 }

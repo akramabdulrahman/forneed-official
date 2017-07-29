@@ -30,19 +30,18 @@ class ProjectsController extends Controller
     }
 
 
-
     public function create()
     {
         return view('endusers.organizations.forms.projects.create', [
-            'sectors' => Sector::all()->pluck('name', 'id')->toArray(),
-            'extra_types' => ExtraType::getExtraTypes( config('extra_types.citizen'))
+            'sectors' => Auth::user()->serviceProvider()->first()->sectors()->pluck('name', 'id')->toArray(),
+            'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen'))
         ]);
     }
 
     public function edit($id)
     {
         return view('endusers.organizations.forms.projects.edit', [
-            'sectors' => Sector::all()->pluck('name', 'id')->toArray(),
+            'sectors' => Auth::user()->serviceProvider()->first()->sectors()->pluck('name', 'id')->toArray(),
             'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen')),
             'project' => Project::find($id)
         ]);
@@ -75,23 +74,10 @@ class ProjectsController extends Controller
     {
         $project = null;
         $input = $request->all();
-
         DB::transaction(function () use ($input, &$project, $id) {
-
             $project = Project::find($id);
             $project->update($input);
-
-            if (isset($input['targets'])) {
-
-                foreach ($input['targets'] as $target) {
-                    $val = explode('#', $target);
-                    Target::updateOrCreate([
-                        'project_id' => $project->id,
-                        'targetable_id' => $val[1],
-                        'targetable_type' => $val[0]
-                    ]);
-                }
-            }
+            $project->extras()->sync($input['targets']);
         });
         if (($project !== null)) {
             Flash::success('Project saved successfully.');

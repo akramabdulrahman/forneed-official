@@ -196,15 +196,15 @@
     $.fn.dataTable.ext.errMode = 'throw';
 
     $('#dataTableBuilder')
-        .on('preInit.dt', function (e, settings, data) {
+        .on('preXhr.dt', function (e, settings, data) {
             console.log($('#search-form').serializeArray());
             mix($('#search-form').serializeArray(), data);
         })
         .dataTable({
             ajax: "data.json"
         });
-    $('#search-form').on('submit', function (e) {
 
+    $('#search-form').on('submit', function (e) {
         window.LaravelDataTables.dataTableBuilder.draw();
         e.preventDefault();
     });

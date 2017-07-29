@@ -1,4 +1,7 @@
-@extends('dashboard.layout.dashboard')
+@extends('endusers.layout.dashboard')
+@section('menu')
+    @include('endusers.organizations.menu')
+@stop
 @push('page_style_plugins')
 <link rel="stylesheet" href="{{asset('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}">
 <link rel="stylesheet" href="{{asset('/assets/cdn/materialize.min.css')}}"/>

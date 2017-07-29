@@ -19,8 +19,7 @@ class CitizensDatatable extends BaseDatatable
      */
     public function query()
     {
-        $query = Auth::user()->worker()->first()->citizens()->with(array('user', 'sectors', 'areas'))
-            ->selectRaw('distinct citizens.*')->orderBy('id', 'desc');
+        $query = Auth::user()->worker()->first()->citizens();
         return $this->applyScopes($query);
     }
     /**

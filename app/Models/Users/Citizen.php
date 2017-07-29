@@ -145,13 +145,20 @@ class Citizen extends Model
         return $this->belongsToMany(Survey::class);
     }
 
-    public function applicable_surveys()
+    public function applicable_surveys($impersonator = null)
     {
         $extra = $this->extras()->pluck('extras.id');
-        return Survey::whereHas("extras", function ($query) use ($extra) {
+        $surveys =  Survey::whereHas("extras", function ($query) use ($extra) {
             $query->WhereIn('id', $extra);
         })
             ->whereNotIn('id', $this->surveys()->pluck('id'))
             ->whereHas('questions')->where('is_accepted', true);
+
+        if ($impersonator) {
+            $surveys->whereHas('socialWorkers', function ($worker) use ($impersonator) {
+                $worker->where('id', $impersonator);
+            });
+        }
+        return $surveys;
     }
 }

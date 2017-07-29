@@ -38,6 +38,7 @@ class SurveysController extends Controller
 
     public function store(SurveyRequest $request)
     {
+        
         $survey = null;
         $input = $request->all();
         DB::transaction(function () use ($input, &$survey) {

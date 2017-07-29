@@ -168,6 +168,8 @@ return [
         Spatie\Backup\BackupServiceProvider::class,
         Backpack\BackupManager\BackupManagerServiceProvider::class,
         Backpack\LogManager\LogManagerServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
+
         Backpack\Settings\SettingsServiceProvider::class,
         Laracasts\Generators\GeneratorsServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
@@ -184,7 +186,6 @@ return [
         Backpack\CRUD\CrudServiceProvider::class,
 
 
-
         /*
          * Application Service Providers...
          */
@@ -195,7 +196,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
-        App\Providers\DBEventsProvider::class
+        App\Providers\DBEventsProvider::class,
 
     ],
 

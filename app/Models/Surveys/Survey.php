@@ -5,6 +5,7 @@ namespace App\Models\Surveys;
 use App\Models\Chart;
 use App\Models\Extra;
 use App\Models\Project;
+use App\Models\Traits\HasChart;
 use App\Models\Users\Citizen;
 use App\Models\Users\SocialWorker;
 use ConsoleTVs\Charts\Facades\Charts;
@@ -49,7 +50,7 @@ use Carbon\Carbon;
  */
 class Survey extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasChart;
 
     public $table = 'Surveys';
     protected $with = ['extras'];
@@ -105,14 +106,19 @@ class Survey extends Model
     public function charts()
     {
         return $this->morphMany(Chart::class, 'chartable');
-
     }
 
     public function getTargetCriteria()
     {
         return $this->extras->map->id;
     }
+    public function targets_string()
+    {
 
+        return $this->extras->mapWithKeys(function ($v) {
+            return [ucfirst(str_replace('_', ' ', snake_case($v->name))) => $v->extra];
+        });
+    }
     public function related_charts()
     {
         return $this->charts()->get()->map(function ($v) {
@@ -163,6 +169,7 @@ class Survey extends Model
     public function SocialWorkers_string()
     {
         return $this->SocialWorkers->mapWithKeys(function ($v) {
+
             return [$v->user->name];
         })->implode(',');
     }
@@ -174,15 +181,15 @@ class Survey extends Model
      */
     protected static function boot()
     {
+
         parent::boot();
 
         static::addGlobalScope('withQuestions', function (Builder $builder) {
             $builder->with('questions');
         });
+
         static::addGlobalScope('withWorkers', function (Builder $builder) {
             $builder->with('SocialWorkers');
         });
-
-
     }
 }

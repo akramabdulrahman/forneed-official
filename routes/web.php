@@ -49,10 +49,13 @@ Route::group(['namespace' => 'FrontEnd'], function () {
 
 });
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.'], function () {
+Route::group([ 'prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.'], function () {
 
-    Route::group(['middleware' => ['checkUserType:serviceProvider'], 'prefix' => 'org', 'namespace' => 'ServiceProvider', 'as' => 'org.'], function () {
+    Route::group(['middleware' => ['auth','checkUserType:serviceProvider'], 'prefix' => 'org', 'namespace' => 'ServiceProvider', 'as' => 'org.'], function () {
         Route::get('/dashboard', 'DashboardController@index')->name('index');
+        Route::get('/performance','ReportController@performance_stats')->name('performance');
+        Route::post('/performance','ReportController@performanceStatsChart')->name('performance.post');
+
         Route::group(['prefix' => 'projects', 'as' => 'projects.'], function () {
             /*projects*/
             Route::get('/report/{project_id?}', 'ReportController@index')->name('generate.report');
@@ -63,7 +66,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'users', 'namespace' => 'End
             Route::patch('{id}', 'ProjectsController@update')->name('update');
             Route::get('{id}/delete', 'ProjectsController@delete')->name('delete');
             Route::get('/{id}', 'ProjectsController@show')->name('show');
-
             /*projects end*/
 
             /*surveys*/
@@ -89,7 +91,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'users', 'namespace' => 'End
 
         });
         Route::get('/stats', 'SurveyStatsController@index')->name('stats');
-        Route::get('/report', 'SurveyStatsController@index')->name('report');
+        Route::get('/report', 'ReportController@index')->name('report');
     });
     Route::group(['middleware' => ['auth', 'checkUserType:citizen'], 'prefix' => 'ben', 'namespace' => 'Citizens', 'as' => 'ben.'], function () {
         Route::get('/dashboard', 'DashboardController@index')->name('index');
@@ -105,7 +107,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'users', 'namespace' => 'End
         Route::get('citizens/create', 'DashboardController@createCitizen')->name('citizen.create');
         Route::post('citizens/', 'DashboardController@storeCitizen')->name('citizen.store');
         Route::get('{id}/imitate', 'DashboardController@loginas')->name('signinas');
-
+    });
+    Route::group(['middleware' => ['guest'], 'prefix' => 'agents', 'namespace' => 'SocialWorkers', 'as' => 'worker.'], function () {
+               Route::get('/register','RegistrationController@index')->name('register');
+               Route::post('/register','RegistrationController@store')->name('register.store');
     });
 
 });
@@ -217,7 +222,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['namespace' => 'FrontEnd'], function () {
     //citizen routes
-
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('listings/charts/{chart_id}', "AjaxApiController@charts");
+    });
     Route::get('listings/projects/{service_provider_id}', "AjaxApiController@projects");
     Route::get('listings/populated/{model}', "AjaxApiController@populate")->name('populate');
     Route::get('listings/projects/', "AjaxApiController@projectsWithAreas");

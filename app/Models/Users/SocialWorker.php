@@ -8,6 +8,7 @@ use App\Models\Surveys\Survey;
 use App\Models\Traits\HasExtra;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Laracasts\Flash\Flash;
 
 class SocialWorker extends Model
 {
@@ -18,7 +19,6 @@ class SocialWorker extends Model
     private $fillableMap = [
         'gender_id' => null,
         'age_id' => null,
-
     ];
     protected $appends = ['name', 'extrasPopulated'];
 
@@ -39,6 +39,7 @@ class SocialWorker extends Model
 
     public function getNameAttribute()
     {
+        
         if ($this->user()->exists()) {
             return $this->user()->first()->name;
         } else {
@@ -57,17 +58,27 @@ class SocialWorker extends Model
     public function citizens()
     {
         $model = $this;
-        return Citizen::whereHas('extras', function ($query) use ($model) {
-            $query->whereIn('extras.id', $this->projects()
-                ->first()->surveys()->get()->map(function ($row) {
+        if (!$this->projects()->exists()) {
+            Flash::warning('You are not Hired in a project yet , 
+            stay tuned we will email you once your application gets checked');
+            return $this->projects();
+        }
+
+        $surveys = $this->projects()
+            ->first()->surveys()->get();
+        return Citizen::whereDoesntHave('surveys', function ($q) use ($surveys) {
+            $q->whereIn('survey_id', $surveys->map->id);
+        })->whereDoesntHave('user.roles')->whereHas('extras', function ($query) use ($model, $surveys) {
+            $query->whereIn('extras.id', $surveys->map(function ($row) {
                 return $row->extras;
             })->flatten(1)->pluck('id'));
-        });
+        })->with(array('user', 'sectors', 'areas'))
+            ->selectRaw('distinct citizens.*')->orderBy('id', 'desc');
     }
 
     public function surveys()
     {
-        return $this->belongsToMany(Survey::class);
+        return $this->belongsToMany(Survey::class)->withPivot('count');
     }
 
     /**
@@ -78,7 +89,6 @@ class SocialWorker extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::addGlobalScope('withUser', function (Builder $builder) {
             $builder->with('user');
         });

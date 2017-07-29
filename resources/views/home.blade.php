@@ -259,7 +259,7 @@
                     <li><a href="#testimony" data-nav-section="testimony"><span>Testimony</span></a></li>
                     <li><a href="#contact" data-nav-section="contact"><span>contact</span></a></li>
                     <li><a href="#faq" data-nav-section="faq"><span>FAQ</span></a></li>
-
+                    
                 </ul>
             </div>
         </nav>
@@ -314,6 +314,11 @@
                                  data-animate-effect="fadeInUp">
                                 <span class="intro-text-small">Crowd Sourcing  Needs Gathering Proccess !</span>
                                 <h1>Sign Up Your Needs Now</h1>
+                                <a  
+                                href="{{route('endusers.worker.register')}}" >
+                                <span> or Join Forneeds Agents</span>
+                                </a>
+
                             </div>
 
                         </div>

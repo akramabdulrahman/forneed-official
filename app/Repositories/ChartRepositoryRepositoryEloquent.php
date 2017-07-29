@@ -5,12 +5,18 @@ namespace App\Repositories;
 use App\Models\Chart;
 use App\Models\Extra;
 use App\Models\ExtraType;
+use App\Models\Surveys\Answer;
 use ConsoleTVs\Charts\Facades\Charts;
 use Illuminate\Http\Request;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\ChartRepositoryRepository;
 use App\Validators\ChartRepositoryValidator;
+use App\Models\Users\SocialWorker;
+use App\Models\Project;
+use App\Models\Surveys\Survey;
+use Auth;
+use DB;
 
 /**
  * Class ChartRepositoryRepositoryEloquent
@@ -28,40 +34,49 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
         return Chart::class;
     }
 
-    public function render(Request $request, $model)
+    public function render($chart, $model, $target_model = Extra::class, $target_attr = 'name')
     {
-
-        if ($request->has('multi')) {
-            return $this->multiRender($request,$model);
+        if (isset($chart['multi']) && $chart['multi']) {
+            return $this->multiRender($chart, $model);
         }
+
         $model = str_plural(snake_case(class_basename($model)));
-        $theme = explode('_', $request->input('theme'));
-        $target = $request->input('attr_list');
+
+        $theme = explode('_', $chart['theme']);
+
+        $target = $chart['attr_list'];
+
         $COUNT_FUNC = $model . '_count';
-        $data = Extra::whereIn('name', [$target])->get()->groupBy('name')
+
+        $data = $target_model::whereIn($target_attr, [$target])->get()->groupBy($target_attr)
             ->map(function ($cat) use ($COUNT_FUNC) {
                 return $cat->mapWithKeys(function ($row) use ($COUNT_FUNC) {
                     return [$row->extra => $row->$COUNT_FUNC];
                 });
             })->toArray();
 
+        $models = str_plural(trans('user.type_' . snake_case((str_singular($model)))));
         return Charts::create($theme[1], $theme[0])
-            ->title(ucfirst($model) . ' according to ' . $target)
-            ->elementLabel(ucfirst($model) . " Count")->labels(array_keys($data[$target]))
+            ->title($models . ' according to ' . $target)
+            ->elementLabel($models . " Count")->labels(array_keys($data[$target]))
             ->values(array_values($data[$target]))->dimensions(1000, 500)
             ->responsive(false)->width(0)->height(300);
-
     }
 
-    public function multiRender(Request $request, $model)
+    public function multiRender($chart, $model)
     {
-        $theme = explode('_', $request->input('theme'));
-        $target = $request->input('attr_list');
+        $theme = explode('_', $chart['theme']);
+
+        $target = $chart['attr_list'];
+
         $x = explode(':', $target['x']);
+
         $labels = Extra::where('name', '=', $x[2])->pluck('id', 'extra')->keys();
 
         $typesMap = ExtraType::getExtraTypes(config('extra_types.' . snake_case(str_singular(class_basename($model)))));
+
         $xs = Extra::where('name', '=', $x[2])->get();
+
         $data = collect([]);
         $xs->each(function ($x) use (&$data, $target, $typesMap, $model) {
             $records = ($x->attrs_populated($target['y'], $model)->map(function ($cat, $key) use ($typesMap) {
@@ -80,10 +95,10 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
             })->filter(function ($row) {
                 return collect($row)->sum() != 0;
             });
-            if (!$records->isEmpty())
+            if (!$records->isEmpty()) {
                 $data->push($records);
+            }
         });
-
 
         $chart = Charts::multi($theme[1], $theme[0])
             ->responsive(false)
@@ -99,14 +114,55 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
             $chart->dataset($key, $dataset);
         });
 
-
         $elemnt_label = $x[1];
-        $chart->title('Beneficiaries according to ' . $x[2]);
+        $chart->title(str_plural(trans('user.type_' . snake_case(class_basename($model)))) . ' according to ' . $x[2]);
         $chart->elementLabel("Count({$elemnt_label})");
+       
 
+       
         return $chart;
     }
 
+    public function visualize($chart)
+    {
+        $theme = explode('_', $chart['theme']);
+        $survey = null;
+        $answers = $chart['first_ans'];
+        $data = Answer::with('citizens')->whereIn('id', $answers)->get()->map(function ($v) {
+            return count($v->citizens);
+        })->toArray();
+        $labels = array_values(Answer::with('question')->whereIn('id', $answers)
+            ->get()->map(function ($v) use (&$survey) {
+                $survey = $v->question->survey()->first()->id;
+                return $v->question->body . ':' . $v->answer;
+            })->toArray());
+
+        return Charts::create($theme[1], $theme[0])
+            ->title('Citizens that satisfy : ' . collect($labels)->map(function ($v) {
+                    return "({$v})";
+            })->implode(','))
+            ->elementLabel("Citizens")
+            ->responsive(false)
+            ->dimensions(0, 300)
+            ->labels($labels)
+            ->values(array_values($data))
+            ->responsive(false)->width(0)->height(300);
+    }
+
+    public function RenderFromRelation($chart, $datasets, $preaggregated, $elementLabel = "Total", $responsive = false)
+    {
+        $theme = explode('_', $chart['theme']);
+        $time_unit = 'groupBy' . $chart['time_unit'];
+        $time_unit_count = $chart['time_unit_count'];
+        $chart = Charts::multiDatabase($theme[1], $theme[0])
+            ->elementLabel($elementLabel)
+            ->responsive($responsive)->width(0)->height(300);
+        foreach ($datasets as $key => $dataset) {
+            $chart->dataset($key, $dataset);
+        }
+        $chart->preaggregated($preaggregated);
+        return $chart->$time_unit($time_unit_count, true);
+    }
 
     /**
      * Boot up the repository, pushing criteria

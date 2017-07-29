@@ -64,10 +64,10 @@
                     <span class="selected"></span>
                 </a>
             </li>
-            <li class="nav-item  {!! Route::current()->getName() == 'endusers.org.report' ? 'start active open' : '' !!}">
-                <a href="{{route('endusers.org.report')}}" class="nav-link nav-toggle">
+            <li class="nav-item  {!! Route::current()->getName() == 'endusers.org.performance' ? 'start active open' : '' !!}">
+                <a href="{{route('endusers.org.performance')}}" class="nav-link nav-toggle">
                     <i class="fa fa-bar-chart"></i>
-                    <span class="title">Report</span>
+                    <span class="title">Performance Report</span>
                     <span class="selected"></span>
                 </a>
             </li>

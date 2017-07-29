@@ -27,7 +27,8 @@
         "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
         "maatwebsite/excel": "^2.1",
         "phpoffice/phpexcel": "^1.8",
-        "consoletvs/charts": "4.*"
+        "consoletvs/charts": "4.*",
+        "laravel/passport": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

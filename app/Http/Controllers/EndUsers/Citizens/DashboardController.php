@@ -8,16 +8,23 @@ use App\Models\Sector;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+    
         $user = Auth::user();
+        
+        $impersonator = session()->has('impersonator')?
+        User::find(session('impersonator'))->worker()->first()->id:null;
         return view('endusers.citizens.index', [
             "user" => $user,
             'projects' => Project::with('area')->get(),
-            'surveys' => $user->citizen->applicable_surveys()->orderBy('created_at', 'desc')->get()
+            'surveys' => $user->citizen
+            ->applicable_surveys($impersonator)
+            ->orderBy('created_at', 'desc')->get()
         ]);
     }
 

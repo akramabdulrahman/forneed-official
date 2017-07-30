@@ -27,9 +27,11 @@ Route::get('/checkpoint', 'Auth\ProfileCompletionController@index');
 Route::get('/checkpoint/{type}', 'Auth\ProfileCompletionController@choosePath');
 Route::post('/checkpoint/sp/', 'Auth\ProfileCompletionController@completeSpProfile')->name('newSp');
 Route::post('/checkpoint/citizen/', 'Auth\ProfileCompletionController@completeCitizenProfile')->name('newCitizen');
+Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'as' => 'Auth.', 'middleware' => ['auth','checkUserType:admin']],function (){
+    Route::get('/api/register', 'ApiAuthController@index')->name('api');
+});
 
-
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.', 'middleware' => 'auth,checkUserType:admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.', 'middleware' => ['auth','checkUserType:admin']], function () {
 
     Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
     Route::resource('users', 'UserController');

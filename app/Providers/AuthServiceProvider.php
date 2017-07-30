@@ -19,6 +19,7 @@ use App\Policies\SurveyPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies();
+        Passport::routes();
 
 //        // Dynamically register permissions with Laravel's Gate.
 //        foreach ($this->getPermissions() as $permission) {

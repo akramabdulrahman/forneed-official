@@ -11,10 +11,11 @@ use App\Models\Users\SocialWorker;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Backpack\Base\app\Notifications\ResetPasswordNotification as ResetPasswordNotification;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, UserTypeChecks, HasChart;
+    use Notifiable, HasRoles, HasApiTokens,UserTypeChecks, HasChart;
 
     /**
      * The attributes that are mass assignable.

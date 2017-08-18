@@ -16,7 +16,7 @@ class CreateExtraSurveyPivotTable extends Migration
             $table->integer('extra_id')->unsigned()->index();
             $table->foreign('extra_id')->references('id')->on('extras')->onDelete('cascade');
             $table->integer('survey_id')->unsigned()->index();
-            $table->foreign('survey_id')->references('id')->on('surveys')->onDelete('cascade');
+            $table->foreign('survey_id','sr_id_ext_id')->references('id')->on('surveys')->onDelete('cascade');
             $table->primary(['extra_id', 'survey_id']);
         });
     }

@@ -28,6 +28,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\ChartRepository::class, \App\Repositories\ChartRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\SocialWorkerRepository::class, \App\Repositories\SocialWorkerRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\ChartRepository::class, \App\Repositories\ChartRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\App\UserRepository::class, \App\Repositories\App\UserRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\UserRepository::class, \App\Repositories\UserRepositoryEloquent::class);
         //:end-bindings:
     }
 }

@@ -1,6 +1,18 @@
 <?php
 
 use Illuminate\Http\Request;
+// Get current user
+
+Route::group(['namespace'=>'Auth\Api'],function(){
+    Route::post('/login', 'LoginController@login');
+    Route::post('/login/refresh', 'LoginController@refresh');
+
+    Route::post('/logout', 'LoginController@logout')->middleware('auth:api');
+});
+
+Route::get('/me', function (Request $request) {
+    return $request->user();
+})->middleware('auth:api');
 
 /*
 |--------------------------------------------------------------------------

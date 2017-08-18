@@ -184,6 +184,8 @@ return [
         ConsoleTVs\Charts\ChartsServiceProvider::class,
         Backpack\Base\BaseServiceProvider::class,
         Backpack\CRUD\CrudServiceProvider::class,
+        Optimus\ApiConsumer\Provider\LaravelServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
 
         /*

@@ -16,6 +16,7 @@ use App\Policies\ProjectPolicy;
 use App\Policies\ServiceProviderPolicy;
 use App\Policies\SocialWorkerPolicy;
 use App\Policies\SurveyPolicy;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -49,8 +50,18 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(GateContract $gate)
     {
         $this->registerPolicies();
-        Passport::routes();
+        Passport::routes(function ($router) {
+            $router->forAccessTokens();
+            $router->forPersonalAccessTokens();
+            $router->forTransientTokens();
+        });
 
+        Passport::tokensExpireIn(Carbon::now()->addSeconds(10));
+
+        Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
+
+//        Passport::tokensExpireIn(Carbon::now()->addMinutes(10));
+//        Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
 //        // Dynamically register permissions with Laravel's Gate.
 //        foreach ($this->getPermissions() as $permission) {
 //            $gate->define($permission->name, function ($user) use ($permission) {

@@ -28,18 +28,17 @@ class ProjectsDatatable extends BaseDatatable
      */
     private $offset_index = 0;
 
-    public function ajax()
+    public function dataTable()
     {
         return $this->datatables
             ->eloquent($this->query())
             ->addIndexColumn()
+
             ->editColumn('name', function ($project) {
-                return implode('',
-                    [
-                        '<a href="' . route('endusers.org.projects.show', $project->id) . '">',
-                        $project->name,
-                        '</a>'
-                    ]);
+
+                return view('link',
+                    ['route'=>route('endusers.org.projects.show', $project->id),
+                        'label'=>$project->name]);
             })
             ->addColumn('is_accepted', function ($row) {
                 switch ($row->is_accepted) {
@@ -55,12 +54,15 @@ class ProjectsDatatable extends BaseDatatable
                     default:
                         return 'pending';
                 }
-            })->addColumn('action', function ($row) {
+            })->editColumn('action', function ($row) {
                 $modelRoute = 'endusers.org.projects';
                 $id = $row->id;
                 return view('endusers.layout.datatables_actions', compact('modelRoute', 'id'));
             })
-            ->escapeColumns([])->make(true);
+            ->rawColumns(['name'])
+            ->escapeColumns([])
+
+            ;
     }
 
     /**

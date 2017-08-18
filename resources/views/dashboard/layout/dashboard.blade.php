@@ -139,6 +139,10 @@ License: You must have a valid license purchased only from themeforest(the above
                             <a href="{{route('Dashboard.show')}}">
                                 <i class="icon-user"></i> My Profile </a>
                         </li>
+                        <li>
+                            <a href="{{route('Auth.api')}}">
+                                <i class="icon-user"></i> Api Grants </a>
+                        </li>
                         <li class="divider"></li>
                         <li>
                             <a href="{{route('logout')}}">

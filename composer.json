@@ -8,7 +8,7 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
         "backpack/base": "^0.7.19",
-        "barryvdh/laravel-debugbar": "^2.3",
+        "barryvdh/laravel-debugbar": "^2.4",
         "backpack/crud": "^3.2",
         "backpack/langfilemanager": "^1.0",
         "backpack/backupmanager": "^1.1",
@@ -28,7 +28,8 @@
         "maatwebsite/excel": "^2.1",
         "phpoffice/phpexcel": "^1.8",
         "consoletvs/charts": "4.*",
-        "laravel/passport": "^3.0"
+        "laravel/passport": "^3.0",
+        "optimus/api-consumer": "^0.2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

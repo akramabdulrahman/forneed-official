@@ -17,7 +17,7 @@ class ImportExportController extends Controller
 {
     public function importExport($survey_id)
     {
-        return view('importExport', ['survey_id' => $survey_id]);
+        return view('endusers.organizations.importExport', ['survey' => Survey::find($survey_id)]);
     }
 
     public function downloadExcel($survey_id, $type)
@@ -118,5 +118,17 @@ class ImportExportController extends Controller
             }
         }
         return back();
+    }
+
+
+    public function downloadExtrasExcel($type)
+    {
+        $data =
+            Extra::select(['id', 'name', 'extra'])->get();
+        return Excel::create('survey_template', function ($excel) use ($data) {
+            $excel->sheet('mySheet', function ($sheet) use ($data) {
+                $sheet->fromArray($data);
+            });
+        })->download($type);
     }
 }

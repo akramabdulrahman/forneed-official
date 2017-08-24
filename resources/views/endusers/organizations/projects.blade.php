@@ -34,7 +34,7 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a href="providers_index.html">Dashboard</a>
+                    <a href="{{route('endusers.org.index')}}">Dashboard</a>
                     <i class="fa fa-circle"></i>
                 </li>
 

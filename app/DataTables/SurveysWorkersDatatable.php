@@ -55,7 +55,7 @@ class SurveysWorkersDatatable extends DataTable
 
             })
             ->where('is_accepted', true)
-            ->selectRaw('distinct social_workers.*');
+            ->selectRaw(' social_workers.*');
 
         return $this->applyScopes($query);
     }

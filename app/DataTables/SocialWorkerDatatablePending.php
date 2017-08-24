@@ -48,7 +48,7 @@ class SocialWorkerDatatablePending extends BaseDatatable
      */
     public function query()
     {
-        $query = SocialWorker::with(array('user','area','extras'))->selectRaw('distinct social_workers.*');
+        $query = SocialWorker::with(array('user','area','extras'))->selectRaw(' social_workers.*');
         $query->where('is_accepted', false);
 
         return $this->applyScopes($query);

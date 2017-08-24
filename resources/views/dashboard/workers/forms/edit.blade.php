@@ -118,10 +118,12 @@
                         </div>
                     </div>
                     <div class="form-group  col-md-6">
-                        {!! Form::label('is_accepted', 'Accepted:') !!}
+                        {!! Form::label('is_accepted', 'Status Resolved:') !!}
                         <div>
                             {!! Form::checkbox('is_accepted',1,$worker->is_accepted?'checked':'',['class'=>'make-switch','data-off-color'=>'success','data-on-color'=>'info']) !!}
-
+                            @if($worker->is_accepted==2)
+                                {!! Form::label('is_accepted', "REJECTED",["style"=>"color:red"]) !!}
+                            @endif
                         </div>
 
                     </div>

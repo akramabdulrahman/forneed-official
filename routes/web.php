@@ -33,7 +33,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'as' => 'Auth.', 'middl
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.', 'middleware' => ['auth', 'checkUserType:admin']], function () {
 
-     Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
+    Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
     // Route::resource('users', 'UserController');
 
     //Route::resource('projects', 'ProjectController');
@@ -220,10 +220,8 @@ Route::group(['middleware' => 'auth'], function () {
         $path = storage_path('app /public/cvs') . '/' . $filename;
 
         if (!File::exists($path)) abort(404);
-
         $file = File::get($path);
         $type = File::mimeType($path);
-
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
 
@@ -234,17 +232,16 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['namespace' => 'FrontEnd'], function () {
     //citizen routes
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('listings/charts /{
-    chart_id}', "AjaxApiController@charts");
+        Route::get('listings/charts/{chart_id}', "AjaxApiController@charts");
     });
-    Route::get('listings/projects /{service_provider_id}', "AjaxApiController@projects");
-    Route::get('listings/populated /{model}', "AjaxApiController@populate")->name('populate');
+    Route::get('listings/projects/{service_provider_id}', "AjaxApiController@projects");
+    Route::get('listings/populated/{model}', "AjaxApiController@populate")->name('populate');
     Route::get('listings/projects/', "AjaxApiController@projectsWithAreas");
-    Route::get('listings/surveys /{project_id}', "AjaxApiController@surveys");
+    Route::get('listings/surveys/{project_id}', "AjaxApiController@surveys");
     Route::get('listings/questions/{survey_id}', "AjaxApiController@questions");
     Route::get('gateways/listings/{model}', "AjaxApiController@Listings")->name('getListing');
 
-    Route::get('/service - requests', 'ProfileController@serviceRequests');
+    Route::get('/service-requests', 'ProfileController@serviceRequests');
 
     //  Route::get('/dashboard', 'ProfileController@dashboard');
 

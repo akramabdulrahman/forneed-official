@@ -1,6 +1,6 @@
 @extends('dashboard.layout.dashboard')
 @push('page_style_plugins')
-<link rel="stylesheet" href="/js/buttons/css/buttons.dataTables.css">
+<link rel="stylesheet" href="{{asset('/js/buttons/css/buttons.dataTables.css')}}">
 <link rel="stylesheet" href="{{asset('/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}">
 
 <style>

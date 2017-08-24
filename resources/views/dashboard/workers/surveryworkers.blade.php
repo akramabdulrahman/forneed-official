@@ -1,22 +1,20 @@
 @extends('dashboard.layout.dashboard')
 @push('page_style_plugins')
-<link rel="stylesheet" href="{{asset('/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('/js/buttons/css/buttons.dataTables.css')}}">
+    <link rel="stylesheet"
+          href="{{asset('/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}">
 
+    <style>
+        #dataTableBuilder_filter {
+            display: inline-block;
+            float: right;
+        }
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.dataTables.min.css">
-<style>
-    #dataTableBuilder_filter {
-        display: inline-block;
-        float: right;
-    }
-
-    #dataTableBuilder_length {
-        display: inline-block;
-        line-height: 1.42857;
-    }
-</style>
-
+        #dataTableBuilder_length {
+            display: inline-block;
+            line-height: 1.42857;
+        }
+    </style>
 @endpush
 @section('content')
     <!-- BEGIN CONTENT BODY -->
@@ -102,15 +100,14 @@
 @stop
 
 @push('page_script_plugins')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
-<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
 
-
-<script src="https://cdn.datatables.net/buttons/1.2.1/js/dataTables.buttons.min.js"></script>
-<script src="{{asset('/vendor/datatables/buttons.server-side.js')}}"></script>
-{!! $dataTable->scripts() !!}
+    <script src="/js/buttons/js/dataTables.buttons.js"></script>
+    <script src="/vendor/datatables/buttons.server-side.js"></script>
+    {!! $dataTable->scripts() !!}
 <script>
 
 </script>

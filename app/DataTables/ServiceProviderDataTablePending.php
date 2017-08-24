@@ -45,28 +45,7 @@ class ServiceProviderDataTablePending extends BaseDatatable
         return $this->applyScopes($serviceProviders);
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->addAction(['width' => '10%'])
-            ->ajax('')
-            ->parameters([
-                'dom' => 'lBfrtip',
-                "bDestroy" => true,
-                'buttons' => [
-                    'print',
-                    'reset',
-                    'reload',
-                    'export',
-                ]
-            ]);
-    }
+
 
     /**
      * Get columns.

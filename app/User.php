@@ -15,7 +15,7 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, HasApiTokens,UserTypeChecks, HasChart;
+    use Notifiable, HasRoles, HasApiTokens, UserTypeChecks, HasChart;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +36,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $appends = ['user_type'];
+    protected $appends = ['userType'];
 
     /**
      * Send the password reset notification.

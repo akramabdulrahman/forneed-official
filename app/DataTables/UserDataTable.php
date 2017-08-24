@@ -7,7 +7,7 @@ use Form;
 use Intervention\Image\Facades\Image;
 use Yajra\Datatables\Services\DataTable;
 
-class UserDataTable extends DataTable
+class UserDataTable extends BaseDatatable
 {
 
 //    public function __construct(Datatables $datatables, Factory $viewFactory)
@@ -42,57 +42,23 @@ class UserDataTable extends DataTable
     public
     function query()
     {
-        $users = User::selectRaw('distinct users.*')->orderBy('created_at','desc');
+        $users = User::with('roles')->selectRaw('distinct users.*')->orderBy('created_at', 'desc');
         return $this->applyScopes($users);
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public
-    function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->addAction(['width' => '10%'])
-            ->ajax('')
-
-            ->parameters([
-                'dom' => 'lBfrtip',
-                'scrollX' => false,
-                'buttons' => [
-                    'create',
-                    'print',
-                    'reset',
-                    'reload',
-                    [
-                        'extend' => 'collection',
-                        'text' => '<i class="fa fa-download"></i> Export',
-                        'buttons' => [
-                            'csv',
-                            'excel',
-                            'pdf',
-                        ],
-                    ]
-                ]
-            ]);
-    }
 
     /**
      * Get columns.
      *
      * @return array
      */
-    private
-    function getColumns()
+    protected function getColumns()
     {
         return [
             'avatar' => ['name' => 'avatar', 'data' => 'avatar', 'searchable' => false, 'orderable' => false, 'width' => '20px'],
             'name' => ['name' => 'name', 'data' => 'name'],
             'email' => ['name' => 'email', 'data' => 'email'],
-            'user_type' => ['name' => 'user_type', 'data' => 'user_type', 'searchable' => true, 'orderable' => true],
+            'user_type' => ['name' => 'roles.name', 'data' => 'userType', 'searchable' => true, 'orderable' => true],
 
         ];
     }

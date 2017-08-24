@@ -78,7 +78,7 @@ class CrudController extends Controller
             'sectors' => Sector::pluck('name', 'id'),
             'areas' => Area::pluck('name', 'id'),
             'extras' => Extra::whereIn('name', config('extra_types.service_provider'))->get()->groupBy('name'),
-            'service_provider_extras' => $user->extras()->pluck('extra_id', 'name')
+            'service_provider_extras' => $user->extras()->pluck('id', 'name')
         ]);
     }
 

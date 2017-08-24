@@ -74,7 +74,6 @@ class CrudController extends Controller
     {
 
         $user = Citizen::with('user')->find($id);
-
         return view('dashboard.beneficiaries.forms.edit', [
             "user" => $user->user()->first(),
             'citizen' => $user,
@@ -82,7 +81,7 @@ class CrudController extends Controller
             'areas' => Area::pluck('name', 'id'),
             'fields' => config('extra_types.citizen'),
             'extras' => Extra::whereIn('name', config('extra_types.citizen'))->get()->groupBy('name'),
-            'citizen_extras' => $user->extras()->pluck('extra_id', 'name')
+            'citizen_extras' => $user->extras()->pluck('id', 'name')
         ]);
     }
 
@@ -114,6 +113,7 @@ class CrudController extends Controller
             $user->update($request->only('name', 'email'));
             $user->save();
         }, 5);
+        Flash::success('User Updated successfully.');
 
         return redirect()->back();
     }

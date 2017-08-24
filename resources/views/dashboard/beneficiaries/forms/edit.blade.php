@@ -64,7 +64,7 @@
                     @foreach($extras as $cat=>$extra)
                         <?php $name = ucfirst(implode(' ', explode('_', snake_case($cat))));?>
                         <div class="form-group col-sm-6">
-                            {{ Form::select("extra[$cat]", $extra->pluck('extra','id'),isset($citizen_extras[$cat])?$citizen_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $name"]) }}
+                            {{ Form::select("extra[$cat]",$extra->pluck('extra','id'),isset($citizen_extras[$cat])?$citizen_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $name"]) }}
                         </div>
                     @endforeach
 

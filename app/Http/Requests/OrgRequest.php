@@ -29,7 +29,7 @@ class OrgRequest extends FormRequest
             $user = $sp->user->id;
 
         }
-        if (!$this->input('is_accepted')) {
+        if (!$this->input('sp.is_accepted')) {
 
             $input = (object)$this->all();
             $input->sp['is_accepted'] = false;

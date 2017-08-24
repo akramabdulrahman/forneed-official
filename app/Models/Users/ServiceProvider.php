@@ -8,6 +8,7 @@ use App\Models\Sector;
 use App\Models\Surveys\Survey;
 use App\Models\Traits\HasExtra;
 use App\Models\Traits\HasSectors;
+use App\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -66,7 +67,7 @@ class ServiceProvider extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
 

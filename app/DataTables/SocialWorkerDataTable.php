@@ -39,7 +39,7 @@ class SocialWorkerDataTable extends BaseDatatable
      */
     public function query()
     {
-        $query = SocialWorker::with(array('user', 'area', 'extras'))->selectRaw('distinct social_workers.*');;;
+        $query = SocialWorker::with(array('user', 'area', 'extras'))->selectRaw(' social_workers.*');;;
 
         return $this->applyScopes($query);
     }

@@ -41,8 +41,7 @@ class ServiceProviderDataTablePending extends BaseDatatable
      */
     public function query()
     {
-        $serviceProviders = ServiceProvider::with(array('user', 'sectors', 'areas'))->selectRaw('distinct service_providers.*');;
-        $serviceProviders->where('is_accepted', false);
+        $serviceProviders = ServiceProvider::with(array('user','sectors', 'areas'))->where('is_accepted', false)->selectRaw(' service_providers.*');;
         return $this->applyScopes($serviceProviders);
     }
 

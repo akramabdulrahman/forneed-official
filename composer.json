@@ -1,76 +1,79 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "type": "project",
-    "require": {
-        "php": ">=5.6.4",
-        "laravel/framework": "5.4.*",
-        "backpack/base": "^0.7.19",
-        "barryvdh/laravel-debugbar": "^2.4",
-        "backpack/crud": "^3.2",
-        "backpack/langfilemanager": "^1.0",
-        "backpack/backupmanager": "^1.1",
-        "backpack/logmanager": "^2.3",
-        "backpack/settings": "^2.0",
-        "grimthorr/laravel-toast": "^1.1",
-        "yajra/laravel-datatables-oracle": "^7.4",
-        "yajra/laravel-datatables-buttons": "1.1",
-        "yajra/laravel-datatables-html": "1.0",
-        "laracasts/flash": "^3.0",
-        "laravel/tinker": "^1.0",
-        "prettus/l5-repository": "^2.6",
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "knplabs/knp-snappy": "^0.5.0",
-        "barryvdh/laravel-snappy": "^0.3.3",
-        "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
-        "maatwebsite/excel": "^2.1",
-        "phpoffice/phpexcel": "^1.8",
-        "consoletvs/charts": "4.*",
-        "laravel/passport": "^3.0",
-        "optimus/api-consumer": "^0.2.3"
-    },
-    "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.0",
-        "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "backpack/generators": "^1.1",
-        "laracasts/generators": "dev-master"
-    },
-    "autoload": {
-        "classmap": [
-            "database"
-        ],
-        "psr-4": {
-            "App\\": "app/",
-            "Reporting\\": "packages/akramabdulrahman/Reporting/src"
-        }
-    },
-    "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
-    },
-    "scripts": {
-        "post-root-package-install": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
-        ]
-    },
-    "config": {
-        "preferred-install": "dist"
+  "name": "laravel/laravel",
+  "description": "The Laravel Framework.",
+  "keywords": [
+    "framework",
+    "laravel"
+  ],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=5.6.4",
+    "laravel/framework": "5.4.*",
+    "backpack/base": "^0.7.19",
+    "barryvdh/laravel-debugbar": "^2.4",
+    "backpack/crud": "^3.2",
+    "backpack/langfilemanager": "^1.0",
+    "backpack/backupmanager": "^1.1",
+    "backpack/logmanager": "^2.3",
+    "backpack/settings": "^2.0",
+    "grimthorr/laravel-toast": "^1.1",
+    "yajra/laravel-datatables-oracle": "^7.4",
+    "yajra/laravel-datatables-buttons": "1.1",
+    "yajra/laravel-datatables-html": "1.0",
+    "laracasts/flash": "^3.0",
+    "laravel/tinker": "^1.0",
+    "prettus/l5-repository": "^2.6",
+    "h4cc/wkhtmltopdf-amd64": "0.12.3",
+    "knplabs/knp-snappy": "^0.5.0",
+    "barryvdh/laravel-snappy": "^0.3.3",
+    "wemersonjanuario/wkhtmltopdf-windows": "0.12.2.3",
+    "maatwebsite/excel": "^2.1",
+    "phpoffice/phpexcel": "^1.8",
+    "consoletvs/charts": "4.*",
+    "laravel/passport": "^3.0",
+    "optimus/api-consumer": "^0.2.3",
+  },
+  "require-dev": {
+    "fzaninotto/faker": "~1.4",
+    "mockery/mockery": "0.9.*",
+    "phpunit/phpunit": "~5.0",
+    "symfony/css-selector": "3.1.*",
+    "symfony/dom-crawler": "3.1.*",
+    "backpack/generators": "^1.1",
+    "laracasts/generators": "dev-master"
+  },
+  "autoload": {
+    "classmap": [
+      "database"
+    ],
+    "psr-4": {
+      "App\\": "app/",
+      "Reporting\\": "packages/akramabdulrahman/Reporting/src"
     }
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/TestCase.php"
+    ]
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ],
+    "post-install-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postInstall",
+      "php artisan optimize"
+    ],
+    "post-update-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "php artisan optimize"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  }
 }

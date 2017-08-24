@@ -33,7 +33,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'as' => 'Auth.', 'middl
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.', 'middleware' => ['auth', 'checkUserType:admin']], function () {
 
-    // Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
+     Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
     // Route::resource('users', 'UserController');
 
     //Route::resource('projects', 'ProjectController');
@@ -203,7 +203,7 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin'], 'prefix' => 'dash
         Route::group(['prefix' => 'crud', 'as' => 'crud.'], function () {
             Route::get('/', 'CrudController@index')->name('list');
             Route::get('/create', 'CrudController@create')->name('create');
-            Route::get(' /{id}/edit', 'CrudController@edit')->name('edit');
+            Route::get('/{id}/edit', 'CrudController@edit')->name('edit');
             Route::post('/store', 'CrudController@store')->name('store');
             Route::patch('{id}/update', 'CrudController@update')->name('update');
             Route::get('{id}/delete', 'CrudController@destroy')->name('delete');

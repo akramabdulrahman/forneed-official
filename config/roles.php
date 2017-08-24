@@ -15,5 +15,8 @@ return [
     'content',
     'moderator',
     'legit',
-    'imitator'
+    'imitator',
+    'Beneficiary',
+    'Service Provider',
+    'Social Worker'
 ];

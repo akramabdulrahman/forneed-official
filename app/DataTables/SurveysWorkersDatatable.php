@@ -6,7 +6,7 @@ use App\Models\Users\SocialWorker;
 use App\User;
 use Yajra\Datatables\Services\DataTable;
 
-class SurveysWorkersDatatable extends DataTable
+class SurveysWorkersDatatable extends BaseDatatable
 {
 
     private $includes = [];
@@ -33,7 +33,6 @@ class SurveysWorkersDatatable extends DataTable
             ->addColumn('action', function ($row) {
                 $modelRoute = "Dashboard.work";
                 $id = $row->id;
-
                 $survey_id = $this->includes['survey_id'];
                 return view('dashboard.workers.actions', compact('modelRoute', 'survey_id', 'id'));
             });
@@ -49,10 +48,8 @@ class SurveysWorkersDatatable extends DataTable
         $request = $this->request();
         $query = SocialWorker::with(array('user'))
             ->whereHas('surveys', function ($s) use ($request) {
-
                 $survey = $this->includes['survey_id'];
                 $s->where('social_worker_survey.survey_id', $survey);
-
             })
             ->where('is_accepted', true)
             ->selectRaw(' social_workers.*');
@@ -60,28 +57,7 @@ class SurveysWorkersDatatable extends DataTable
         return $this->applyScopes($query);
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\Datatables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->columns($this->getColumns())
-            ->ajax('')
-            ->addAction(['width' => '80px'])
-            ->parameters([
-                'dom' => 'Btp',
-                "bDestroy" => true,
-                'buttons' => [
-                    'print',
-                    'reset',
-                    'reload',
-                    'export',
-                ]
-            ]);
-    }
+
 
     /**
      * Get columns.

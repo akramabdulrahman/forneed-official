@@ -25,6 +25,8 @@ trait HasExtra
         return $this->extrasPopulated()->first();
     }
 
+
+
     public function extrasPopulated()
     {
         $pivotModel = (class_basename(get_class($this)) . 'Extra');
@@ -38,8 +40,6 @@ trait HasExtra
         $query->join('extras', "{$class}_extras.extra_id", '=', 'extras.id')->groupBy("{$class}_id");;
         return $query;
     }
-
-
 
 
 }

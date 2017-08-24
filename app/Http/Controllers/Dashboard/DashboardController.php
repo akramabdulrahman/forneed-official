@@ -27,6 +27,7 @@ class DashboardController extends Controller
 
     public function show()
     {
-        return view('dashboard.user_profile', ['user' => Auth::user()]);
+        $user = Auth::user();
+        return view('dashboard.user_profile', ['user' => $user, 'types' => $user->type_relations()]);
     }
 }

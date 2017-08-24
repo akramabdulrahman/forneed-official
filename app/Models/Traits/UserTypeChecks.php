@@ -58,17 +58,30 @@ trait UserTypeChecks
     public function getUserTypeAttribute()
     {
         return collect([
-            trans('user.type_service_provider')=>$this->isServiceProvider(),
-            trans('user.type_citizen')=> $this->isCitizen(),
-            trans('user.type_social_worker')=> $this->isWorker(),
+            trans('user.type_service_provider') => $this->isServiceProvider(),
+            trans('user.type_citizen') => $this->isCitizen(),
+            trans('user.type_social_worker') => $this->isWorker(),
         ])->filter(function ($val) {
             return $val;
         })->pipe(function ($data) {
-            return $data->isEmpty()?
-                   $data->merge([trans('user.type_no_type')=>true]):
-                   $data ;
+            return $data->isEmpty() ?
+                $data->merge([trans('user.type_no_type') => true]) :
+                $data;
         })->mapWithKeys(function ($row, $key) {
             return [$key];
         })->merge($this->roles()->pluck('name'))->implode(',');
+    }
+
+    public function type_relations()
+    {
+        return collect([
+            "serviceProvider" => $this->isServiceProvider(),
+            "citizen" => $this->isCitizen(),
+            "worker" => $this->isWorker(),
+        ])->filter(function ($v, $k) {
+            return $v;
+        })->keys()->mapWithKeys(function ($v) {
+            return [(str_replace('_', ' ', snake_case($v))) => $this->$v()->first()->toArray()];
+        });
     }
 }

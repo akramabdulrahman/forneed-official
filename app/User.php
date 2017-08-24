@@ -26,7 +26,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
-
+    protected $exColumns = ['user_id', 'id', 'deleted_at', 'updated_at', 'created_at'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -54,5 +54,6 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
 
 }

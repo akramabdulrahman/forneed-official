@@ -27,7 +27,6 @@ class SurveyStatsController extends Controller
     public function index()
     {
         $projects = Auth::user()->serviceProvider()->first()->projects()->pluck('name', 'id');
-
         return view('endusers.organizations.surveyStats', [
             'projects' => $projects,
         ]);

@@ -49,6 +49,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'FrontEnd'], function () {
             Route::get('{id}/downloadExcel/{type}', 'ImportExportController@downloadExcel')->name('export');
             Route::post('{id}/importExcel', 'ImportExportController@importExcel')->name('import');
         });
+        Route::group(['prefix' => 'extras', 'as' => 'extras.'], function () {
+            Route::get('downloadExcel/{type}', 'ImportExportController@downloadExtrasExcel')->name('export');
+        });
     });
 
     Route::get('/profile', 'ProfileController@index')->name('profile');

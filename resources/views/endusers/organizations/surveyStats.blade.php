@@ -12,7 +12,7 @@
         <div class="page-bar">
             <ul class="page-breadcrumb">
                 <li>
-                    <a href="providers_index.html">Dashboard</a>
+                    <a href="{{route('endusers.org.index')}}">Dashboard</a>
                     <i class="fa fa-circle"></i>
                 </li>
 
@@ -61,6 +61,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="form-group col-sm-12">
+
                                         {!! Form::label('project_select', 'Project:') !!}
                                         {{ Form::select('project_select',[null => 'please select project']+ $projects->toArray() ,array(),['class'=>'selectpicker form-control','data-style'=>"btn-default",'id'=>'project_select']) }}
                                     </div>

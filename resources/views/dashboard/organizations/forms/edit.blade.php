@@ -91,12 +91,14 @@
                         {!! Form::text( 'sp[contact_person_title]', $sp->contact_person_title, ['class' => 'form-control']) !!}
                     </div>
                     <div class="form-group  col-md-12">
-                        {!! Form::label('sp[is_accepted]', 'Accepted:') !!}
+                        {!! Form::label('sp[is_accepted]', 'Status Resolved:') !!}
                         <div>
                             {!! Form::checkbox('sp[is_accepted]',1,$sp->is_accepted?'checked':'',['class'=>'make-switch','data-off-color'=>'success','data-on-color'=>'info']) !!}
 
                         </div>
-
+                        @if($sp->is_accepted==2)
+                        {!! Form::label('sp[is_accepted]', "REJECTED",["style"=>"color:red"]) !!}
+                        @endif
                     </div>
                     <div class="form-group col-sm-12 margin-top-10">
                         <input type="submit" value="edit" class="btn green"/>

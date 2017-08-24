@@ -5,14 +5,14 @@ return array(
 
     'pdf' => array(
         'enabled' => true,
-        'binary'  => base_path('vendor/bin/wkhtmltopdf.exe.bat'),
+        'binary'  => ('/usr/bin/xvfb-run -- /usr/local/bin/wkhtmltopdf'),
         'timeout' => false,
         'options' => array(),
         'env'     => array(),
     ),
     'image' => array(
         'enabled' => true,
-        'binary'  => base_path('vendor/bin/wkhtmltopdf.exe.bat'),
+        'binary'  => base_path('vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64'),
         'timeout' => false,
         'options' => array(),
         'env'     => array(),

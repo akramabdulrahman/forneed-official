@@ -16,7 +16,7 @@
                       label="{{ucwords($quest->body).':'}}"
                       data-max-options="1">
                 @foreach($quest->answers as $answer)
-                    <option value="{{$quest->id.'_'.$answer->id}}">{{$answer->answer}}</option>
+                    <option value="{{$answer->id}}">{{$answer->answer}}</option>
                 @endforeach
             </optgroup>
         @endforeach

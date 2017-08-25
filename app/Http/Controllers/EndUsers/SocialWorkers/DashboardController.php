@@ -40,7 +40,8 @@ class DashboardController extends Controller
      * */
     public function index(CitizensDatatable $citizensDatatable)
     {
-        if (!Auth::user()->worker->first()->projects()->exists()) {
+        $hired = Auth::user()->worker->first()->projects()->exists();
+        if (!$hired) {
             Flash::warning('You are not Hired in a project yet , 
             stay tuned we will email you once your application gets checked');
         }
@@ -48,9 +49,9 @@ class DashboardController extends Controller
             [
                 ['data' => 'id', 'name' => 'id',
                     'title' => 'Id', 'searchable' => true],
-                ['data'=>'user.name','name' => 'user.name',
+                ['data' => 'user.name', 'name' => 'user.name',
                     'title' => 'name', 'searchable' => true],
-                ['data'=>'user.email','name' => 'user.email',
+                ['data' => 'user.email', 'name' => 'user.email',
                     'title' => 'name', 'searchable' => true],
                 'sectors' => ['title' => 'Sectors', 'name' => 'sectors.name',
                     'data' => 'sectorsPopulated'],
@@ -60,7 +61,7 @@ class DashboardController extends Controller
                 ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Created At', 'searchable' => false],
                 ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Updated At', 'searchable' => false],
             ]))
-            ->repoConfig($this->citizenRepo)->render('endusers.workers.crud');
+            ->repoConfig($this->citizenRepo)->render('endusers.workers.crud', ['hired' => $hired]);
     }
 
 

@@ -23,7 +23,6 @@ class RegistrationController extends Controller
     }
     public function store(WorkRequest $request)
     {
-
         $user=null;
         DB::transaction(function () use ($request,&$user) {
             $user = User::create($request->only('user')['user']);
@@ -32,7 +31,6 @@ class RegistrationController extends Controller
             $sw->user()->associate($user);
             $sw->save();
             $sw->extras()->attach(array_values($request->get('extra')));
-
         }, 5);
         Auth::loginUsingId($user->id);
         Flash::success('Your Application Completed Successfully !');

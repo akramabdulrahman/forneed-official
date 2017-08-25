@@ -40,7 +40,7 @@ class DashboardController extends Controller
      * */
     public function index(CitizensDatatable $citizensDatatable)
     {
-        $hired = Auth::user()->worker->first()->projects()->exists();
+        $hired = Auth::user()->worker()->first()->projects()->exists();
         if (!$hired) {
             Flash::warning('You are not Hired in a project yet , 
             stay tuned we will email you once your application gets checked');

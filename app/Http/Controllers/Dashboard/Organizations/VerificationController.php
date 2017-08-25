@@ -12,11 +12,13 @@ use App\Models\Surveys\Survey;
 use App\Models\Users\ServiceProvider;
 use App\Models\Users\SocialWorker;
 use App\Notifications\ServiceProviderAccepted;
+use App\Notifications\WorkerHired;
 use App\User;
 use App\Notifications\ProjectAccepted;
 use App\Notifications\SurveyAccepted;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Queue\Worker;
 use Illuminate\Support\Facades\Notification;
 
 class VerificationController extends Controller
@@ -53,9 +55,6 @@ class VerificationController extends Controller
     {
         $mod = str_replace('-', '\\', $model);
         $sp = $mod::findOrFail($id);
-        if($mod == SocialWorker::class){
-            $sp->projects()->sync([$project]);
-        }
         $is_accepted = $request->input('is_accepted');
         $sp->is_accepted = $is_accepted;
         $sp->save();
@@ -74,6 +73,12 @@ class VerificationController extends Controller
                     $notification = new SurveyAccepted($sp);
                     Notification::send($notification->getTargets(), $notification);
                     break;
+                case 'social_worker':
+                    $sp->projects()->sync([$project]);
+
+                    $notification = new WorkerHired($sp);
+                    Notification::send($notification->getTargets(), $notification);
+
                 default:
                     break;
             }

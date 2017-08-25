@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'FrontEnd'], function () {
             Route::get('{id}/downloadExcel/{type}', 'ImportExportController@downloadExcel')->name('export');
             Route::post('{id}/importExcel', 'ImportExportController@importExcel')->name('import');
         });
+
         Route::group(['prefix' => 'extras', 'as' => 'extras.'], function () {
             Route::get('downloadExcel/{type}', 'ImportExportController@downloadExtrasExcel')->name('export');
         });
@@ -119,8 +120,7 @@ Route::group(['prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.
         Route::get('/citizens', 'DashboardController@index')->name('index');
         Route::get('citizens/create', 'DashboardController@createCitizen')->name('citizen.create');
         Route::post('citizens/', 'DashboardController@storeCitizen')->name('citizen.store');
-        Route::get('{
-    id}/imitate', 'DashboardController@loginas')->name('signinas');
+        Route::get('{id}/imitate', 'DashboardController@loginas')->name('signinas');
     });
     Route::group(['middleware' => ['guest'], 'prefix' => 'agents', 'namespace' => 'SocialWorkers', 'as' => 'worker.'], function () {
         Route::get('/register', 'RegistrationController@index')->name('register');
@@ -194,9 +194,9 @@ Route::group(['middleware' => ['auth', 'checkUserType:admin'], 'prefix' => 'dash
         Route::post('/stats/', 'StatsController@render')->name('stats.post');
 
         Route::get('/monitor', 'MandeController@index')->name('monitor');
-        Route::get(' /{id}/survey', 'MandeController@survery_workers')->name('survey');
-        Route::get(' /{id}/survey/{worker_id}/worker/payment', 'MandeController@make_payment')->name('payment');
-        Route::get(' /{id}/message', 'MandeController@message')->name('message');
+        Route::get('/{id}/survey', 'MandeController@survery_workers')->name('survey');
+        Route::get('/{id}/survey/{worker_id}/worker/payment', 'MandeController@make_payment')->name('payment');
+        Route::get('/{id}/message', 'MandeController@message')->name('message');
         Route::get('/hire/', 'HiringController@index')->name('hire');
         Route::get('{id}/applicants', 'HiringController@applicants')->name('applicants');
 

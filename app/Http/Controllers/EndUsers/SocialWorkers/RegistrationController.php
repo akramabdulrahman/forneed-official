@@ -27,12 +27,12 @@ class RegistrationController extends Controller
         $user=null;
         DB::transaction(function () use ($request,&$user) {
             $user = User::create($request->only('user')['user']);
-            $sw =  SocialWorker::create($request->except('user'));
+            $sw = new  SocialWorker ($request->except('user'));
             $sw->cv = ($request->cv->store('public/cvs'));
-
-            $sw->extras()->attach(array_values($request->get('extra')));
             $sw->user()->associate($user);
             $sw->save();
+            $sw->extras()->attach(array_values($request->get('extra')));
+
         }, 5);
         Auth::loginUsingId($user->id);
         Flash::success('Your Application Completed Successfully !');

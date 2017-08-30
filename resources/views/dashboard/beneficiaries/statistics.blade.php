@@ -1,90 +1,97 @@
 @extends('dashboard.layout.dashboard')
 @push('page_style_plugins')
-<link rel="stylesheet" href="{{asset('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}">
-<link rel="stylesheet" href="{{asset('/assets/cdn/materialize.min.css')}}"/>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
+    <link rel="stylesheet" href="{{asset('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/cdn/materialize.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
 
-<link rel="stylesheet" href="https://pivottable.js.org/dist/pivot.css"/>
+    <link rel="stylesheet" href="https://pivottable.js.org/dist/pivot.css"/>
 
-<style>
-    @media print {
-        body * {
-            visibility: hidden;
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+
+            @page { size: landscape; }
+            .section-to-print, .section-to-print * {
+                visibility: visible;
+            }
+
+            .section-to-print {
+                width:95%;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .no-print *{
+                visibility: hidden !important;
+            }
+
         }
 
-        .section-to-print, .section-to-print * {
-            visibility: visible;
+        #tab_1_3 select {
+            display: inline-table;
+            width: 80%;
         }
 
-        .section-to-print {
+        .pvtUi {
+            width: 100%;
+        }
+
+        .whiteborder {
+            border-color: white;
+        }
+
+        .greyborder {
+            border-color: lightgrey;
+        }
+
+        #filechooser {
+            color: #555;
+            text-decoration: underline;;
+            cursor: pointer; /* "hand" cursor */
+        }
+
+        .node {
+            border: solid 1px white;
+            font: 10px sans-serif;
+            line-height: 12px;
+            overflow: hidden;
             position: absolute;
-            left: 0;
-            top: 0;
+            text-indent: 2px;
         }
-    }
 
-    #tab_1_3 select {
-        display: inline-table;
-        width: 80%;
-    }
+        .c3-line, .c3-focused {
+            stroke-width: 3px !important;
+        }
 
-    .pvtUi {
-        width: 100%;
-    }
+        .c3-bar {
+            stroke: white !important;
+            stroke-width: 1;
+        }
 
-    .whiteborder {
-        border-color: white;
-    }
+        .c3 text {
+            font-size: 12px;
+            color: grey;
+        }
 
-    .greyborder {
-        border-color: lightgrey;
-    }
+        .tick line {
+            stroke: white;
+        }
 
-    #filechooser {
-        color: #555;
-        text-decoration: underline;;
-        cursor: pointer; /* "hand" cursor */
-    }
+        .c3-axis path {
+            stroke: grey;
+        }
 
-    .node {
-        border: solid 1px white;
-        font: 10px sans-serif;
-        line-height: 12px;
-        overflow: hidden;
-        position: absolute;
-        text-indent: 2px;
-    }
+        .c3-circle {
+            opacity: 1 !important;
+        }
 
-    .c3-line, .c3-focused {
-        stroke-width: 3px !important;
-    }
-
-    .c3-bar {
-        stroke: white !important;
-        stroke-width: 1;
-    }
-
-    .c3 text {
-        font-size: 12px;
-        color: grey;
-    }
-
-    .tick line {
-        stroke: white;
-    }
-
-    .c3-axis path {
-        stroke: grey;
-    }
-
-    .c3-circle {
-        opacity: 1 !important;
-    }
-
-    .c3-xgrid-focus {
-        visibility: hidden !important;
-    }
-</style>
+        .c3-xgrid-focus {
+            visibility: hidden !important;
+        }
+    </style>
 @endpush
 @section('content')
 
@@ -187,7 +194,7 @@
                             </div>
                             <div class="form-group col-sm-10">
                                 {!! Form::label('attr_list', 'X indicator:') !!}
-                                {{Form::select('attr_list[x]',$target_types_m ,null,['class'=>'select2me show-tick show-menu-arrow form-control','data-style'=>"btn-default",'id'=>'attr_list_x'])}}
+                                {{Form::select('attr_list[x]',$target_types_m_types,null,['class'=>'select2me show-tick show-menu-arrow form-control','data-style'=>"btn-default",'id'=>'attr_list_x'])}}
                             </div>
                             <div class="form-group col-sm-10">
                                 {!! Form::label('attr_list', 'Y indicators:') !!}
@@ -231,13 +238,13 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="icon-settings font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">Pio Chart based on <span
+                            <span class="caption-subject font-red sbold uppercase"><span id="chart-type-label"></span> Chart based on <span
                                         class="attribute_name">(<span id="chart-label"></span>)</span></span>
                         </div>
-                        <div class="actions">
+                        <div class="actions no-print" >
 
-                            <button href="#" class="btn  blue ">
-                                <i class="fa fa-print"></i> Print
+                            <button href="#"  onClick="window.print()" class="btn  blue ">
+                                <i class="fa fa-print" ></i> Print
                             </button>
                             <button class="btn green" data-chart="per" data-model="{{$namespace}}" id="save_chart">
                                 <i class="fa fa-save"></i> Save
@@ -269,126 +276,133 @@
 
 @stop
 @push('page_script_plugins')
-<script src="{{asset('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
-<script src="{{asset('/assets/pages/scripts/components-bootstrap-switch.min.js')}}"></script>
+    <script src="{{asset('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+    <script src="{{asset('/assets/pages/scripts/components-bootstrap-switch.min.js')}}"></script>
 
-{!! Charts::assets() !!}
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
-<script type="text/javascript" src="{{asset('/js/pivotable/pivot.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/pivotable/d3_renderers.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/pivotable/c3_renderers.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/pivotable/export_renderers.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/pivotable/jquery.tabletojson.js')}}"></script>
-<script>
-    $(function () {
-        var renderers = $.extend(
-            $.pivotUtilities.renderers,
-            $.pivotUtilities.c3_renderers,
-            $.pivotUtilities.d3_renderers,
-            $.pivotUtilities.export_renderers
-        );
+    {!! Charts::assets() !!}
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script type="text/javascript" src="{{asset('/js/pivotable/pivot.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/pivotable/d3_renderers.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/pivotable/c3_renderers.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/pivotable/export_renderers.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/js/pivotable/jquery.tabletojson.js')}}"></script>
+    <script>
+        $(function () {
+            var renderers = $.extend(
+                $.pivotUtilities.renderers,
+                $.pivotUtilities.c3_renderers,
+                $.pivotUtilities.d3_renderers,
+                $.pivotUtilities.export_renderers
+            );
 
-        var parseAndPivot = function (f) {
-            $("#output").pivotUI(f, {renderers: renderers}, true);
-        };
+            var parseAndPivot = function (f) {
+                $("#output").pivotUI(f, {renderers: renderers}, true);
+            };
 
-        $("#pivoter").on("click", function (event) {
+            $("#pivoter").on("click", function (event) {
 
-            $("#output").html("<p align='center' style='color:grey;'>(processing...)</p>")
-            $.get('{{route('populate',$model)}}', function (data) {
-                parseAndPivot(data);
-            });
-
-        });
-
-
-        $('#save_pivot').on('click', function (evt) {
-
-            $.post('{{route('Dashboard.store.chart')}}',
-                {
-                    _token: "{{csrf_token()}}",
-                    attr_list: $('.pvtTable').first().html(),
-                    model: $(this).attr('data-model'),
-                    theme: 'pivot_pivot'
-                }, function (evt) {
-
-                })
-
-        });
-
-
-    });
-</script>
-<script>
-    function setLabel($val) {
-        $('#chart-label').text($val);
-    }
-    $(function () {
-        $('#save_chart').on('click', function (evt) {
-            evt.preventDefault();
-            evt.stopPropagation();
-            var formType = $(this).attr('data-chart'),
-                multi = formType == 'per' ? 0 : 1;
-
-            $.post('{{route('Dashboard.store.chart')}}',
-                $('#' + formType + '_charts').serialize()
-                + "&model=" + $(this).attr('data-model')
-                + (multi ? "&multi=" + multi : ""),
-                function (data) {
-                    console.log(data);
-                }
-            )
-        });
-
-
-        $('.icheck-list input[type=radio]').on('switchChange.bootstrapSwitch', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $('.charts-canvas').removeClass('hidden').fadeIn();
-            $form = $(this).closest('form');
-            setLabel($(this).data('name'));
-            $('div.chart.draw_chart').html(' <center>\r\ <div class=\"preloader-wrapper big active\" style=\"margin-top: {{ ($chart->settings()['height'] / 2) - 32 }}px;\">\r\n                                    <div class=\"spinner-layer spinner-blue-only\">\r\n                                        <div class=\"circle-clipper left\">\r\n                                            <div class=\"circle\"><\/div>\r\n                                        <\/div>\r\n                                        <div class=\"gap-patch\">\r\n                                            <div class=\"circle\"><\/div>\r\n                                        <\/div>\r\n                                        <div class=\"circle-clipper right\">\r\n                                            <div class=\"circle\"><\/div>\r\n                                        <\/div>\r\n                                    <\/div>\r\n                                <\/div>\r\n                            <\/center>');
-
-            $.post($form.attr('action'), $form.serialize(), function (data) {
-                $('div.chart.draw_chart').html(data);
-            });
-
-        });
-        $('form.charts-form').submit(function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $('.charts-canvas').removeClass('hidden').fadeIn();
-            $.post($(this).attr('action'), $(this).serialize(), function (data) {
-
-                $('div.chart.draw_chart').html(data);
+                $("#output").html("<p align='center' style='color:grey;'>(processing...)</p>")
+                $.get('{{route('populate',$model)}}', function (data) {
+                    parseAndPivot(data);
+                });
 
             });
-        });
-        var charts = {!! json_encode($libs) !!};
 
-        $('#attr_list_x').on('change', function (e) {
-            $('#attr_list_y optgroup').prop('disabled', function (i, v) {
-                console.log(v ? !v : v);
-                return v ? !v : v;
-            });
-            console.log($('#opt_' + $(this).val()).prop('disabled', true).prop('disabled'))
 
-            $('#attr_list_y option').prop('selected', function () {
-                return this.defaultSelected;
+            $('#save_pivot').on('click', function (evt) {
+
+                $.post('{{route('Dashboard.store.chart')}}',
+                    {
+                        _token: "{{csrf_token()}}",
+                        attr_list: $('.pvtTable').first().html(),
+                        model: $(this).attr('data-model'),
+                        theme: 'pivot_pivot'
+                    }, function (evt) {
+
+                    })
+
             });
 
-            $('#attr_list_y').selectpicker('destroy');
-            $('#attr_list_y').selectpicker({
-                style: 'blue'
-            });
-            ;
 
         });
+    </script>
+    <script>
+        function setLabel($label, $type) {
+            $('#chart-label').text($label);
+            if ($type)
+                $('#chart-type-label').text($type);
+        }
+
+        $(function () {
+            $('#save_chart').on('click', function (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                var formType = $(this).attr('data-chart'),
+                    multi = formType == 'per' ? 0 : 1;
+                $.post('{{route('Dashboard.store.chart')}}',
+                    $('#' + formType + '_charts').serialize()
+                    + "&model=" + $(this).attr('data-model')
+                    + (multi ? "&multi=" + multi : ""),
+                    function (data) {
+                        console.log(data);
+                    }
+                )
+            });
+
+
+            $('.icheck-list input[type=radio]').on('switchChange.bootstrapSwitch', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('.charts-canvas').removeClass('hidden').fadeIn();
+                $form = $(this).closest('form');
+                setLabel($(this).data('name'));
+
+                $('div.chart.draw_chart').html(' <center>\r\ <div class=\"preloader-wrapper big active\" style=\"margin-top: {{ ($chart->settings()['height'] / 2) - 32 }}px;\">\r\n                                    <div class=\"spinner-layer spinner-blue-only\">\r\n                                        <div class=\"circle-clipper left\">\r\n                                            <div class=\"circle\"><\/div>\r\n                                        <\/div>\r\n                                        <div class=\"gap-patch\">\r\n                                            <div class=\"circle\"><\/div>\r\n                                        <\/div>\r\n                                        <div class=\"circle-clipper right\">\r\n                                            <div class=\"circle\"><\/div>\r\n                                        <\/div>\r\n                                    <\/div>\r\n                                <\/div>\r\n                            <\/center>');
+
+                $.post($form.attr('action'), $form.serialize(), function (data) {
+                    $('div.chart.draw_chart').html(data);
+                });
+
+            });
+            $('form.charts-form').submit(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log($(this).serializeArray());
+                setLabel($(this).data('name'));
+                $('.charts-canvas').removeClass('hidden').fadeIn();
+                $.post($(this).attr('action'), $(this).serialize(), function (data) {
+
+                    $('div.chart.draw_chart').html(data);
+
+                });
+            });
+            var charts = {!! json_encode($libs) !!};
+
+            $('#attr_list_x').on('change', function (e) {
+                $('#attr_list_y optgroup').prop('disabled', function (i, v) {
+                    console.log(v ? !v : v);
+                    return v ? !v : v;
+                });
+                console.log($('#opt_' + $(this).val()).prop('disabled', true).prop('disabled'))
+
+                $('#attr_list_y option').prop('selected', function () {
+                    return this.defaultSelected;
+                });
+
+                $('#attr_list_y').selectpicker('destroy');
+                $('#attr_list_y').selectpicker({
+                    style: 'blue'
+                });
+                ;
+
+            });
 //        $('.icheck-list input[type=radio]').on('switchChange.bootstrapSwitch', function ($event, $state) {
 //            $event.preventDefault();
 //            $select_val = this.value;
@@ -412,6 +426,6 @@
 //                });
 //        });
 
-    })
-</script>
+        })
+    </script>
 @endpush

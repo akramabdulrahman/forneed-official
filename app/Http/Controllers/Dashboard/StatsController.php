@@ -34,16 +34,17 @@ class StatsController extends Controller
     private function output($chart, $multi = false)
     {
         $base_model = snake_case(class_basename($this->model()));
-        $targets = ExtraType::getExtraTypes(config('extra_types.' . $base_model))->toArray();
+        $targets = ExtraType::getExtraTypes(config('extra_types.' . $base_model));
         $targets_types_m = ExtraType::getExtraTypesWithTypes(config('extra_types.' . $base_model))->toArray();
-
+        $targets_types_m_types = $targets->map(function($val,$key){return ucwords(str_replace('_',' ',snake_case($key)));}) ;
         return view('dashboard.beneficiaries.statistics',
             [
                 'chart' => $chart,
                 'libs' => config('charts.libs'),
                 'multi_libs' => config('charts.multi_libs'),
-                'target_types' => $targets,
+                'target_types' => $targets->toArray(),
                 'target_types_m' => $targets_types_m,
+                'target_types_m_types' => $targets_types_m_types ,
                 'model' => $base_model,
                 'namespace' => $this->model()
             ]);

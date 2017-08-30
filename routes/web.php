@@ -220,7 +220,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('gateways/surveys/users/store/survey', "Surveys\\SurveysController@storeUserSurvey")->name('userSurvey');
 
     Route::get('cvs/{filename}', function ($filename) {
-        $path = storage_path('app /public/cvs') . '/' . $filename;
+        $path = storage_path('app/public/cvs') . '/' . $filename;
 
         if (!File::exists($path)) abort(404);
         $file = File::get($path);

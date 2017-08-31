@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth', 'namespace' => 'FrontEnd'], function () {
 });
 
 Route::group(['prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.'], function () {
-    Route::get('/profile', 'ProfileController@show')->name('show');
+    Route::get('/profile', 'ProfileController@index')->name('show');
 
     Route::group(['middleware' => ['auth', 'checkUserType:serviceProvider'], 'prefix' => 'org', 'namespace' => 'ServiceProvider', 'as' => 'org.'], function () {
         Route::get('/profile', 'ProfileController@show')->name('show');

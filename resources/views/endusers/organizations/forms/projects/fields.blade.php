@@ -39,7 +39,7 @@
     </div>
 </div>
 <div class="form-group">
-    <?php $criteria = $update ? $project->getTargetCriteria() : []?>
+    <?php $criteria = $update ? $project->extras()->pluck('id','name')->toArray() : []?>
     <label class="control-label">Beneficiaries</label>
     {!! Form::select('targets[]',$extra_types ,$criteria, ['multiple','data-style'=>'btn-default','placeholder'=>'Please Select Criteria','class' => 'selectpicker show-tick show-menu-arrow form-control']) !!}
 </div>

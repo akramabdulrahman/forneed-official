@@ -64,8 +64,11 @@ Route::group(['middleware' => 'auth', 'namespace' => 'FrontEnd'], function () {
 });
 
 Route::group(['prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.'], function () {
+    Route::get('/profile', 'ProfileController@show')->name('show');
 
     Route::group(['middleware' => ['auth', 'checkUserType:serviceProvider'], 'prefix' => 'org', 'namespace' => 'ServiceProvider', 'as' => 'org.'], function () {
+        Route::get('/profile', 'ProfileController@show')->name('show');
+
         Route::get('/dashboard', 'DashboardController@index')->name('index');
         Route::get('/performance', 'ReportController@performance_stats')->name('performance');
         Route::post('/performance', 'ReportController@performanceStatsChart')->name('performance.post');
@@ -108,6 +111,7 @@ Route::group(['prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.
         Route::get('/report', 'ReportController@index')->name('report');
     });
     Route::group(['middleware' => ['auth', 'checkUserType:citizen'], 'prefix' => 'ben', 'namespace' => 'Citizens', 'as' => 'ben.'], function () {
+        Route::get('/profile', 'ProfileController@show')->name('show');
         Route::get('/dashboard', 'DashboardController@index')->name('index');
         Route::get('/need/create', 'DashboardController@createNeed')->name('need.create');
         Route::get('/unimitate', 'DashboardController@logoutas')->name('logoutas');
@@ -115,8 +119,9 @@ Route::group(['prefix' => 'users', 'namespace' => 'EndUsers', 'as' => 'endusers.
 
 
     });
-
     Route::group(['middleware' => ['auth', 'checkUserType:worker'], 'prefix' => 'agents', 'namespace' => 'SocialWorkers', 'as' => 'worker.'], function () {
+        Route::get('/profile', 'ProfileController@show')->name('show');
+
         Route::get('/citizens', 'DashboardController@index')->name('index');
         Route::get('citizens/create', 'DashboardController@createCitizen')->name('citizen.create');
         Route::post('citizens/', 'DashboardController@storeCitizen')->name('citizen.store');

@@ -148,8 +148,12 @@ class Citizen extends Model
     public function applicable_surveys($impersonator = null)
     {
         $extra = $this->extras()->pluck('extras.id');
-        $surveys =  Survey::whereHas("extras", function ($query) use ($extra) {
+        $surveys = Survey::whereHas("extras", function ($query) use ($extra) {
             $query->WhereIn('id', $extra);
+        })->orWhereHas("project", function ($query) use ($extra) {
+            $query->whereHas("extras", function ($query) use ($extra) {
+                $query->WhereIn('id', $extra);
+            });
         })
             ->whereNotIn('id', $this->surveys()->pluck('id'))
             ->whereHas('questions')->where('is_accepted', true);

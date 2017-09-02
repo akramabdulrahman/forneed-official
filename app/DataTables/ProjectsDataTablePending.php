@@ -21,8 +21,7 @@ class ProjectsDataTablePending extends BaseDatatable
                 $modelRoute = str_replace('\\', '-', Project::class);
                 $id = $row->id;
                 return view('dashboard.organizations.forms.accept-org', compact('modelRoute', 'id'));
-            })
-           ;
+            });
     }
 
     /**
@@ -32,11 +31,10 @@ class ProjectsDataTablePending extends BaseDatatable
      */
     public function query()
     {
-        $query = Project::query();
-        $query->where('is_accepted',false);
+        $query = Project::with(array('serviceProvider','sector'))->selectRaw(' projects.*');
+        $query->where('is_accepted', false);
         return $this->applyScopes($query);
     }
-
 
 
     /**
@@ -47,6 +45,16 @@ class ProjectsDataTablePending extends BaseDatatable
     protected function getColumns()
     {
         return [
+            [
+                'name' => '',
+                'title' => '',
+                'data' => null,
+                'searchable' => false,
+                'orderable' => false,
+                'sorting' => 'false',
+                'width' => '20px',
+                'className' => 'details-control',
+                "defaultContent" => '+'],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name', 'searchable' => true]
         ];
     }

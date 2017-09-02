@@ -52,6 +52,16 @@ class SurveysDataTablePending extends BaseDatatable
     protected function getColumns()
     {
         return [
+            [
+                'name' => '',
+                'title' => '',
+                'data' => null,
+                'searchable' => false,
+                'orderable' => false,
+                'sorting' => 'false',
+                'width' => '20px',
+                'className' => 'details-control',
+                "defaultContent" => '+'],
             ['data' => 'subject', 'name' => 'subject', 'title' => 'Subject', 'searchable' => true],
             ['data' => 'description', 'name' => 'description', 'title' => 'description', 'searchable' => true]
 

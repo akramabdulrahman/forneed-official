@@ -27,7 +27,8 @@ class ServiceProvider extends Model
         'website',
         'contact_person',
         'contact_person_title',
-        'is_accepted'
+        'is_accepted',
+        'organization_name'
     ];
 
     /**

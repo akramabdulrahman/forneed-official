@@ -29,6 +29,7 @@ class NewOrgRequest extends FormRequest
             'mission_statement' => 'required|max:500',
             'phone_number' => 'required_without_all:mobile_number|max:255',
             'mobile_number' => 'required_without_all:phone_number|max:255',
+            'organization_name' => 'required|max:255|unique:users,organization_name',
             'fax' => 'max:255',
             'website' => 'max:255',
             'contact_person' => 'required|max:255',

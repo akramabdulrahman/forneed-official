@@ -44,7 +44,13 @@
 </div>
 
 @include('endusers.extra_fields_form_poly')
-
+<div class="form-group col-sm-12">
+    <label class="col-sm-2 col-sm-2 control-label">Organization Name</label>
+    <div class="col-sm-10">
+        <input type="text" value="{{old('organization_name')}}" name="organization_name"
+               class="form-control text-center round-form">
+    </div>
+</div>
 <div class="form-group col-sm-12">
     <label class="col-sm-2 col-sm-2 control-label">Mobile</label>
     <div class="col-sm-10">

@@ -21,24 +21,29 @@
 @section('content')
     <div id="map" class="col-lg-8 fh5co-map .gradient" style="padding:0px"></div>
 
-
-    <div class=" container  text-center" style="position: absolute; width: 100%;
-    margin: 45px auto;">
-        <div>
-            @include('errors')
-        </div>
-        <div class="portlet-body form">
-            <div class="row">
-                {!! Form::open(['route' => 'newSp']) !!}
-
-                @include('endusers.organizations.fields')
-                <div class="form-group col-sm-12">
-                    <button type="submit" class="btn btn-success">Start <i class="glyphicon glyphicon-forward"></i>
-                    </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class=" container  text-center" style="position: absolute; width: 100%; height: 100%; margin: auto; padding-top: 45px; background-color: rgba(255,255,255,0.7);">
+                <div>
+                    @include('errors')
                 </div>
-                {!! Form::close() !!}
+                <div class="portlet-body form">
+                    <div class="row">
+                        {!! Form::open(['route' => 'newSp']) !!}
+
+                        @include('endusers.organizations.fields')
+                        <div class="form-group col-sm-12">
+                            <button type="submit" class="btn btn-success">Start <i class="glyphicon glyphicon-forward"></i>
+                            </button>
+                        </div>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
+
 
 @endsection

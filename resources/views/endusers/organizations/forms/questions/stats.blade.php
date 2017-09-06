@@ -5,6 +5,11 @@
     {{Form::select('theme',$libs,null,['class'=>'select2me show-tick show-menu-arrow form-control','data-style'=>"btn-default"]) }}
     <input type="hidden" name="multi" value="true">
 </div>
+<div class="form-group col-sm-10">
+    {!! Form::label('func', 'Aggregation func:') !!}
+    {{Form::select('func',$funcs,null,['class'=>'select2me show-tick show-menu-arrow form-control','data-style'=>"btn-default"]) }}
+
+</div>
 
 <div class="form-group col-sm-10">
     {!! Form::label('first_ans', 'First indicator:') !!}

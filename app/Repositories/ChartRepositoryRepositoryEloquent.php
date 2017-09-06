@@ -115,36 +115,77 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
         $elemnt_label = $x;
         $chart->title(str_plural(trans('user.type_' . snake_case(class_basename($model)))) . ' according to ' . $x);
         $chart->elementLabel("Count({$elemnt_label})");
-       
 
-       
+
         return $chart;
     }
+
 
     public function visualize($chart)
     {
         $theme = explode('_', $chart['theme']);
+        $aggregate = isset($chart['func']) ? $chart['func'] : null;
         $survey = null;
         $answers = $chart['first_ans'];
-        $data = Answer::with('citizens')->whereIn('id', $answers)->get()->map(function ($v) {
+        $data = collect();
+        $data->push(Answer::with('citizens')->whereIn('id', $answers)->get()->map(function ($v) {
             return count($v->citizens);
-        })->toArray();
+        }));
+
+
         $labels = array_values(Answer::with('question')->whereIn('id', $answers)
             ->get()->map(function ($v) use (&$survey) {
                 $survey = $v->question->survey()->first()->id;
                 return $v->question->body . ':' . $v->answer;
             })->toArray());
 
-        return Charts::create($theme[1], $theme[0])
+        if ($aggregate) {
+            $aggregate_result = 0;
+            switch ($aggregate) {
+                case 'avg':
+                    $aggregate_result = $data->first()->avg();
+                    break;
+                case 'max':
+                    $aggregate_result = $data->first()->max();
+                    break;
+                case 'min':
+                    $aggregate_result = $data->first()->min();
+                    break;
+                case 'mode':
+                    $aggregate_result = $data->first()->mode();
+                    break;
+                case 'median':
+                    $aggregate_result = $data->first()->median();
+                    break;
+                case 'sum':
+                        $aggregate_result = $data->first()->sum();
+                    break;
+                default:
+                    break;
+            }
+
+            $data->push($data->first()->map(function () use ($aggregate_result) {
+                return $aggregate_result;
+            })->flatten(1)->slice(0,$data->first()->count()));
+        }
+
+        $chart = Charts::multi($theme[1], $theme[0])
             ->title('Citizens that satisfy : ' . collect($labels)->map(function ($v) {
                     return "({$v})";
-            })->implode(','))
+                })->implode(','))
             ->elementLabel("Citizens")
             ->responsive(false)
             ->dimensions(0, 300)
-            ->labels($labels)
-            ->values(array_values($data))
-            ->responsive(false)->width(0)->height(300);
+            ->labels($labels);
+        $datasets_labels = ['count relation', $aggregate];
+        $data->each(function ($val, $key) use ($chart, $datasets_labels) {
+            $chart->dataset($datasets_labels[$key], $val);
+        });
+
+
+        $chart->responsive(false)->width(0)->height(300);
+
+        return $chart;
     }
 
     public function RenderFromRelation($chart, $datasets, $preaggregated, $elementLabel = "Total", $responsive = false)

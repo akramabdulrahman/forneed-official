@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Charts;
 use Auth;
+
 class SurveyStatsController extends Controller
 {
     private $chartRepo;
@@ -39,7 +40,7 @@ class SurveyStatsController extends Controller
             ->mapWithKeys(function ($v) {
                 return [$v->answer => $v->citizens_count()];
             })->toArray();
-        $chart = Charts::create('pie','c3')
+        $chart = Charts::create('pie', 'c3')
             ->title('answers pick rate ')
             ->elementLabel("Citizens Count")
             ->labels(array_values(array_keys($chart_dataset)))
@@ -55,8 +56,17 @@ class SurveyStatsController extends Controller
     {
         $survey = Survey::find($survey_id);
         return view('endusers.organizations.forms.questions.stats', [
-            'libs' => config('charts.libs'),
-            'survey' => $survey
+            'libs' => config('charts.multi_libs'),
+            'survey' => $survey,
+            'funcs' => [
+                0 => 'count',
+                'avg' => 'Average',
+                'max' => 'Max',
+                'min' => 'Min',
+                'median' => 'Median',
+                'mode' => 'Mode',
+                'sum' => 'Sum'
+            ]
         ]);
     }
 
@@ -88,7 +98,6 @@ class SurveyStatsController extends Controller
         return $chart->render();
 
     }
-
 
 
 }

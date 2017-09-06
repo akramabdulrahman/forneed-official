@@ -144,7 +144,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('Dashboard.show')}}">
+                            <a href="{{route('endusers.show')}}">
                                 <i class="icon-user"></i> My Profile </a>
                         </li>
                         <li class="divider"></li>

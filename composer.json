@@ -32,7 +32,7 @@
     "phpoffice/phpexcel": "^1.8",
     "consoletvs/charts": "4.*",
     "laravel/passport": "^3.0",
-    "optimus/api-consumer": "^0.2.3",
+    "optimus/api-consumer": "^0.2.3"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

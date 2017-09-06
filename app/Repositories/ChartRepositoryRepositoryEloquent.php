@@ -69,13 +69,12 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
 
         $target = $chart['attr_list'];
 
-        $x = explode(':', $target['x']);
+        $x = $target['x'];
 
-        $labels = Extra::where('name', '=', $x[2])->pluck('id', 'extra')->keys();
-
+        $labels = Extra::where('name', '=', $x)->pluck('id', 'extra')->keys();
         $typesMap = ExtraType::getExtraTypes(config('extra_types.' . snake_case(str_singular(class_basename($model)))));
 
-        $xs = Extra::where('name', '=', $x[2])->get();
+        $xs = Extra::where('name', '=', $x)->get();
 
         $data = collect([]);
         $xs->each(function ($x) use (&$data, $target, $typesMap, $model) {
@@ -99,7 +98,6 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
                 $data->push($records);
             }
         });
-
         $chart = Charts::multi($theme[1], $theme[0])
             ->responsive(false)
             ->dimensions(0, 300)
@@ -114,8 +112,8 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
             $chart->dataset($key, $dataset);
         });
 
-        $elemnt_label = $x[1];
-        $chart->title(str_plural(trans('user.type_' . snake_case(class_basename($model)))) . ' according to ' . $x[2]);
+        $elemnt_label = $x;
+        $chart->title(str_plural(trans('user.type_' . snake_case(class_basename($model)))) . ' according to ' . $x);
         $chart->elementLabel("Count({$elemnt_label})");
        
 

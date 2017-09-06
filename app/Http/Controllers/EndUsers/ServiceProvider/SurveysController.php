@@ -25,20 +25,21 @@ class SurveysController extends Controller
 
     public function create($project_id)
     {
-        return view('endusers.organizations.forms.surveys.create', ['project' => Project::findOrFail($project_id),
-            'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen'))]);
+        $project = Project::findOrFail($project_id);
+        return view('endusers.organizations.forms.surveys.create', ['project' => $project,
+            'extra_types' => ExtraType::getExtraTypes(collect(config('extra_types.citizen'))->diff($project->extras()->pluck("name")->toArray()))]);
     }
 
     public function edit($id)
     {
         $survey = Survey::with('project')->find($id);
-        $extra_types = ExtraType::getExtraTypes(config('extra_types.citizen'));
+        $extra_types = ExtraType::getExtraTypes(collect(config('extra_types.citizen'))->diff($survey->project()->first()->extras()->pluck("name")->toArray()));
         return view('endusers.organizations.forms.surveys.edit', compact('survey', 'extra_types'));
     }
 
     public function store(SurveyRequest $request)
     {
-        
+
         $survey = null;
         $input = $request->all();
         DB::transaction(function () use ($input, &$survey) {

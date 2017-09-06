@@ -1,6 +1,7 @@
-
-@extends('dashboard.layout.dashboard')
-
+@extends('endusers.layout.dashboard')
+@section('menu')
+    @include('endusers.'.$menu.'.menu')
+@stop
 @push('page_style_plugins')
     <link rel="stylesheet" href="{{asset("/assets/pages/css/profile.min.css")}}">
 @endpush

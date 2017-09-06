@@ -38,7 +38,7 @@
             <div class="row">
 
                 <div class="col-md-7">
-                    {!! Form::open(['route' => 'endusers.org.projects.surveys.store']) !!}
+                    {!! Form::open(['route' => 'endusers.org.projects.surveys.store','id'=>'form']) !!}
 
                     @include('endusers.organizations.forms.surveys.fields',['update'=>false])
 

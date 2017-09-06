@@ -81,7 +81,6 @@ class Project extends Model
         'expires_at',
         'deleted_at'
     ];
-
     /**
      * The attributes that should be casted to native types.
      *
@@ -91,8 +90,8 @@ class Project extends Model
         'id' => 'integer',
         'sponsor' => 'string',
         'name' => 'string',
-        'expires_at' => 'datetime',
-        'starts_at' => 'datetime',
+        'expires_at' => 'date',
+        'starts_at' => 'date',
 
         'description' => 'string',
         'sector_id' => 'integer',

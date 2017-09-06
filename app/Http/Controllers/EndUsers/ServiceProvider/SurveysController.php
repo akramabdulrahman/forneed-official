@@ -7,6 +7,7 @@ use App\Models\ExtraType;
 use App\Models\Project;
 use App\Models\Surveys\Survey;
 use App\Models\Target;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Charts;
@@ -42,20 +43,31 @@ class SurveysController extends Controller
 
         $survey = null;
         $input = $request->all();
-        DB::transaction(function () use ($input, &$survey) {
-            $survey = Survey::create($input);
 
-            if (isset($input['targets'])) {
+        $project = Project::find($input['project_id']);
+        $dates = collect([Carbon::createFromFormat('Y-m-d', $input['starts_at']), Carbon::createFromFormat('Y-m-d', $input['expires_at'])])
+            ->filter(function ($val) use ($project) {
+                return $val->between($project->starts_at, $project->expires_at);
+            });
+        if (count($dates) == 2){
+            DB::transaction(function () use ($input, &$survey) {
+                $survey = Survey::create($input);
 
                 if (isset($input['targets'])) {
-                    $survey->extras()->attach($input['targets']);
-                }
-                if (isset($input['social_worker_id'])) {
-                    $survey->SocialWorkers()->sync(array_values($input['social_worker_id']));
-                }
-            }
 
-        }, 5);
+                    if (isset($input['targets'])) {
+                        $survey->extras()->attach($input['targets']);
+                    }
+                    if (isset($input['social_worker_id'])) {
+                        $survey->SocialWorkers()->sync(array_values($input['social_worker_id']));
+                    }
+                }
+
+            }, 5);
+        }else{
+            Flash::error('survey period should be within Related Project [start: '.
+                $project->starts_at->toDateString().'],[ends: '.$project->expires_at->toDateString().']' );
+        }
         if (($survey !== null)) {
             Flash::success('Survey saved successfully.');
             return redirect()->back();

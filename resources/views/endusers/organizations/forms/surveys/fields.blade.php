@@ -8,24 +8,15 @@
 </div>
 <div class="form-group">
     <label class="control-label">Period</label>
-    <div class="input-group  date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-        {{Form::date('starts_at', \Carbon\Carbon::now(),['class'=>'form-control'])}}
-        <span class="input-group-btn">
-            <button class="btn default" type="button">
-                <i class="fa fa-calendar"></i>
-            </button>
-        </span>
+    <?php $start = $update ? $survey->starts_at : \Carbon\Carbon::now(); ?>
+    <?php $end = $update ? $survey->expires_at : \Carbon\Carbon::now(); ?>
+    <div class="input-group  date date-picker input-daterange" data-date="10/11/2012">
+        {{Form::text('starts_at', $start->toDateString(),['class'=>'form-control','id'=>'starts_at'])}}
         <span class="input-group-addon"> to </span>
-        {{Form::date('expires_at', \Carbon\Carbon::now(),['class'=>'form-control'])}}
+        {{Form::text('expires_at', $end->toDateString(),['class'=>'form-control','id'=>'expires_at'])}}
 
-        <span class="input-group-btn">
-            <button class="btn default" type="button">
-                <i class="fa fa-calendar"></i>
-            </button>
-        </span>
     </div>
 </div>
-
 @if($update)
     {{Form::hidden('project_id',$survey->project_id)}}
 @else
@@ -55,3 +46,10 @@
     <a href="{{route('endusers.org.projects.show',$update?$survey->project_id:$project->id)}}"
        class="btn default"> Cancel </a>
 </div>
+@push('page_script_plugins')
+    <script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+    <script src="{{asset('js/datepicker.range.valid.js')}}"></script>
+
+@endpush

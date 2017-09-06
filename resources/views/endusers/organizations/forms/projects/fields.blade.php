@@ -21,25 +21,17 @@
 
 <div class="form-group">
     <label class="control-label">Period</label>
-    <div class="input-group  date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
-        {{Form::date('starts_at', \Carbon\Carbon::now(),['class'=>'form-control'])}}
-        <span class="input-group-btn">
-            <button class="btn default" type="button">
-                <i class="fa fa-calendar"></i>
-            </button>
-        </span>
+    <?php $start = $update ? $project->starts_at : \Carbon\Carbon::now(); ?>
+    <?php $end = $update ? $project->expires_at : \Carbon\Carbon::now(); ?>
+    <div class="input-group  date date-picker input-daterange" data-date="10/11/2012" >
+        {{Form::text('starts_at', $start->toDateString(),['class'=>'form-control','id'=>'starts_at'])}}
         <span class="input-group-addon"> to </span>
-        {{Form::date('expires_at', \Carbon\Carbon::now(),['class'=>'form-control'])}}
+        {{Form::text('expires_at', $end->toDateString(),['class'=>'form-control','id'=>'expires_at'])}}
 
-        <span class="input-group-btn">
-            <button class="btn default" type="button">
-                <i class="fa fa-calendar"></i>
-            </button>
-        </span>
     </div>
 </div>
 <div class="form-group">
-    <?php $criteria = $update ? $project->extras()->pluck('id','name')->toArray() : []?>
+    <?php $criteria = $update ? $project->extras()->pluck('id', 'name')->toArray() : []?>
     <label class="control-label">Beneficiaries</label>
     {!! Form::select('targets[]',$extra_types ,$criteria, ['multiple','data-style'=>'btn-default','placeholder'=>'Please Select Criteria','class' => 'selectpicker show-tick show-menu-arrow form-control']) !!}
 </div>
@@ -47,3 +39,11 @@
     <button type="submit" class="btn green"> Add</button>
     <a href="{{route('endusers.org.projects.list')}}" class="btn default"> Cancel </a>
 </div>
+
+@push('page_script_plugins')
+    <script src="{{asset('assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+    <script src="{{asset('js/datepicker.range.valid.js')}}"></script>
+
+@endpush

@@ -47,6 +47,7 @@
                     </div>
 
 
+
                     <div class="form-group col-sm-6 {{ $errors->has('sector_id') ? 'has-error' : ''}}">
                         {!! Form::label('sector_id', 'Sector:') !!}
                         {{ Form::select('sp[sector_id][]', $sectors,array_keys($sp->sectors()->pluck('name','id')->toArray()),['class'=>'selectpicker show-tick show-menu-arrow form-control','multiple'=>true,'data-style'=>"btn-default"]) }}
@@ -61,6 +62,13 @@
                             {{ Form::select("extra[$cat]", $extra->pluck('extra','id'),isset($service_provider_extras[$cat])?$service_provider_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $name"]) }}
                         </div>
                     @endforeach
+                    <div class="form-group col-sm-6 {{ $errors->has('organization_name') ? 'has-error' : ''}}">
+                        <label class="col-sm-12 control-label">Organization Name</label>
+                        <div class="col-sm-12 ">
+                            <input type="text" value="{{$sp->organization_name}}" name="sp[organization_name]"
+                                   class="form-control text-center round-form">
+                        </div>
+                    </div>
                     <div class="form-group col-sm-6 {{ $errors->has('mission_statement') ? 'has-error' : ''}}">
                         {!! Form::label('sp[mission_statement]', 'mission statement:') !!}
                         {!! Form::textarea('sp[mission_statement]', $sp->mission_statement, ['class' => 'form-control']) !!}

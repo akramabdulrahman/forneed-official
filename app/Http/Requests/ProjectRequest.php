@@ -24,6 +24,7 @@ class ProjectRequest extends FormRequest
      */
     public function rules()
     {
+        //dd($this->all());
         if ($this->route('id')) {
             $project = Project::find($this->route('id'));
         }
@@ -46,6 +47,7 @@ class ProjectRequest extends FormRequest
                     'sponsor' => 'required|max:255',
                     'starts_at' => 'required|max:255',
                     'expires_at' => 'required|max:255',
+                    'targets'=>'required'
                 ];
             }
             case 'PUT':
@@ -56,6 +58,7 @@ class ProjectRequest extends FormRequest
                     'sponsor' => 'required|max:255',
                     'starts_at' => 'required',
                     'expires_at' => 'required',
+                    'targets'=>'required'
 
                 ];
             }

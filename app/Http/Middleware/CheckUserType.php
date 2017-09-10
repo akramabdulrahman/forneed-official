@@ -54,6 +54,12 @@ class CheckUserType
                 return redirect()->back();
             }
             return redirect()->back();
+        } else if ($user->hasRole('admin')) {
+
+            if (in_array('admin', $userType))
+                return $next($request);
+
+            return redirect()->back();
         }
 
 

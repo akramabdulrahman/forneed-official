@@ -6,7 +6,10 @@
  * Time: 9:27 PM
  */
 return [
-    'citizen' => ['AcademicLevel','Age','Disability','Gender','MaritalState','RefugeState','WorkingState'],
-    'service_provider' => ['Company'],
-    'social_worker'=>['Age','Gender']
+    'citizen' => ['AcademicLevel', 'Area', 'Sector', 'Age', 'Disability', 'Gender', 'MaritalState', 'RefugeState', 'WorkingState'],
+    'citizen_many' => ['Disability'],
+    'service_provider' => ['Company', 'Area', 'Sector'],
+    'service_provider_many' => [],
+    'social_worker' => ['Age', 'Gender', 'Sector'],
+    'social_worker_many' => []
 ];

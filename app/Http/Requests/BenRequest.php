@@ -35,11 +35,10 @@ class BenRequest extends FormRequest
             $input = (object)$this->all();
             $input->contactable = false;
             $this->replace((array)$input);
+
         }
         $formRules = collect([
             'user.name' => 'required|max:255',
-            'sector_id' => 'required',
-            'area_id' => 'required',
             'user.email' => 'required|email|unique:users,email',
             'user.password' => 'required|confirmed',
         ])->merge(collect(config('extra_types.citizen'))->mapWithKeys(function ($item) {

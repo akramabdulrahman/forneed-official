@@ -26,12 +26,12 @@ trait HasSectors
 
     public function sectorsPopulated()
     {
-        return $this->populated(Sector::class);
+        return $this->extras()->where('name','=','Sector');
     }
 
     public function areasPopulated()
     {
-        return $this->populated(Area::class);
+        return $this->extras()->where('name','=','Area');
     }
 
     private function populated($relation)

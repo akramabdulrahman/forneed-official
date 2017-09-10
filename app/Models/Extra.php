@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class Extra extends Model
 {
     protected $withCount = ['citizens', 'service_providers', 'social_workers'];
+    protected $casts = ['data' => 'json'];
 
     public function citizens()
     {

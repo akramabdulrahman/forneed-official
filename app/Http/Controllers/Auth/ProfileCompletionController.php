@@ -41,9 +41,8 @@ class ProfileCompletionController extends Controller
     private function chooseCitizen()
     {
         return view('endusers.citizens.complete', [
-            'sectors' => Sector::pluck('name', 'id'),
-            'areas' => Area::pluck('name', 'id'),
             'fields' => config('extra_types.citizen'),
+            'fieldsManyToMany'=>config('extra_types.citizen_many'),
             'extras' => Extra::whereIn('name', config('extra_types.citizen'))->get()->groupBy('name'),
         ]);
     }
@@ -52,21 +51,20 @@ class ProfileCompletionController extends Controller
     {
         return view('endusers.organizations.complete', [
             'sectors' => Sector::pluck('name', 'id'),
-            'fields' => config('extra_types.citizen'),
+            'areas' => Area::pluck('name', 'id'),
+            'fields' => config('extra_types.service_provider'),
             'extras' => Extra::whereIn('name', config('extra_types.service_provider'))->get()->groupBy('name'),
-            'areas' => Area::pluck('name', 'id')
         ]);
 
     }
 
     public function completeCitizenProfile(Requests\NewCitizenRequest $request)
     {
-        $citizen = new Citizen($request->except(['area_id', 'sector_id']));
+
+        $citizen = new Citizen($request->all());
         $citizen->user()->associate(Auth::user());
         $citizen->save();
-        $citizen->extras()->attach(array_values($request->get('extra')));
-        $citizen->sectors()->attach(array_filter($request->get('sector_id')));
-        $citizen->areas()->attach(array_filter($request->get('area_id')));
+        $citizen->extras()->attach(array_flatten(array_values($request->get('extra'))));
         return redirect()->route('profile');
     }
 

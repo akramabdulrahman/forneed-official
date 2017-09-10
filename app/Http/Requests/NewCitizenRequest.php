@@ -30,7 +30,7 @@ class NewCitizenRequest extends FormRequest
             $this->replace((array)$input);
         }
 
-        return collect(['sector_id' => 'required', 'area_id' => 'required'])
+        return collect([])
             ->merge(collect(config('extra_types.citizen'))->mapWithKeys(function ($item) {
                 return ["extra.$item" => 'required'];
             }))->toArray();

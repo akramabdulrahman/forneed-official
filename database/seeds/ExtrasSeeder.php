@@ -60,7 +60,7 @@ class ExtrasSeeder extends Seeder
                 'لاجئ/ة',
                 'غير لاجئ/ة'
             ],
-            'WorkField' => [
+            'Sector' => [
                 'قطاع الصحة',
                 'قطاع التعليم',
                 'قطاع المسكن',
@@ -81,16 +81,24 @@ class ExtrasSeeder extends Seeder
                 'مهنى / عامل',
                 'عاطل عن العمل',
                 'عمل مؤقت',
-            ]
-        ];
+            ],
+            'Area' => [
+                ['شمال غزة', ['lat' => 31.524569582134685, 'lng' => 34.488039977539074]],
+                ['غزة', ['lat' => 31.499983427042807, 'lng' => 34.452334411132824]],
+                ['الوسطى', ['lat' => 31.427943925372475, 'lng' => 34.37886334179689]],
+                ['خانيونس', ['lat' => 31.347639601139402, 'lng' => 34.30333233593751]],
+                ['رفح', ['lat' => 31.30583514820843, 'lng' => 34.25193786621094]],
+            ]];
 
         collect($fields)->each(function ($category, $key) {
             $type = ExtraType::create(['name' => $key]);
             collect($category)->each(function ($item) use ($type) {
+                $is_array = is_array($item);
                 Extra::create([
                     'name' => $type->name,
-                    'extra' => $item,
-                    'extra_type_id' => $type->id
+                    'extra' => $is_array ? $item[0] : $item,
+                    'extra_type_id' => $type->id,
+                    'data' => $is_array ? isset($item[1]) ? $item[1] : null : $item
                 ]);
             });
 

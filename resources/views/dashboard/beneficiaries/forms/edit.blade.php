@@ -1,6 +1,6 @@
 @extends('dashboard.layout.dashboard')
 @push('page_style_plugins')
-<link rel="stylesheet" href="{{asset('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css')}}">
 @endpush
 
 @section('content')
@@ -51,20 +51,11 @@
                     </div>
 
 
-                    <div class="form-group col-sm-6 {{ $errors->has('sector_id') ? 'has-error' : ''}}">
-                        {!! Form::label('sector_id', 'Sector:') !!}
-                        {{ Form::select('sector_id[]', $sectors,array_keys($citizen->sectors()->pluck('name','id')->toArray()),['class'=>'selectpicker show-tick show-menu-arrow form-control','multiple'=>true,'data-style'=>"btn-default"]) }}
-                    </div>
-                    <div class="form-group col-sm-6 {{ $errors->has('area_id') ? 'has-error' : ''}}">
-                        {!! Form::label('area_id', 'Area:') !!}
-                        {{ Form::select('area_id[]', $areas,array_keys($citizen->areas()->pluck('name','id')->toArray()),['class'=>'selectpicker show-tick show-menu-arrow form-control','multiple'=>true,'data-style'=>"btn-default"]) }}
-                    </div>
-
-
                     @foreach($extras as $cat=>$extra)
-                        <?php $name = ucfirst(implode(' ', explode('_', snake_case($cat))));?>
+                        <?php $name = ucfirst(implode(' ', explode('_', snake_case($cat))));
+                        $multi = isset($manyRelations) ? (in_array($cat, $manyRelations) ? true : false) : false;$final_name = $multi?str_plural($name):$name?>
                         <div class="form-group col-sm-6">
-                            {{ Form::select("extra[$cat]",$extra->pluck('extra','id'),isset($citizen_extras[$cat])?$citizen_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $name"]) }}
+                            {{ Form::select("extra[$cat]".($multi?'[]':''),$extra->pluck('extra','id'),isset($citizen_extras[$cat])? $multi?collect($citizen_extras[$cat])->map->id->toArray() :$citizen_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $final_name",$multi?'multiple':'']) }}
                         </div>
                     @endforeach
 
@@ -97,6 +88,6 @@
 
 @stop
 @push('page_script_plugins')
-<script src="{{asset('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
-<script src="{{asset('/assets/pages/scripts/components-bootstrap-switch.min.js')}}"></script>
+    <script src="{{asset('/assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+    <script src="{{asset('/assets/pages/scripts/components-bootstrap-switch.min.js')}}"></script>
 @endpush

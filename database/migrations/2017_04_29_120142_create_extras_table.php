@@ -17,6 +17,7 @@ class CreateExtrasTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->longText('extra')->nullable();
+            $table->json('data')->nullable();
 
             $table->integer('extra_type_id')->unsigned()->index();
 

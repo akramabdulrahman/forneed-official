@@ -34,7 +34,6 @@ class ProjectRequest extends FormRequest
             $input->is_accepted = false;
             $this->replace((array)$input);
         }
-
         switch ($this->method()) {
             case 'GET':
             case 'DELETE': {
@@ -43,7 +42,8 @@ class ProjectRequest extends FormRequest
             case 'POST': {
                 return [
                     'name' => 'required|max:255',
-                    'sector_id' => 'required',
+                    'extras.Sector' => 'required',
+                    'extras.Area' => 'required',
                     'sponsor' => 'required|max:255',
                     'starts_at' => 'required|max:255',
                     'expires_at' => 'required|max:255',
@@ -54,7 +54,8 @@ class ProjectRequest extends FormRequest
             case 'PATCH': {
                 return [
                     'name' => 'required|max:255',
-                    'sector_id' => 'required',
+                    'extras.Sector' => 'required',
+                    'extras.Area' => 'required',
                     'sponsor' => 'required|max:255',
                     'starts_at' => 'required',
                     'expires_at' => 'required',

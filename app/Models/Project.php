@@ -69,7 +69,6 @@ class Project extends Model
 
     protected $dates = ['deleted_at', 'starts_at', 'expires_at'];
 
-
     public $fillable = [
         'name',
         'sponsor',

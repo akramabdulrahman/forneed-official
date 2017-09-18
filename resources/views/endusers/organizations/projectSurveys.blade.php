@@ -71,7 +71,6 @@
                     </div>
                     <div class="portlet-body">
                         <div style="padding:5px"><i>Project Name :</i> {{$project->name}}</div>
-                        <div style="padding:5px"><i>Project Sectors :</i> {{$project->sector->name}}</div>
                         <div style="padding:5px"><i>Project Donor :</i> {{$project->serviceProvider->name}}</div>
                         <div style="padding:5px"><i>Project Period :</i> From {{$project->starts_at->format('m/d/Y')}}
                             To {{$project->expires_at->format('m/d/Y')}}

@@ -29,11 +29,19 @@ class ProjectsController extends Controller
         return $surveysDatatable->with('project_id', $id)->render('endusers.organizations.projectSurveys', compact('project'));
     }
 
+    private function availableExtras()
+    {
+        return $extras = Auth::user()->serviceProvider()->first()->extras()->whereIn('name', ['Sector', 'Area'])->get()->groupBy('name')->map(function ($val) {
+            return $val->mapWithKeys(function ($val) {
+                return [$val->id=>$val->extra  ];
+            });
+        })->toArray();
+    }
 
     public function create()
     {
         return view('endusers.organizations.forms.projects.create', [
-            'sectors' => Auth::user()->serviceProvider()->first()->sectors()->pluck('name', 'id')->toArray(),
+            'extras' => $this->availableExtras(),
             'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen'))
         ]);
     }
@@ -41,7 +49,7 @@ class ProjectsController extends Controller
     public function edit($id)
     {
         return view('endusers.organizations.forms.projects.edit', [
-            'sectors' => Auth::user()->serviceProvider()->first()->sectors()->pluck('name', 'id')->toArray(),
+            'extras' => $this->availableExtras(),
             'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen')),
             'project' => Project::find($id)
         ]);
@@ -54,10 +62,7 @@ class ProjectsController extends Controller
         DB::transaction(function () use ($input, &$project) {
             $input['service_provider_id'] = Auth::user()->serviceProvider()->first()->id;
             $project = Project::create($input);
-
-            if (isset($input['targets'])) {
-                $project->extras()->attach($input['targets']);
-            }
+            $project->extras()->attach(array_merge(array_values($input['extras']),$input['targets']));
         });
         if (($project !== null)) {
             Flash::success('Project saved successfully.');
@@ -74,10 +79,12 @@ class ProjectsController extends Controller
     {
         $project = null;
         $input = $request->all();
+        ;
+
         DB::transaction(function () use ($input, &$project, $id) {
             $project = Project::find($id);
             $project->update($input);
-            $project->extras()->sync($input['targets']);
+            $project->extras()->sync(array_merge(array_values($input['extras']),$input['targets']));
         });
         if (($project !== null)) {
             Flash::success('Project saved successfully.');

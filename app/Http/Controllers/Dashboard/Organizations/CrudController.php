@@ -54,8 +54,7 @@ class CrudController extends Controller
                             'orderable' => 'false',
                             'sorting' => 'true'];
                     }))->toArray())->render('dashboard.organizations.crud', [
-                'sectors' => Sector::pluck('name', 'id'),
-                'areas' => Area::pluck('name', 'id'),
+                'extra_types_sp' => ExtraType::getExtraTypes(config('extra_types.service_provider')),
                 'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen'))]);
     }
 
@@ -63,9 +62,9 @@ class CrudController extends Controller
     {
 
         return view('dashboard.organizations.forms.create', [
-            'sectors' => Sector::pluck('name', 'id'),
-            'areas' => Area::pluck('name', 'id'),
-            'extras' => Extra::whereIn('name', config('extra_types.service_provider'))->get()->groupBy('name')
+            'extras' => Extra::whereIn('name', config('extra_types.service_provider'))->get()->groupBy('name'),
+            'manyRelations' => config('extra_types.service_provider_many'),
+
         ]);
     }
 
@@ -75,10 +74,9 @@ class CrudController extends Controller
         return view('dashboard.organizations.forms.edit', [
             "sp" => $user,
             'user' => $user->user()->first(),
-            'sectors' => Sector::pluck('name', 'id'),
-            'areas' => Area::pluck('name', 'id'),
             'extras' => Extra::whereIn('name', config('extra_types.service_provider'))->get()->groupBy('name'),
-            'service_provider_extras' => $user->extras()->pluck('id', 'name')
+            'service_provider_extras' => $user->extras()->get('id', 'extra', 'name')->groupBy('name')->toArray(),
+            'manyRelations' => config('extra_types.service_provider_many')
         ]);
     }
 
@@ -86,12 +84,10 @@ class CrudController extends Controller
     {
         DB::transaction(function () use ($request) {
             $user = User::create($request->only('user')['user']);
-            $sp = new ServiceProvider($request->except('sector_id', 'area_id', 'user'));
+            $sp = new ServiceProvider($request->except('user'));
             $sp->user()->associate($user);
             $sp->save();
-            $sp->extras()->attach(array_values($request->get('extra')));
-            $sp->sectors()->attach(array_keys(array_flip($request->get('sector_id'))));
-            $sp->areas()->attach(array_keys(array_flip($request->get('area_id'))));
+            $sp->extras()->attach(array_flatten(array_values($request->get('extra'))));
         }, 5);
         Flash::success('User saved successfully.');
         return redirect()->back();
@@ -102,10 +98,8 @@ class CrudController extends Controller
     {
         DB::transaction(function () use ($request, $id) {
             $sp = ServiceProvider::findOrFail($id);
-            $sp->update($request->except('sp.sector_id', 'sp.area_id')['sp']);
-            $sp->extras()->sync(array_values($request->get('extra')));
-            $sp->sectors()->sync($request->input()['sp']['sector_id']);
-            $sp->areas()->sync($request->input()['sp']['area_id']);
+            $sp->update($request->all()['sp']);
+            $sp->extras()->sync(array_flatten(array_values($request->get('extra'))));
             $user = $sp->user;
             $user->update($request->all());
             $user->save();
@@ -130,7 +124,7 @@ class CrudController extends Controller
         }
         $sp->delete();
 
-        Flash::success('citizen deleted successfully.');
+        Flash::success('service provider deleted successfully.');
 
         return redirect()->back();
     }

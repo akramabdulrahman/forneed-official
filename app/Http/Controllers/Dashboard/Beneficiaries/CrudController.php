@@ -92,7 +92,7 @@ class CrudController extends Controller
             $citizen = new Citizen($request->only('contactable'));
             $citizen->user()->associate($user);
             $citizen->save();
-            $citizen->extras()->attach(array_values($request->get('extra')));
+            $citizen->extras()->attach(array_flatten(array_values($request->get('extra'))));
         }, 5);
         Flash::success('User saved successfully.');
 

@@ -50,8 +50,6 @@ class ProfileCompletionController extends Controller
     private function chooseSp()
     {
         return view('endusers.organizations.complete', [
-            'sectors' => Sector::pluck('name', 'id'),
-            'areas' => Area::pluck('name', 'id'),
             'fields' => config('extra_types.service_provider'),
             'extras' => Extra::whereIn('name', config('extra_types.service_provider'))->get()->groupBy('name'),
         ]);
@@ -75,8 +73,6 @@ class ProfileCompletionController extends Controller
         $sp->user()->associate(Auth::user());
         $sp->save();
         $sp->extras()->attach(array_values($request->get('extra')));
-        $sp->sectors()->attach(array_filter($request->get('sector_id')));
-        $sp->areas()->attach(array_filter($request->get('area_id')));
         return redirect()->route('profile');
     }
 }

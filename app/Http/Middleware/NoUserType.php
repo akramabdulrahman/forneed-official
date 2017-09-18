@@ -16,7 +16,6 @@ class NoUserType
      */
     public function handle($request, Closure $next)
     {
-
         $user = Auth::user();
         if($user->hasRole('admin')){
             return redirect()->route('Dashboard.landing');
@@ -28,7 +27,6 @@ class NoUserType
         }else if (!$user->isWorker()) {
             return $next($request);
         }
-
         return redirect()->route('profile');
     }
 }

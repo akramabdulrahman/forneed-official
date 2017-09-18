@@ -24,12 +24,11 @@ class NewOrgRequest extends FormRequest
     public function rules()
     {
         return collect([
-            'sector_id' => 'required',
-            'area_id' => 'required',
+
             'mission_statement' => 'required|max:500',
             'phone_number' => 'required_without_all:mobile_number|max:255',
             'mobile_number' => 'required_without_all:phone_number|max:255',
-            'organization_name' => 'required|max:255|unique:users,organization_name',
+            'organization_name' => 'required|max:255|unique:service_providers,organization_name',
             'fax' => 'max:255',
             'website' => 'max:255',
             'contact_person' => 'required|max:255',

@@ -38,8 +38,7 @@ class OrgRequest extends FormRequest
 
         $formRules = collect([
             'user.name' => 'required|max:255',
-            'sector_id' => 'required',
-            'area_id' => 'required',
+
             'user.email' => 'required|email|unique:users,email',
             'user.password' => 'required|confirmed',
             'organization_name' => 'required|max:255|unique:service_providers,organization_name',
@@ -66,8 +65,6 @@ class OrgRequest extends FormRequest
             case 'PATCH': {
                 return collect([
                     'name' => 'required|max:255',
-                    'sp.sector_id' => 'required',
-                    'sp.area_id' => 'required',
                     'sp.mission_statement' => 'required|max:500',
                     'sp.phone_number' => 'required_without_all:mobile_number|max:255',
                     'sp.organization_name' => 'required|max:255|unique:service_providers,organization_name,'.$sp->id,

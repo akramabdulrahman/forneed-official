@@ -22,6 +22,7 @@ class ServiceProviders extends Migration
             $table->string('mobile_number')->nullable();
             $table->string('fax')->nullable();
             $table->string('website')->nullable();
+            $table->string('organization_name')->unique();
             $table->string('contact_person')->nullable();
             $table->string('contact_person_title')->nullable();
             $table->boolean('is_accepted')->default(false);

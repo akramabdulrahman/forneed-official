@@ -13,11 +13,12 @@ class ServiceProviderDataTable extends BaseDatatable
     /**
      *
      */
-    function include ($var)
+    function include($var)
     {
         $this->includes[$var['name']] = $var['val'];
         return $this;
     }
+
     /**
      * Get the query object to be processed by dataTables.
      *
@@ -25,7 +26,8 @@ class ServiceProviderDataTable extends BaseDatatable
      */
     public function query()
     {
-;        $request = $this->request();
+        ;
+        $request = $this->request();
         $query = $this->repo->getPopulated();
 
         if ($request->has('name')) {
@@ -36,24 +38,15 @@ class ServiceProviderDataTable extends BaseDatatable
             });
         }
 
-        if ($request->has('area')) {
-            $query->whereHas('areas', function ($a) use ($request) {
-                if ($request->has('area') && $area = $request->input('area')) {
-                    $a->where('area_service_provider.area_id', $area);
-                }
-            });
-        }
-        if ($request->has('sector')) {
-            $query->whereHas('sectors', function ($s) use ($request) {
-                if ($request->has('sector') && $sector = $request->input('sector')) {
-                    $s->where('sector_service_provider.sector_id', $sector);
-                }
+        if ($request->has('criteria') && $targets = $request->input('criteria')) {
+            $query->whereHas('extras', function ($t) use ($targets) {
+                $t->whereIn('extra_id', $targets);
             });
         }
 
         if ($request->has('targets')) {
             $query->whereHas('projects', function ($p) use ($request) {
-                
+
                 if ($request->has('targets') && $targets = $request->input('targets')) {
                     $p->whereHas('extras', function ($t) use ($targets) {
                         $t->whereIn('extra_id', $targets);

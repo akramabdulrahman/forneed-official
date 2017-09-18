@@ -35,7 +35,6 @@
             <div class="row">
                 <div class="col-md-6">
                     {!! Form::model($project, ['route' => ['endusers.org.projects.update', $project->id], 'method' => 'patch','id'=>'form']) !!}
-
                     @include('endusers.organizations.forms.projects.fields',['update'=>true])
 
                     {!! Form::close() !!}

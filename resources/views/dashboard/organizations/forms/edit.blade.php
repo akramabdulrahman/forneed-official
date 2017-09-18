@@ -46,20 +46,11 @@
                         {!! Form::email('email', null, ['class' => 'form-control']) !!}
                     </div>
 
-
-
-                    <div class="form-group col-sm-6 {{ $errors->has('sector_id') ? 'has-error' : ''}}">
-                        {!! Form::label('sector_id', 'Sector:') !!}
-                        {{ Form::select('sp[sector_id][]', $sectors,array_keys($sp->sectors()->pluck('name','id')->toArray()),['class'=>'selectpicker show-tick show-menu-arrow form-control','multiple'=>true,'data-style'=>"btn-default"]) }}
-                    </div>
-                    <div class="form-group col-sm-6 {{ $errors->has('area_id') ? 'has-error' : ''}}">
-                        {!! Form::label('area_id', 'Area:') !!}
-                        {{ Form::select('sp[area_id][]', $areas,array_keys($sp->areas()->pluck('name','id')->toArray()),['class'=>'selectpicker show-tick show-menu-arrow form-control','multiple'=>true,'data-style'=>"btn-default"]) }}
-                    </div>
                     @foreach($extras as $cat=>$extra)
-                        <?php $name = ucfirst(implode(' ', explode('_', snake_case($cat))));?>
+                        <?php $name = ucfirst(implode(' ', explode('_', snake_case($cat))));
+                        $multi = isset($manyRelations) ? (in_array($cat, $manyRelations) ? true : false) : false;$final_name = $multi?str_plural($name):$name?>
                         <div class="form-group col-sm-6">
-                            {{ Form::select("extra[$cat]", $extra->pluck('extra','id'),isset($service_provider_extras[$cat])?$service_provider_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $name"]) }}
+                            {{ Form::select("extra[$cat]".($multi?'[]':''),$extra->pluck('extra','id'),isset($service_provider_extras[$cat])? $multi?collect($service_provider_extras[$cat])->map->id->toArray() :$service_provider_extras[$cat]:null,['class'=>'selectpicker show-tick show-menu-arrow form-control','data-style'=>"btn-default",'placeholder'=>"choose $final_name",$multi?'multiple':'']) }}
                         </div>
                     @endforeach
                     <div class="form-group col-sm-6 {{ $errors->has('organization_name') ? 'has-error' : ''}}">

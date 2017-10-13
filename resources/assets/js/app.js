@@ -26,7 +26,17 @@ Vue.component(
     'passport-personal-access-tokens',
     require('./components/passport/PersonalAccessTokens.vue')
 );
+Vue.component('html-manager', {
+    template: '<div>A custom component!</div>'
+})
+Vue.component(
+    'html-manager',
+    require('./components/cms/manager')
+);
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: {
+        htmlBlock: require('./components/cms/block')
+    }
 });

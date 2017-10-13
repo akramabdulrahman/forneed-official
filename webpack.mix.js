@@ -12,7 +12,8 @@ const mix = require('laravel-mix').mix;
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/assets/sass/plugins/_medium-editor.scss', 'public/css');
 
 // Full API
 // mix.js(src, output);

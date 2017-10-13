@@ -24,6 +24,7 @@ class BenRequest extends FormRequest
      */
     public function rules()
     {
+        dd($this->all());
 
         if ($this->route('id')) {
             $citizen = Citizen::find($this->route('id'));

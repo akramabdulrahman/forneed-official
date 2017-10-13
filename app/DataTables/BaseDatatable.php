@@ -81,7 +81,7 @@ class BaseDatatable extends DataTable implements ConfigurableTable
 
         return $this->builder()
             ->columns($this->getColumns())
-            ->ajax('')
+            ->ajax([])
             ->addAction(['width' => '80px'])
             ->parameters(([
                 'order' => [[0, 'desc']],
@@ -92,7 +92,8 @@ class BaseDatatable extends DataTable implements ConfigurableTable
                     'reset',
                     'reload',
                     'export',
-                ]
+                ],
+
             ]));
     }
 

@@ -26,6 +26,8 @@ class RegistrationController extends Controller
         $user=null;
         DB::transaction(function () use ($request,&$user) {
             $user = User::create($request->only('user')['user']);
+            $token = $user->createToken($user->email);
+
             $sw = new  SocialWorker ($request->except('user'));
             $sw->cv = ($request->cv->store('public/cvs'));
             $sw->user()->associate($user);

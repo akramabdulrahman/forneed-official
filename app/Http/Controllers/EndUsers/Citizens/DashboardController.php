@@ -19,11 +19,12 @@ class DashboardController extends Controller
         
         $impersonator = session()->has('impersonator')?
         User::find(session('impersonator'))->worker()->first()->id:null;
+
         return view('endusers.citizens.index', [
             "user" => $user,
             'projects' => Project::with('area')->get(),
             'surveys' => $user->citizen
-            ->applicable_surveys($impersonator)
+                 ->applicable_surveys($impersonator)
             ->orderBy('created_at', 'desc')->get()
         ]);
     }

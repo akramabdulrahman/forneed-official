@@ -61,6 +61,7 @@ class SurveysController extends Controller
 
     public function storeUserSurvey(Request $request)
     {
+
         $input = $request->all();
         $citizen = Auth::user()->citizen()->first();
 

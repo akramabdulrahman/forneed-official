@@ -1,18 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-// Get current user
-
-Route::group(['namespace'=>'Auth\Api'],function(){
-    Route::post('/login', 'LoginController@login');
-    Route::post('/login/refresh', 'LoginController@refresh');
-
-    Route::post('/logout', 'LoginController@logout')->middleware('auth:api');
-});
-
-Route::get('/me', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +12,20 @@ Route::get('/me', function (Request $request) {
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+
+Route::group(['namespace'=>'Api', 'as' => 'api.','middleware'=>'auth:api'],function (){
+    Route::get('projects', 'ProjectsController@index')->name('projects');
+    Route::group(['prefix' => 'surveys', 'as' => 'surveys.'],function () {
+        Route::get('/', 'SurveysController@index')->name('list');
+        Route::post('/{survey}/{citizen}', 'SurveysController@store')->name('store');
+        Route::get('{survey}/citizens', 'CitizensController@index');
+    });
+
+    Route::group(['prefix' => 'citizens', 'as' => 'citizens.'],function () {
+        Route::post('', 'CitizensController@store');
+    });
+
+    Route::post('login', 'UserController@login');
+
+});
+

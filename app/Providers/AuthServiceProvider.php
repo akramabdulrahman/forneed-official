@@ -49,25 +49,21 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(GateContract $gate)
     {
-        $this->registerPolicies();
-        Passport::routes(function ($router) {
-            $router->forAccessTokens();
-            $router->forPersonalAccessTokens();
-            $router->forTransientTokens();
+        $gate->define('edit-html-blocks', function ($user) {
+            // Add your logic here
+            return $user->hasRole('admin');
         });
+        $this->registerPolicies();
+        Passport::routes();
+        Passport::enableImplicitGrant();
 
-        Passport::tokensExpireIn(Carbon::now()->addSeconds(10));
 
-        Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
-
-//        Passport::tokensExpireIn(Carbon::now()->addMinutes(10));
-//        Passport::refreshTokensExpireIn(Carbon::now()->addDays(10));
-//        // Dynamically register permissions with Laravel's Gate.
-//        foreach ($this->getPermissions() as $permission) {
-//            $gate->define($permission->name, function ($user) use ($permission) {
-//                return $user->hasPermission($permission);
-//            });
-//        }
+        // Dynamically register permissions with Laravel's Gate.
+        foreach ($this->getPermissions() as $permission) {
+            $gate->define($permission->name, function ($user) use ($permission) {
+                return $user->hasPermission($permission);
+            });
+        }
     }
 
     /**

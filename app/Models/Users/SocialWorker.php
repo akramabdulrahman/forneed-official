@@ -66,13 +66,18 @@ class SocialWorker extends Model
 
         $surveys = $this->projects()
             ->first()->surveys()->get();
-        return Citizen::whereDoesntHave('surveys', function ($q) use ($surveys) {
-            $q->whereIn('survey_id', $surveys->map->id);
-        })->whereDoesntHave('user.roles')->whereHas('extras', function ($query) use ($model, $surveys) {
-            $query->whereIn('extras.id', $surveys->map(function ($row) {
-                return $row->extras;
-            })->flatten(1)->pluck('id'));
-        })->with(array('user', 'sectors', 'areas'))
+        $surveys_ids = $surveys->map->id;
+        $surveys_extras = $surveys->map->extras->flatten(1)->pluck('id');
+        return
+            Citizen::whereDoesntHave('surveys', function ($q) use ($surveys_ids) {
+                $q->whereIn('survey_id', $surveys_ids);
+            })
+            ->whereDoesntHave('user.roles')
+
+                ->whereHas('extras', function ($query) use ($model, $surveys_extras) {
+                    $query->whereIn('extras.id',$surveys_extras);
+                })
+                ->with(array('user'))
             ->selectRaw('distinct citizens.*')->orderBy('id', 'desc');
     }
 

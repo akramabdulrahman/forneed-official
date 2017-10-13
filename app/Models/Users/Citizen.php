@@ -22,6 +22,7 @@ use App\Models\WorkField;
 use App\Models\WorkingState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @SWG\Definition(
@@ -148,16 +149,15 @@ class Citizen extends Model
     public function applicable_surveys($impersonator = null)
     {
         $extra = $this->extras()->pluck('extras.id');
-        $surveys = Survey::whereHas("extras", function ($query) use ($extra) {
-            $query->WhereIn('id', $extra);
-        })->orWhereHas("project", function ($query) use ($extra) {
-            $query->whereHas("extras", function ($query) use ($extra) {
+        $surveys = Survey::whereNotIn('id', $this->surveys()->pluck('id'))
+            ->whereHas("extras", function ($query) use ($extra) {
                 $query->WhereIn('id', $extra);
-            });
-        })
-            ->whereNotIn('id', $this->surveys()->pluck('id'))
-            ->whereHas('questions')->where('is_accepted', true);
-
+            })->orWhereHas("project", function ($query) use ($extra) {
+                $query->whereHas("extras", function ($query) use ($extra) {
+                    $query->WhereIn('id', $extra);
+                });
+            })
+                ->whereHas('questions')->where('is_accepted', true);
         if ($impersonator) {
             $surveys->whereHas('socialWorkers', function ($worker) use ($impersonator) {
                 $worker->where('id', $impersonator);

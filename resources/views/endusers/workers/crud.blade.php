@@ -3,17 +3,15 @@
     @include('endusers.workers.menu')
 @stop
 @push('page_style_plugins')
-    <link rel="stylesheet" href="/js/buttons/css/buttons.dataTables.css">
-    <link rel="stylesheet"
-          href="{{asset('/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}">
+    <link rel="stylesheet" href="{{asset('/js/buttons/css/buttons.dataTables.css')}}">
+    <link rel="stylesheet" href="{{asset('/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css')}}">
 
     <style>
-        #dataTableBuilder_filter {
+        #dataTableBuilder_filter{
             display: inline-block;
             float: right;
         }
-
-        #dataTableBuilder_length {
+        #dataTableBuilder_length{
             display: inline-block;
             line-height: 1.42857;
         }
@@ -81,6 +79,7 @@
 @stop
 
 @push('page_script_plugins')
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
 
     <script src="/js/jquery.dataTables.min.js"></script>
@@ -91,21 +90,22 @@
     {!! $dataTable->scripts() !!}
     @include('dashboard.beneficiaries.crud_details')
     <script>
+        $.fn.dataTable.Buttons.swfPath = '//cdn.datatables.net/buttons/1.1.2/swf/flashExport.swf';
         var template = Handlebars.compile($("#details-template").html());
         // Add event listener for opening and closing details
         $('#dataTableBuilder tbody').on('click', 'td.details-control', function () {
             var table = window.LaravelDataTables["dataTableBuilder"];
             var tr = $(this).closest('tr');
-            var row = table.row(tr);
+            var row = table.row( tr );
 
-            if (row.child.isShown()) {
+            if ( row.child.isShown() ) {
                 // This row is already open - close it
                 row.child.hide();
                 tr.removeClass('shown');
             }
             else {
                 // Open this row
-                row.child(template(row.data())).show();
+                row.child( template(row.data()) ).show();
                 tr.addClass('shown');
             }
         });

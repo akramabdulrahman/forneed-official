@@ -22,6 +22,7 @@ class CitizensSeeder extends Seeder
                 rand() % (32 + 1 - 31) + 31,
                 rand() % (42 + 1 - 33) + 33,
                 rand() % (50 + 1 - 43) + 43,
+                rand() % (55 + 1 - 51) + 51,
             ]);
         });
 

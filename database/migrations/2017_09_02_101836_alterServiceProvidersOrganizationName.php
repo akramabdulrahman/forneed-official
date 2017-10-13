@@ -13,9 +13,9 @@ class AlterServiceProvidersOrganizationName extends Migration
      */
     public function up()
     {
-        Schema::table('service_providers', function (Blueprint $table) {
-            $table->string('organization_name');
-        });
+//        Schema::table('service_providers', function (Blueprint $table) {
+//            $table->string('organization_name');
+//        });
     }
 
     /**

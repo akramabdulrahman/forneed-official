@@ -28,7 +28,7 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware(['checkUserType:serviceProvider,citizen,worker'])->only('index', 'settings', 'surveys');
+        $this->middleware(['checkUserType:serviceProvider,citizen,worker,admin'])->only('index', 'settings', 'surveys');
         $this->middleware('checkUserType:serviceProvider')->only('dashboard');
         $this->middleware('checkUserType:citizen')->only('serviceRequests');
         $this->middleware('checkUserType:admin')->only('serviceRequests');
@@ -119,12 +119,10 @@ class ProfileController extends Controller
     private function serviceProviderSettings()
     {
         $user = Auth::user();
-        return view('profiles.sp.settings1', [
+        return view('frontend.profile.settings', [
             "user" => $user->with('ServiceProvider')->first(),
-            "sp" => $user->serviceProvider()->first(),
-            'sectors' => Sector::pluck('name', 'id'),
-            'companies' => Company::pluck('name', 'id'),
-            'areas' => Area::pluck('name', 'id')
+            "type" => $user->serviceProvider()->first(),
+
         ]);
 
     }
@@ -134,17 +132,9 @@ class ProfileController extends Controller
         $sRequests = $user->citizen->servicesRequests;
 //            dd($sRequests);
 
-        return view('profiles.citizen.settings1', [
+        return view('frontend.profile.settings', [
             "user" => $user->with('citizen')->first(),
-            'citizen' => $user->citizen()->first(),
-            'sectors' => Sector::pluck('name', 'id'),
-            'maritals' => MaritalStatus::pluck('name', 'id'),
-            'ages' => Age::pluck('name', 'id'),
-            'areas' => Area::pluck('name', 'id'),
-            'workingstates' => WorkingState::pluck('name', 'id'),
-            'refugee' => RefugeeState::pluck('name', 'id'),
-            'disabilities' => Disability::pluck('name', 'id'),
-            'academic' => AcademicLevel::pluck('name', 'id'),
+            'type' => $user->citizen()->first(),
 
         ]);
     }

@@ -168,7 +168,6 @@ return [
         Spatie\Backup\BackupServiceProvider::class,
         Backpack\BackupManager\BackupManagerServiceProvider::class,
         Backpack\LogManager\LogManagerServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
 
         Backpack\Settings\SettingsServiceProvider::class,
         Laracasts\Generators\GeneratorsServiceProvider::class,
@@ -185,6 +184,8 @@ return [
         Backpack\Base\BaseServiceProvider::class,
         Backpack\CRUD\CrudServiceProvider::class,
         Optimus\ApiConsumer\Provider\LaravelServiceProvider::class,
+        Dyusha\HtmlEditor\HtmlBlocksProvider::class,
+
         Barryvdh\Debugbar\ServiceProvider::class,
 
 
@@ -192,6 +193,7 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
+        App\Providers\PassportCustomServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

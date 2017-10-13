@@ -53,7 +53,7 @@ class Survey extends Model
     use SoftDeletes, HasChart;
 
     public $table = 'Surveys';
-    protected $with = ['extras'];
+    protected $with = [];
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -93,7 +93,7 @@ class Survey extends Model
         'survey_meta_id' => 'integer',
         'deleted_at' => 'datetime'
     ];
-    protected $appends = ['progress'];
+    protected $appends = ['progress','extras'];
     /**
      * Validation rules
      *
@@ -140,7 +140,10 @@ class Survey extends Model
         $result = ($expire - Carbon::now()->timestamp) / (($expire - $starts) + 1);
         return ($result >= 0) ? $result : 0;
     }
-
+    public function getExtrasAttribute()
+    {
+        return $this->extras()->get()->merge($this->project()->first()->extras()->get());
+    }
     public function Config()
     {
         return $this->belongsToMany(Config::class);
@@ -173,7 +176,18 @@ class Survey extends Model
             return [$v->user->name];
         })->implode(',');
     }
-
+    public function beneficiaries($impersonator = null)
+    {
+        $extra = $this->extras;
+        $id = $this->id;
+        //return $this->citizens()->pluck('id');
+        $surveys = Citizen::whereDoesntHave('surveys',function($q) use($id){
+            $q->where('survey_id', $id);
+        })->whereHas("extras", function ($query) use ($extra) {
+            $query->WhereIn('extra_id', $extra);
+        });
+        return $surveys;
+    }
     /**
      * The "booting" method of the model.
      *

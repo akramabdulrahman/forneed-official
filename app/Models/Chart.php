@@ -27,6 +27,7 @@ class Chart extends Model
         'labels' => 'array',
         'values' => 'array',
         'datasets' => 'array',
+
     ];
 
     function getAttrListAttribute()

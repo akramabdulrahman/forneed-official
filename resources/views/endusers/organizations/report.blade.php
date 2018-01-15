@@ -297,7 +297,7 @@
                                 </div>
                                 <div class="portlet-body">
                                    <div class="row">
-                                       <div class="col-md-6">
+                                       <div class="col-md-12">
                                            <div class=" row form-group">
                                                {!! Form::label('sector_id', 'Theme:') !!}
                                                {{Form::select('theme',$libs,'chartjs_pie',['class'=>'theme-input select2me show-tick show-menu-arrow form-control','data-style'=>"btn-default",'data-survey'=>$survey->id]) }}
@@ -305,7 +305,7 @@
                                            </div>
                                            <div class="row">
                                                @foreach($survey->questions as $question)
-                                                   <div class="col-md-12">
+                                                   <div class="col-md-6">
                                                        <div class="portlet light bordered">
                                                            <div class="portlet-title">
                                                                <div class="caption">
@@ -330,11 +330,10 @@
 
                                            </div>
                                        </div>
-                                       <div class="col-md-6">
+                                       <div class="col-md-12">
                                            <div class="mt-list-container list-news">
                                                <script>post_render_charts = []</script>
-
-                                               @foreach($survey->charts() as $chart)
+                                               @foreach($savedCharts[$survey->id] as $chart)
                                                    <?php $title =
                                                        explode(',',
                                                            str_replace('Citizens that satisfy :',
@@ -346,11 +345,11 @@
                                                            <div class="portlet-title">
                                                                <div class="caption">
                                                                    <i class="icon-bar-chart font-green-haze"></i>
-                                                                   <span class="caption-subject bold uppercase font-green-haze" style="font-size:.8em;">  {{explode(':',str_replace(['(',')'],'',$title[0]))[0]}}</span>
-                                                                   <span class="caption-helper"> {{explode(':',str_replace(['(',')'],'',$title[0]))[1]}}</span>
+                                                                   {{--<span class="caption-subject bold uppercase font-green-haze" style="font-size:.8em;">  {{explode(':',str_replace(['(',')'],'',$title[0]))[0]}}</span>--}}
+                                                                   {{--<span class="caption-helper"> {{explode(':',str_replace(['(',')'],'',$title[0]))[1]}}</span>--}}
                                                                    <div class="devider"></div>
-                                                                   <span class="caption-subject bold uppercase font-green-haze">  {{explode(':',str_replace(['(',')'],'',$title[1]))[0]}}</span>
-                                                                   <span class="caption-helper"> {{explode(':',str_replace(['(',')'],'',$title[1]))[1]}}</span>
+                                                                   {{--<span class="caption-subject bold uppercase font-green-haze">  {{explode(':',str_replace(['(',')'],'',$title[1]))[0]}}</span>--}}
+                                                                   {{--<span class="caption-helper"> {{explode(':',str_replace(['(',')'],'',$title[1]))[1]}}</span>--}}
                                                                </div>
                                                            </div>
                                                            <div class="portlet-body">

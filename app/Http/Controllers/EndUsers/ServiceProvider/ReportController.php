@@ -29,7 +29,19 @@ class ReportController
         if ($project_id) {
             $project = Project::with('surveys')->find($project_id);
         }
-        return view('endusers.organizations.report', compact('project', 'libs'));
+        $chartRepo = $this->chartRepo;
+        $savedCharts = $project->surveys->mapWithKeys(function ($survey) use ($chartRepo) {
+            return [$survey->id => $survey->charts()->get()->map(function ($chart) use ($chartRepo) {
+
+                return $chartRepo->visualize(
+                    ['theme' => "{$chart->theme_lib}_{$chart->theme_chart}",
+                    'multi' => $chart->multi,
+                    'func' => $chart->attr_list['func'],
+                    'first_ans' => $chart->attr_list['first_ans']
+                ]);
+            })];
+        });
+        return view('endusers.organizations.report', compact('project', 'savedCharts','libs'));
     }
 
     private function output($chart, $multi = false)
@@ -57,8 +69,8 @@ class ReportController
         $survey = $request->has('survey_id');
         $workers = SocialWorker::select(DB::raw('users.name as username'), DB::raw(' social_worker_id'),
             !$survey ?
-            DB::raw('sum(social_worker_survey.count) as aggregate') :
-            DB::raw('social_worker_survey.count as aggregate'), 'survey_id')
+                DB::raw('sum(social_worker_survey.count) as aggregate') :
+                DB::raw('social_worker_survey.count as aggregate'), 'survey_id')
             ->whereHas('projects', function ($query) use ($project_id) {
                 $query->where('id', $project_id);
             })
@@ -68,8 +80,8 @@ class ReportController
 
         if ($survey) {
             $workers->where('survey_id', $request->input('survey_id'))
-            ->groupBy('social_worker_id', 'users.name', 'survey_id','social_worker_survey.count');
-        }else{
+                ->groupBy('social_worker_id', 'users.name', 'survey_id', 'social_worker_survey.count');
+        } else {
             $workers->groupBy('social_worker_id', 'users.name', 'survey_id');
         }
 

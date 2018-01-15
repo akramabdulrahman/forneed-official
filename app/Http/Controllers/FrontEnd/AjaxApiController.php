@@ -89,7 +89,7 @@ class AjaxApiController extends Controller
 
     public function surveys($project_id)
     {
-        $surveys = Survey::where('project_id', $project_id)->select(array('id', 'subject'))->get();
+        $surveys = Survey::where('project_id', $project_id)->select(array('id', 'subject','project_id'))->get();
         return response()->json($surveys);
     }
 

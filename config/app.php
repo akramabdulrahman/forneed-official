@@ -187,6 +187,7 @@ return [
         Dyusha\HtmlEditor\HtmlBlocksProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
 
 
         /*

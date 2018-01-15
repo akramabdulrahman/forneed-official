@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Mockery\Exception;
 
 /**
  * @SWG\Definition(
@@ -53,7 +54,7 @@ class Survey extends Model
     use SoftDeletes, HasChart;
 
     public $table = 'Surveys';
-    protected $with = [];
+    protected $with = ['project'];
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -142,7 +143,10 @@ class Survey extends Model
     }
     public function getExtrasAttribute()
     {
-        return $this->extras()->get()->merge($this->project()->first()->extras()->get());
+
+            return $this->extras()->get()->merge($this->project()->first()->extras()->get());
+
+
     }
     public function Config()
     {

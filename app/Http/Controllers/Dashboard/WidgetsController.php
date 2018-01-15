@@ -45,7 +45,8 @@ class WidgetsController extends Controller
             'model' => Citizen::class,
             'attr_list' => json_encode([
                 'first_ans' => $request->input('first_ans'),
-                'second_ans' => $request->input('second_ans')]),
+                'second_ans' => $request->input('second_ans'),
+                'func'=>$request->input('func')]),
             'chartable_id' => $request->input('survey_id'),
             'chartable_type' => Survey::class
         ])->exists() ? ['state' => true] : ['state' => false];;

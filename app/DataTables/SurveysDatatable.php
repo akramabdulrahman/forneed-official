@@ -19,12 +19,11 @@ class SurveysDatatable extends BaseDatatable
     /**
      * Display ajax response.
      *
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->addIndexColumn()
             ->editColumn('name', function ($survey) {
                 return implode('',
@@ -71,7 +70,7 @@ class SurveysDatatable extends BaseDatatable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\Datatables\Html\Builder
+     * @return \Yajra\DataTables\Html\Builder
      */
     public function html()
     {
@@ -90,7 +89,7 @@ class SurveysDatatable extends BaseDatatable
     protected function getColumns()
     {
         return [
-            ['data' => 'DT_Row_Index', 'name' => 'id', 'title' => '#', 'searchable' => false],
+            ['data' => 'DT_RowIndex', 'name' => 'id', 'title' => '#', 'searchable' => false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name', 'searchable' => true],
             ['data' => 'is_accepted', 'name' => 'is_accepted', 'title' => 'Status', 'searchable' => true]
         ];

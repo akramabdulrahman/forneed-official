@@ -30,10 +30,10 @@ class Extra extends Model
 
     public function attrs_populated($attributes, $model)
     {
-        $rel = str_plural(snake_case(class_basename($model)));
+        $rel = Str::plural(Str::snake(class_basename($model)));
         return collect($attributes)->map(function ($row) {
             return explode(':', $row);
-        })->groupBy(2)->map(function ($cat) use ($rel) {
+        })->tap(function ($items){dump($items);})->groupBy(2)->map(function ($cat) use ($rel) {
             return $cat->mapWithKeys(function ($row) use ($rel) {
                 return [$row[0] => $this->$rel()->whereHas('extras', function ($query) use ($row) {
                     return $query->where('extra_id', $row[1]);

@@ -162,27 +162,18 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Backpack\Base\BaseServiceProvider::class,
-        Backpack\CRUD\CrudServiceProvider::class,
-        Backpack\LangFileManager\LangFileManagerServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class,
-        Backpack\BackupManager\BackupManagerServiceProvider::class,
-        Backpack\LogManager\LogManagerServiceProvider::class,
 
-        Backpack\Settings\SettingsServiceProvider::class,
         Laracasts\Generators\GeneratorsServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         /*
         * Package Service Providers...
         */
-        Yajra\Datatables\DatatablesServiceProvider::class,
-        Yajra\Datatables\ButtonsServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        Yajra\DataTables\ButtonsServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
-        Backpack\Base\BaseServiceProvider::class,
-        Backpack\CRUD\CrudServiceProvider::class,
         Optimus\ApiConsumer\Provider\LaravelServiceProvider::class,
         Dyusha\HtmlEditor\HtmlBlocksProvider::class,
 
@@ -254,7 +245,7 @@ return [
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
-
+        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];

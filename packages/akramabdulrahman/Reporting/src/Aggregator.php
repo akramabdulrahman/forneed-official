@@ -22,7 +22,7 @@ class Aggregator
     {
 
         $this->subject = $subject;
-        $this->relation_name = $relation ? $relation : str_plural(class_basename($subject));
+        $this->relation_name = $relation ? $relation : Str::plural(class_basename($subject));
         $this->measurement = $measurement;
         $this->regarding_targets = $regarding_targets;
         $this->method = $method;

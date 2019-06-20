@@ -4,7 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Users\Citizen;
 use Illuminate\Support\Facades\Auth;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
 use Maatwebsite\Excel\Writers\LaravelExcelWriter;
 
@@ -25,7 +25,7 @@ class CitizensDatatable extends BaseDatatable
     /**
      * Build DataTable class.
      *
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {

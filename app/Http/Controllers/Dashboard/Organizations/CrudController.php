@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use App\User;
+use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
 
 class CrudController extends Controller
@@ -48,7 +49,7 @@ class CrudController extends Controller
                         return [
                             'data' => "extrasPopulated.{$item}",
                             'name' => "extras.extra",
-                            'title' => ucfirst(str_replace('_', ' ', snake_case($item))),
+                            'title' => ucfirst(str_replace('_', ' ', Str::snake($item))),
                             'searchable' => true,
                             'defaultContent' => '-',
                             'orderable' => 'false',

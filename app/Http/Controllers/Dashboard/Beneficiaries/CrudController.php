@@ -20,6 +20,7 @@ use App\Models\WorkingState;
 use App\Repositories\CitizenRepository;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laracasts\Flash\Flash;
 use DB;
 
@@ -54,7 +55,7 @@ class CrudController extends Controller
                         return [
                             'data' => "extrasPopulated.{$item}",
                             'name' => "extras.extra",
-                            'title' => in_array($item, $manyExtras) ? str_plural($name) : $name,
+                            'title' => in_array($item, $manyExtras) ? Str::plural($name) : $name,
                             'searchable' => true,
                             'defaultContent' => '-',
                             'orderable' => 'false',

@@ -4,7 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Users\SocialWorker;
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class SocialWorkerDatatablePending extends BaseDatatable
 {
@@ -22,8 +22,7 @@ class SocialWorkerDatatablePending extends BaseDatatable
 
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->editColumn('is_accepted', function ($worker) {
                 return $worker->is_accepted ? 'true' : '-';
             })

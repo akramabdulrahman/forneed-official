@@ -4,19 +4,18 @@ namespace App\DataTables;
 
 use App\Models\Surveys\Survey;
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class SurveysDataTablePending extends BaseDatatable
 {
     /**
      * Display ajax response.
      *
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->addColumn('action', function ($row) {
                 $modelRoute = str_replace('\\', '-', Survey::class);
                 $id = $row->id;
@@ -40,7 +39,7 @@ class SurveysDataTablePending extends BaseDatatable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\Datatables\Html\Builder
+     * @return \Yajra\DataTables\Html\Builder
      */
 
 

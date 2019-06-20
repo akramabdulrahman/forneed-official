@@ -4,19 +4,18 @@ namespace App\DataTables;
 
 use App\Models\Users\SocialWorker;
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class SocialWorkerDataTable extends BaseDatatable
 {
     /**
      * Display ajax response.
      *
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->editColumn('is_accepted', function ($worker) {
                 return $worker->is_accepted ? 'true' : '-';
             })

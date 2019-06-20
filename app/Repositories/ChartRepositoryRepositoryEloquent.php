@@ -40,7 +40,7 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
             return $this->multiRender($chart, $model);
         }
 
-        $model = str_plural(snake_case(class_basename($model)));
+        $model = Str::plural(snake_case(class_basename($model)));
 
         $theme = explode('_', $chart['theme']);
 
@@ -55,7 +55,7 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
                 });
             })->toArray();
 
-        $models = str_plural(trans('user.type_' . snake_case((str_singular($model)))));
+        $models = Str::plural(trans('user.type_' . snake_case((str_singular($model)))));
         return Charts::create($theme[1], $theme[0])
             ->title($models . ' according to ' . $target)
             ->elementLabel($models . " Count")->labels(array_keys($data[$target]))
@@ -113,7 +113,7 @@ class ChartRepositoryRepositoryEloquent extends BaseRepository implements ChartR
         });
 
         $elemnt_label = $x;
-        $chart->title(str_plural(trans('user.type_' . snake_case(class_basename($model)))) . ' according to ' . $x);
+        $chart->title(Str::plural(trans('user.type_' . snake_case(class_basename($model)))) . ' according to ' . $x);
         $chart->elementLabel("Count({$elemnt_label})");
 
 

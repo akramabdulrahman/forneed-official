@@ -1,0 +1,3 @@
+drop database if exists fneeds;
+create database fneeds;
+use fneeds;

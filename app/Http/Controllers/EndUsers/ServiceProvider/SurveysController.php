@@ -23,12 +23,24 @@ class SurveysController extends Controller
         return view('endusers.organizations.surveyQuestions', compact('survey', 'chart'));
     }
 
-
+    private function availableExtras($project)
+    {
+        return $extras = $project
+            ->extras()->get()
+            ->groupBy('name')->map(function ($val) {
+                return $val->mapWithKeys(function ($val) {
+                    return [$val->id=>$val->extra]; //isn't this just doing pluck ?
+                });
+            })->toArray();
+    }
     public function create($project_id)
     {
         $project = Project::findOrFail($project_id);
+
         return view('endusers.organizations.forms.surveys.create', ['project' => $project,
-            'extra_types' => ExtraType::getExtraTypes(collect(config('extra_types.citizen'))->diff($project->extras()->pluck("name")->toArray()))]);
+            'extra_types' => $this->availableExtras($project) ]);
+//        ExtraType::getExtraTypes(collect(config('extra_types.citizen'))
+//            ->diff($project->extras()->pluck("name")->toArray()))
     }
 
     public function edit($id)

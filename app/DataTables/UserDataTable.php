@@ -5,7 +5,7 @@ namespace App\DataTables;
 use App\User;
 use Form;
 use Intervention\Image\Facades\Image;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class UserDataTable extends BaseDatatable
 {
@@ -17,12 +17,11 @@ class UserDataTable extends BaseDatatable
 
 
     /**
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->addColumn('action', function ($row) {
                 $modelRoute = "Dashboard.admin.crud";
                 $id = $row->id;

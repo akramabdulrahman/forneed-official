@@ -5,7 +5,7 @@ namespace App\DataTables;
 use App\Models\Project;
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class ProjectsDatatable extends BaseDatatable
 {
@@ -24,14 +24,13 @@ class ProjectsDatatable extends BaseDatatable
     /**
      * Display ajax response.
      *
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     private $offset_index = 0;
 
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->addIndexColumn()
 
             ->editColumn('name', function ($project) {
@@ -79,7 +78,7 @@ class ProjectsDatatable extends BaseDatatable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\Datatables\Html\Builder
+     * @return \Yajra\DataTables\Html\Builder
      */
     public function html()
     {
@@ -98,7 +97,7 @@ class ProjectsDatatable extends BaseDatatable
     protected function getColumns()
     {
         return [
-            ['data' => 'DT_Row_Index', 'name' => 'id', 'title' => '#', 'searchable' => false],
+            ['data' => 'DT_RowIndex', 'name' => 'id', 'title' => '#',   'searchable'=> false],
             ['data' => 'name', 'name' => 'name', 'title' => 'Name', 'searchable' => true],
             ['data' => 'is_accepted', 'name' => 'is_accepted', 'title' => 'Status', 'searchable' => true]
         ];

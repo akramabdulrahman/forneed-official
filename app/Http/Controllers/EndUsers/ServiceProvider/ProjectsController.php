@@ -31,9 +31,11 @@ class ProjectsController extends Controller
 
     private function availableExtras()
     {
-        return $extras = Auth::user()->serviceProvider()->first()->extras()->whereIn('name', ['Sector', 'Area'])->get()->groupBy('name')->map(function ($val) {
+        return $extras = Auth::user()->serviceProvider()->first()
+            ->extras()->whereIn('name', ['Sector', 'Area'])->get()
+            ->groupBy('name')->map(function ($val) {
             return $val->mapWithKeys(function ($val) {
-                return [$val->id=>$val->extra  ];
+                return [$val->id=>$val->extra]; //isn't this just doing pluck ?
             });
         })->toArray();
     }
@@ -42,7 +44,7 @@ class ProjectsController extends Controller
     {
         return view('endusers.organizations.forms.projects.create', [
             'extras' => $this->availableExtras(),
-            'extra_types' => ExtraType::getExtraTypes(config('extra_types.citizen'))
+            'extra_types' => ExtraType::getExtraTypes(config('extra_types.project_citizen_extras'))
         ]);
     }
 

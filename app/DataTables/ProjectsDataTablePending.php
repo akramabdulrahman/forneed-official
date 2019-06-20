@@ -4,19 +4,18 @@ namespace App\DataTables;
 
 use App\Models\Project;
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class ProjectsDataTablePending extends BaseDatatable
 {
     /**
      * Display ajax response.
      *
-     * @return \Yajra\Datatables\Engines\EloquentEngine
+     * @return \Yajra\DataTables\Engines\EloquentEngine
      */
     public function dataTable()
     {
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->addColumn('action', function ($row) {
                 $modelRoute = str_replace('\\', '-', Project::class);
                 $id = $row->id;

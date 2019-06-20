@@ -17,6 +17,7 @@ use App\Policies\ServiceProviderPolicy;
 use App\Policies\SocialWorkerPolicy;
 use App\Policies\SurveyPolicy;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -59,11 +60,14 @@ class AuthServiceProvider extends ServiceProvider
 
 
         // Dynamically register permissions with Laravel's Gate.
-        foreach ($this->getPermissions() as $permission) {
-            $gate->define($permission->name, function ($user) use ($permission) {
-                return $user->hasPermission($permission);
-            });
+        if(Auth::user()){
+            foreach ($this->getPermissions() as $permission) {
+                $gate->define($permission->name, function ($user) use ($permission) {
+                    return $user->hasPermission($permission);
+                });
+            }
         }
+
     }
 
     /**

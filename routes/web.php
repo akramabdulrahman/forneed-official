@@ -34,7 +34,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth', 'as' => 'Auth.', 'middl
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.', 'middleware' => ['auth', 'checkUserType:admin']], function () {
 
-  //  Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
+   Route::get('users/{id}/image', 'UserController@getUserImage')->name('users.image');
     // Route::resource('users', 'UserController');
 
     //Route::resource('projects', 'ProjectController');

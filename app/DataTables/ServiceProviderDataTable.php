@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class ServiceProviderDataTable extends BaseDatatable
 {

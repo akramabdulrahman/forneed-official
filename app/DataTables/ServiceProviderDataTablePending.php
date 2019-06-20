@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\Services\DataTable;
 use App\Models\Users\ServiceProvider;
 use Form;
 
@@ -11,13 +11,12 @@ class ServiceProviderDataTablePending extends BaseDatatable
 {
 
     /**
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {
         $request = $this->request();
-        return $this->datatables
-            ->eloquent($this->query())
+        return $this->ajaxConfig($this->query())
             ->addColumn('sectors', function (ServiceProvider $user) {
                 return $user->sectors->map(function ($sector) {
                     return str_limit($sector->name, 30, '...');

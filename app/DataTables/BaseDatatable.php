@@ -4,7 +4,8 @@ namespace App\DataTables;
 
 use App\Repositories\CitizenRepository;
 use App\User;
-use Yajra\Datatables\Services\DataTable;
+use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Services\DataTable;
 
 class BaseDatatable extends DataTable implements ConfigurableTable
 {
@@ -47,7 +48,7 @@ class BaseDatatable extends DataTable implements ConfigurableTable
     /**
      * Build DataTable class.
      *
-     * @return \Yajra\Datatables\Engines\BaseEngine
+     * @return \Yajra\DataTables\Engines\BaseEngine
      */
     public function dataTable()
     {
@@ -74,7 +75,7 @@ class BaseDatatable extends DataTable implements ConfigurableTable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\Datatables\Html\Builder
+     * @return \Yajra\DataTables\Html\Builder
      */
     public function html()
     {
@@ -136,7 +137,7 @@ class BaseDatatable extends DataTable implements ConfigurableTable
 
     public function ajaxConfig()
     {
-        return $this->datatables->eloquent($this->query());
+        return new EloquentDataTable($this->query());
     }
 
     public function setColumns($columns)
